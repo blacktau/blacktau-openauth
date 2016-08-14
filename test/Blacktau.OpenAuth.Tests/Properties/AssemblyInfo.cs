@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Blacktau.OpenAuth")]
+[assembly: AssemblyProduct("Blacktau.OpenAuth.Client.Tests")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,6 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2d0072fc-fb01-4e06-920b-b3c4b2f2b0aa")]
-
-[assembly: InternalsVisibleTo("Blacktau.OpenAuth.Tests")]
+[assembly: Guid("8c10889a-6773-48f0-9ba1-8aac24b31e06")]
