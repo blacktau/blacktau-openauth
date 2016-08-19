@@ -42,7 +42,7 @@ Use the Blacktau.OpenAuth.Basic package.
 4. Using the results of steps 1 and 2 new up an *OpenAuthClientFactory*.
 5. Using the *OpenAuthClientFactory* instance create an *OpenAuthClient*.
 6. Add Body (for POST requests) or Query (for GET requests) parameters
-7. Invoke the async Execute Method and do something with the result. 
+7. Invoke the async Execute method and do something with the result. 
 
 ```cs
 
