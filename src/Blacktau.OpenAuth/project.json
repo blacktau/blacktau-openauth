@@ -7,8 +7,9 @@
     },
 
     "packOptions": {
-        "licenseUrl": 
-    }
+        "licenseUrl": "https://github.com/blacktau/blacktau-openauth/blob/master/LICENSE",
+        "projectUrl": "https://github.com/blacktau/blacktau-openauth"
+    },
 
     "frameworks": {
         "netstandard1.6": {
