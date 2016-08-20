@@ -1,0 +1,29 @@
+version: '{build}'  
+pull_requests:  
+  do_not_increment_build_number: true
+branches:  
+  only:
+  - master
+nuget:  
+  disable_publish_on_pr: true
+build_script:  
+- ps: .\Build.ps1
+test: off  
+artifacts:  
+- path: .\artifacts\**\*.nupkg
+  name: NuGet
+deploy:  
+- provider: NuGet
+  server: https://www.myget.org/F/blacktau-openauth/api/v2/package
+  api_key: 
+    secure: LkOVWrk6hMrH0ZevSPKEXWPxHZEEpvnmA2w9aOsT4ThsvcGRDCOQNikDACgUr2tO
+  skip_symbols: true
+  on:
+    branch: master
+- provider: NuGet
+  name: production
+  api_key:
+    secure: lhs8U6s3KO9V+/7lu0FZ59IuLLTL5nrsNht2CGZrfctOtupjgdYDO/mAYIu22KUN
+  on:
+    branch: master
+    appveyor_repo_tag: true
