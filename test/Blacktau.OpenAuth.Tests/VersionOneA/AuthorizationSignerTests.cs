@@ -5,6 +5,8 @@
 
     using Blacktau.OpenAuth.VersionOneA;
 
+    using NSubstitute;
+
     using Xunit;
 
     public class AuthorizationSignerTests
@@ -28,6 +30,8 @@
         private const string ExpectedSignatureWithAccessTokenSecret = "vhuI3fKVVyEn7F/3vsc1XJ3hceo=";
 
         private const string ExpectedSignatureWithOutAccessTokenSecret = "Boi9Auqo323J74NWOaRrOzp4a/4=";
+
+        private const string ExpectedSignatureEmptyParameters = "eU39nvvzN8OiFy1mtc4D0HKs4Rs=";
         
         private const string Url = "http://photos.example.net/photos";
 
@@ -46,6 +50,11 @@
             };
 
             return result;
+        }
+
+        private static IEnumerable<KeyValuePair<string, string>> CreateDummyParameters()
+        {
+            return Substitute.For<IEnumerable<KeyValuePair<string, string>>>();
         }
 
         public class TheConstructor
@@ -72,6 +81,30 @@
                 Assert.Equal(ExpectedSignatureWithAccessTokenSecret, signature);
             }
 
+            [Fact]
+            public void GivenMultipleParametersGeneratesCorrectSignature()
+            {
+                var authorizationSigner = new AuthorizationSigner();
+                var parameters = CreateParameters();
+                var parameters2 = CreateDummyParameters();
+                var parameters3 = CreateDummyParameters();
+
+                var signature = authorizationSigner.GetSignature(ApplicationSecret, AccessTokenSecret, Url, Method, parameters, parameters2, parameters3);
+
+                Assert.Equal(ExpectedSignatureWithAccessTokenSecret, signature);
+            }
+
+            [Fact]
+            public void GivenEmptyParametersGeneratesCorrectSignature()
+            {
+                var authorizationSigner = new AuthorizationSigner();
+                var parameters = CreateDummyParameters();
+
+                var signature = authorizationSigner.GetSignature(ApplicationSecret, AccessTokenSecret, Url, Method, parameters);
+
+                Assert.Equal(ExpectedSignatureEmptyParameters, signature);
+            }
+            
             [Fact]
             public void GivenNullParametersThrowsException()
             {

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http.Headers;
 
     using Blacktau.OpenAuth.Interfaces;
     using Blacktau.OpenAuth.Interfaces.VersionOneA;
@@ -29,27 +30,11 @@
             this.authorizationSigner = authorizationSigner;
         }
 
-        public string GenerateHeaderValue(
-            IApplicationCredentials applicationCredentials,
-            IDictionary<string, string> queryParameters,
-            IDictionary<string, string> bodyParameters,
-            IAuthorizationInformation authorizationInformation,
-            HttpMethod method,
-            string url)
+        public AuthenticationHeaderValue GenerateHeaderValue(IApplicationCredentials applicationCredentials, IAuthorizationInformation authorizationInformation, IOpenAuthClient openAuthClient)
         {
             if (applicationCredentials == null)
             {
                 throw new ArgumentNullException(nameof(applicationCredentials));
-            }
-
-            if (queryParameters == null)
-            {
-                throw new ArgumentNullException(nameof(queryParameters));
-            }
-
-            if (bodyParameters == null)
-            {
-                throw new ArgumentNullException(nameof(bodyParameters));
             }
 
             if (authorizationInformation == null)
@@ -57,14 +42,17 @@
                 throw new ArgumentNullException(nameof(authorizationInformation));
             }
 
-            if (url == null)
+            if (openAuthClient == null)
             {
-                throw new ArgumentNullException(nameof(url));
+                throw new ArgumentNullException(nameof(openAuthClient));
             }
+
+            var queryParameters = openAuthClient.QueryParameters;
+            var bodyParameters = openAuthClient.BodyParameters;
 
             var authorizationParameters = this.GetAuthorisationParameters(applicationCredentials, authorizationInformation.AccessToken);
 
-            var signature = this.GetSignature(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, method, url, authorizationParameters);
+            var signature = this.GetSignature(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, openAuthClient.Method, openAuthClient.Url, authorizationParameters);
 
             authorizationParameters.Add(AuthorizationFieldNames.Signature, signature);
 
@@ -73,10 +61,12 @@
             return header;
         }
 
-        private static string GetAuthorisationHeader(IDictionary<string, string> authorizationParameters)
+        private static AuthenticationHeaderValue GetAuthorisationHeader(IDictionary<string, string> authorizationParameters)
         {
             var authorizationHeader = authorizationParameters.OrderBy(p => p.Key).Select(GetParameterPair).ToArray();
-            return string.Join(",", authorizationHeader);
+            var joinedHeader = string.Join(",", authorizationHeader);
+
+            return new AuthenticationHeaderValue(AuthorizationFieldNames.AuthorizationHeaderStart, joinedHeader);
         }
 
         private static string GetEncodedValue(string parameter)
@@ -120,8 +110,8 @@
 
         private string GetSignature(
             IApplicationCredentials applicationCredentials,
-            IDictionary<string, string> queryParameters,
-            IDictionary<string, string> bodyParameters,
+            IEnumerable<KeyValuePair<string, string>> queryParameters,
+            IEnumerable<KeyValuePair<string, string>> bodyParameters,
             IAuthorizationInformation authorizationInformation,
             HttpMethod method,
             string url,

@@ -11,12 +11,7 @@
 
     public class AuthorizationSigner : IAuthorizationSigner
     {
-        public string GetSignature(
-            string applicationSecret,
-            string accessTokenSecret,
-            string url,
-            string method,
-            params IDictionary<string, string>[] parameters)
+        public string GetSignature(string applicationSecret, string accessTokenSecret, string url, string method, params IEnumerable<KeyValuePair<string, string>>[] parameters)
         {
             if (string.IsNullOrWhiteSpace(applicationSecret))
             {
@@ -43,7 +38,7 @@
             return signature;
         }
 
-        private static Dictionary<string, string> CollateParameters(IDictionary<string, string>[] parameters)
+        private static Dictionary<string, string> CollateParameters(IEnumerable<KeyValuePair<string, string>>[] parameters)
         {
             if (parameters == null)
             {

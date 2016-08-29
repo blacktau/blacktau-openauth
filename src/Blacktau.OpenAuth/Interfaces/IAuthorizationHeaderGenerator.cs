@@ -1,15 +1,10 @@
 ﻿namespace Blacktau.OpenAuth.Interfaces
 {
     using System.Collections.Generic;
+    using System.Net.Http.Headers;
 
     public interface IAuthorizationHeaderGenerator
     {
-        string GenerateHeaderValue(
-            IApplicationCredentials applicationCredentials, 
-            IDictionary<string, string> queryParameters, 
-            IDictionary<string, string> bodyParameters, 
-            IAuthorizationInformation authorizationInformation, 
-            HttpMethod method,
-            string url);
+        AuthenticationHeaderValue GenerateHeaderValue(IApplicationCredentials applicationCredentials, IAuthorizationInformation authorizationInformation, IOpenAuthClient openAuthClient);
     }
 }

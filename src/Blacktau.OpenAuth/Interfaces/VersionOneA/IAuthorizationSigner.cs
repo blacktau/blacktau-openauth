@@ -5,11 +5,6 @@
 
     public interface IAuthorizationSigner
     {
-        string GetSignature(
-            string applicationSecret, 
-            string accessTokenSecret, 
-            string url, 
-            string method, 
-            params IDictionary<string, string>[] parameters);
+        string GetSignature(string applicationSecret, string accessTokenSecret, string url, string method, params IEnumerable<KeyValuePair<string, string>>[] parameters);
     }
 }

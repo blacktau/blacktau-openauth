@@ -1,5 +1,6 @@
 ﻿namespace Blacktau.OpenAuth.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IOpenAuthClient
@@ -8,12 +9,16 @@
 
         string Url { get; set; }
 
-        Task<string> Execute();
+        IReadOnlyDictionary<string, string> QueryParameters { get; }
 
-        void AddQueryParameter(string name, string value);
+        IReadOnlyDictionary<string, string> BodyParameters { get; }
 
         void AddBodyParameter(string name, string value);
 
+        void AddQueryParameter(string name, string value);
+
         void ClearParameters();
+
+        Task<string> Execute();
     }
 }

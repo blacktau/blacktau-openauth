@@ -12,27 +12,27 @@
 
     public class OpenAuthClientTests
     {
-        public const string ApplicationKey = "NotARealApplicationKey";
+        private const string ApplicationKey = "NotARealApplicationKey";
 
-        public const string PostUrl = "https://api.fakeresouce.com/v2/blog/post";
+        private const string PostUrl = "https://api.fakeresouce.com/v2/blog/post";
 
-        public const string GetUrl = "https://api.fakeresouce.com/v2/blog/entries";
+        private const string GetUrl = "https://api.fakeresouce.com/v2/blog/entries";
 
-        public const string BodyParameterOneName = "BodyParameterOneName";
+        private const string BodyParameterOneName = "BodyParameterOneName";
 
-        public const string BodyParameterOneValue = "BodyParameterOneValue";
+        private const string BodyParameterOneValue = "BodyParameterOneValue";
 
-        public const string BodyParameterTwoName = "BodyParameterTwoName";
+        private const string BodyParameterTwoName = "BodyParameterTwoName";
 
-        public const string BodyParameterTwoValue = "BodyParameterTwoValue";
+        private const string BodyParameterTwoValue = "BodyParameterTwoValue";
 
-        public const string QueryParameterOneName = "QueryParameterOneName";
+        private const string QueryParameterOneName = "QueryParameterOneName";
 
-        public const string QueryParameterOneValue = "QueryParameterOneValue";
+        private const string QueryParameterOneValue = "QueryParameterOneValue";
 
-        public const string QueryParameterTwoName = "QueryParameterTwoName";
+        private const string QueryParameterTwoName = "QueryParameterTwoName";
 
-        public const string QueryParameterTwoValue = "QueryParameterTwoValue";
+        private const string QueryParameterTwoValue = "QueryParameterTwoValue";
 
         private const string ApplicationSecret = "NotARealApplicationSecret";
 

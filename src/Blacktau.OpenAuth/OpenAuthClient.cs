@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -20,17 +21,20 @@
 
         private readonly IAuthorizationInformation authorizationInformation;
 
+        private readonly Dictionary<string, string> bodyParameters;
+
         private readonly IHttpClientFactory httpClientFactory;
+
+        private readonly Dictionary<string, string> queryParameters;
 
         private IHttpClient client;
 
-        public OpenAuthClient(
-            string url,
-            HttpMethod method,
-            IApplicationCredentials applicationCredentials,
-            IAuthorizationHeaderGenerator authHeaderGenerator,
-            IAuthorizationInformation authorizationInformation, 
-            IHttpClientFactory httpClientFactory)
+        public OpenAuthClient(string url,
+                              HttpMethod method,
+                              IApplicationCredentials applicationCredentials,
+                              IAuthorizationHeaderGenerator authHeaderGenerator,
+                              IAuthorizationInformation authorizationInformation,
+                              IHttpClientFactory httpClientFactory)
         {
             if (applicationCredentials == null)
             {
@@ -56,7 +60,7 @@
             {
                 throw new ArgumentNullException(nameof(url));
             }
-            
+
             this.applicationCredentials = applicationCredentials;
             this.authHeaderGenerator = authHeaderGenerator;
             this.authorizationInformation = authorizationInformation;
@@ -64,33 +68,19 @@
             this.Url = url;
             this.Method = method;
 
-            this.QueryParameters = new Dictionary<string, string>();
-            this.BodyParameters = new Dictionary<string, string>();
+            this.queryParameters = new Dictionary<string, string>();
+            this.bodyParameters = new Dictionary<string, string>();
 
             this.CreateHttpClient();
         }
 
-        private void CreateHttpClient()
-        {
-            var handler = new HttpClientHandler()
-            {
-                AllowAutoRedirect = true,
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None,
-                PreAuthenticate = true
-            };
+        public IReadOnlyDictionary<string, string> BodyParameters => new ReadOnlyDictionary<string, string>(this.bodyParameters);
 
-            this.client = this.httpClientFactory.CreateHttpClient(handler);
-
-            this.client.DefaultRequestHeaders.ExpectContinue = false;
-        }
+        public IReadOnlyDictionary<string, string> QueryParameters => new ReadOnlyDictionary<string, string>(this.queryParameters);
 
         public HttpMethod Method { get; set; }
 
         public string Url { get; set; }
-
-        internal Dictionary<string, string> BodyParameters { get; }
-
-        internal Dictionary<string, string> QueryParameters { get; }
 
         public async Task<string> Execute()
         {
@@ -114,29 +104,6 @@
             throw new Exception("Unexpected HttpMethod");
         }
 
-        private void ValidateRequest()
-        {
-            if (string.IsNullOrWhiteSpace(this.Url))
-            {
-                throw new InvalidOperationException("Url must be specified.");
-            }
-        }
-
-        private async Task<string> MakePostRequest(Uri fullUrl)
-        {
-            var queryString = this.ToQueryString(this.BodyParameters);
-            var content = new StringContent(queryString, Encoding.UTF8);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-
-            var result = await this.client.PostAsync(fullUrl, content);
-            return await result.Content.ReadAsStringAsync();
-        }
-
-        private async Task<string> MakeGetRequest(Uri fullUrl)
-        {
-            return await this.client.GetStringAsync(fullUrl);
-        }
-        
         public void AddQueryParameter(string name, string value)
         {
             if (name == null)
@@ -149,7 +116,7 @@
                 throw new ArgumentException("invalid value.", nameof(name));
             }
 
-            this.QueryParameters.Add(name, value);
+            this.queryParameters.Add(name, value);
         }
 
         public void AddBodyParameter(string name, string value)
@@ -164,13 +131,32 @@
                 throw new ArgumentException("invalid value.", nameof(name));
             }
 
-            this.BodyParameters.Add(name, value);
+            this.bodyParameters.Add(name, value);
         }
 
         public void ClearParameters()
         {
-            this.QueryParameters.Clear();
-            this.BodyParameters.Clear();
+            this.queryParameters.Clear();
+            this.bodyParameters.Clear();
+        }
+
+        private void CreateHttpClient()
+        {
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = true,
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None,
+                PreAuthenticate = true
+            };
+
+            this.client = this.httpClientFactory.CreateHttpClient(handler);
+
+            this.client.DefaultRequestHeaders.ExpectContinue = false;
+        }
+
+        private AuthenticationHeaderValue CreateNewAuthorizationHeader()
+        {
+            return this.authHeaderGenerator.GenerateHeaderValue(this.applicationCredentials, this.authorizationInformation, this);
         }
 
         private Uri CreatFullUrl()
@@ -180,9 +166,24 @@
                 return new Uri(this.Url);
             }
 
-            var queryString = this.ToQueryString(this.QueryParameters);
+            var queryString = this.ToQueryString(this.queryParameters);
 
-            return new Uri(new Uri(this.Url), ("?" + queryString));
+            return new Uri(new Uri(this.Url), "?" + queryString);
+        }
+
+        private async Task<string> MakeGetRequest(Uri fullUrl)
+        {
+            return await this.client.GetStringAsync(fullUrl);
+        }
+
+        private async Task<string> MakePostRequest(Uri fullUrl)
+        {
+            var queryString = this.ToQueryString(this.bodyParameters);
+            var content = new StringContent(queryString, Encoding.UTF8);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+            var result = await this.client.PostAsync(fullUrl, content);
+            return await result.Content.ReadAsStringAsync();
         }
 
         private string ToQueryString(Dictionary<string, string> dictionary)
@@ -196,10 +197,12 @@
             return query.Substring(0, query.Length - 1);
         }
 
-        private AuthenticationHeaderValue CreateNewAuthorizationHeader()
+        private void ValidateRequest()
         {
-            var headerValue = this.authHeaderGenerator.GenerateHeaderValue(this.applicationCredentials, this.QueryParameters, this.BodyParameters, this.authorizationInformation, this.Method, this.Url);
-            return new AuthenticationHeaderValue(AuthorizationFieldNames.AuthorizationHeaderStart, headerValue);
+            if (string.IsNullOrWhiteSpace(this.Url))
+            {
+                throw new InvalidOperationException("Url must be specified.");
+            }
         }
     }
 }

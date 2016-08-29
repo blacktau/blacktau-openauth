@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     using Blacktau.OpenAuth.Interfaces;
     using Blacktau.OpenAuth.Interfaces.VersionOneA;
@@ -53,54 +54,40 @@
 
         public class TheGenerateHeaderValueMethod
         {
-            public const string GetResult =  "oauth_consumer_key=\"ApplicationKey_5nagEQ0k6fiBQc8eMYAh\",oauth_nonce=\"vQxdgbUKRgvwXwkGihwtSpFlPiZmonhMs\",oauth_signature=\"iFfKurpTB%2BuQv%2FUcRu0pHhzhr8E%3D\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1471127777\",oauth_token=\"AccessToken_HcSg3eHyNLo5zkfbuOrW\",oauth_version=\"1.0\"";
+            private const string GetResult =
+                "oauth_consumer_key=\"ApplicationKey_5nagEQ0k6fiBQc8eMYAh\",oauth_nonce=\"vQxdgbUKRgvwXwkGihwtSpFlPiZmonhMs\",oauth_signature=\"iFfKurpTB%2BuQv%2FUcRu0pHhzhr8E%3D\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1471127777\",oauth_token=\"AccessToken_HcSg3eHyNLo5zkfbuOrW\",oauth_version=\"1.0\"";
 
-            public const string PostResult = "oauth_consumer_key=\"ApplicationKey_5nagEQ0k6fiBQc8eMYAh\",oauth_nonce=\"vQxdgbUKRgvwXwkGihwtSpFlPiZmonhMs\",oauth_signature=\"meM3UHFGifwIGvlZtscpGs6uoxE%3D\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1471127777\",oauth_token=\"AccessToken_HcSg3eHyNLo5zkfbuOrW\",oauth_version=\"1.0\"";
+            private const string PostResult =
+                "oauth_consumer_key=\"ApplicationKey_5nagEQ0k6fiBQc8eMYAh\",oauth_nonce=\"vQxdgbUKRgvwXwkGihwtSpFlPiZmonhMs\",oauth_signature=\"meM3UHFGifwIGvlZtscpGs6uoxE%3D\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1471127777\",oauth_token=\"AccessToken_HcSg3eHyNLo5zkfbuOrW\",oauth_version=\"1.0\"";
 
             private const string ApplicationKey = "ApplicationKey_5nagEQ0k6fiBQc8eMYAh";
 
-            public const string Nonce = "vQxdgbUKRgvwXwkGihwtSpFlPiZmonhMs";
+            private const string Nonce = "vQxdgbUKRgvwXwkGihwtSpFlPiZmonhMs";
 
-            public const string SignatureMethod = "HMAC-SHA1";
+            private const string SignatureMethod = "HMAC-SHA1";
 
-            public const string TimeStamp = "1471127777";
+            private const string TimeStamp = "1471127777";
 
             private const string Version = "1.0";
 
             private const string AccessToken = "AccessToken_HcSg3eHyNLo5zkfbuOrW";
 
-            private const string Signature = "945qIT%2Bj%2FvKCXqr%2FL%2BOefR3%2FULI%3D";
+            private const string PostSignature = "meM3UHFGifwIGvlZtscpGs6uoxE=";
 
-            private static IDictionary<string, string> CreateBodyParameters()
-            {
-                var bodyParameters = new Dictionary<string, string>();
+            private const string GetSignature = "iFfKurpTB+uQv/UcRu0pHhzhr8E=";
+            
+            private const string ApplicationSecret = "ApplicationSecret_Avrxtc8Wr5u84qwi1jLP";
 
-                bodyParameters.Add("Body1Name", "Body1Value");
-                bodyParameters.Add("Body2Name", "Body2Value");
-                bodyParameters.Add("Body3Name", "Body3Value");
-                bodyParameters.Add("Body4Name", "Body4Value");
+            private const string AccessTokenSecret = "AccessTokenSecret_OWqCTqiAhEs9paf0ufjX";
 
-                return bodyParameters;
-            }
-
-            private static IDictionary<string, string> CreateQueryParameters()
-            {
-                var queryParameters = new Dictionary<string, string>();
-
-                queryParameters.Add("Query1Name", "Query1Value");
-                queryParameters.Add("Query2Name", "Query2Value");
-                queryParameters.Add("Query3Name", "Query3Value");
-                queryParameters.Add("Query4Name", "Query4Value");
-
-                return queryParameters;
-            }
+            private const string Url = "https://www.google.com";
 
             private static IApplicationCredentials CreateApplicationCredentials()
             {
                 var credentials = Substitute.For<IApplicationCredentials>();
 
                 credentials.ApplicationKey.Returns(ApplicationKey);
-                credentials.ApplicationSecret.Returns("ApplicationSecret_Avrxtc8Wr5u84qwi1jLP");
+                credentials.ApplicationSecret.Returns(ApplicationSecret);
 
                 return credentials;
             }
@@ -110,9 +97,27 @@
                 var information = Substitute.For<IAuthorizationInformation>();
 
                 information.AccessToken.Returns(AccessToken);
-                information.AccessTokenSecret.Returns("AccessTokenSecret_OWqCTqiAhEs9paf0ufjX");
+                information.AccessTokenSecret.Returns(AccessTokenSecret);
 
                 return information;
+            }
+
+            private static IOpenAuthClient CreateOpenAuthClient(IReadOnlyDictionary<string, string> queryParameters = null, IReadOnlyDictionary<string, string> bodyParameters = null, HttpMethod? method = null, string url = null)
+            {
+                queryParameters = queryParameters ?? new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
+                bodyParameters = bodyParameters ?? new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
+
+                method = method ?? HttpMethod.Get;
+                url = url ?? Url;
+
+                var openAuthClient = Substitute.For<IOpenAuthClient>();
+
+                openAuthClient.QueryParameters.Returns(queryParameters);
+                openAuthClient.BodyParameters.Returns(bodyParameters);
+                openAuthClient.Method.Returns(method.Value);
+                openAuthClient.Url.Returns(url);
+                
+                return openAuthClient;
             }
 
             private static IDictionary<string, string> CreateStandardParameterSet()
@@ -128,10 +133,10 @@
                 return result;
             }
 
-            private static AuthorizationHeaderGenerator CreateAuthorizationHeaderGenerator()
+            private static AuthorizationHeaderGenerator CreateAuthorizationHeaderGenerator(IAuthorizationSigner signer = null)
             {
                 var parametersGenerator = CreateAuthorizationParametersGenerator();
-                var signer = new AuthorizationSigner();
+                signer = signer ?? CreateAuthorizationSigner();
 
                 var authorizationHeaderGenerator = new AuthorizationHeaderGenerator(parametersGenerator, signer);
 
@@ -141,7 +146,10 @@
             private static IAuthorizationSigner CreateAuthorizationSigner()
             {
                 var signer = Substitute.For<IAuthorizationSigner>();
-                signer.GetSignature(null, null, null, null, null).ReturnsForAnyArgs(Signature);
+
+                signer.GetSignature(ApplicationSecret, AccessTokenSecret, Url, "POST", Arg.Any<IEnumerable<KeyValuePair<string, string>>[]>()).Returns(PostSignature);
+                signer.GetSignature(ApplicationSecret, AccessTokenSecret, Url, "GET", Arg.Any<IEnumerable<KeyValuePair<string, string>>[]>()).Returns(GetSignature);
+
                 return signer;
             }
 
@@ -163,15 +171,11 @@
             public void GivenNullApplicationCredentialsThrowsException()
             {
                 var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
+                var openAuthClient = CreateOpenAuthClient();
 
-                IApplicationCredentials applicationCredentials = null;
-                var queryParameters = CreateQueryParameters();
-                var bodyParameters = CreateBodyParameters();
                 var authorizationInformation = CreateAuthorizationInformation();
-                var method = HttpMethod.Get;
-                var url = "http://www.google.com";
 
-                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, method, url));
+                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(null, authorizationInformation, openAuthClient));
 
                 Assert.NotNull(exception);
                 Assert.IsType<ArgumentNullException>(exception);
@@ -183,14 +187,11 @@
             {
                 var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
 
-                var applicationCredentials = CreateApplicationCredentials();
-                var queryParameters = Substitute.For<IDictionary<string, string>>();
-                var bodyParameters = CreateBodyParameters();
-                IAuthorizationInformation authorizationInformation = null;
-                var method = HttpMethod.Get;
-                var url = "http://www.google.com";
+                var openAuthClient = CreateOpenAuthClient();
 
-                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, method, url));
+                var applicationCredentials = CreateApplicationCredentials();
+                
+                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, null, openAuthClient));
 
                 Assert.NotNull(exception);
                 Assert.IsType<ArgumentNullException>(exception);
@@ -198,101 +199,58 @@
             }
 
             [Fact]
-            public void GivenNullBodyParametersThrowsException()
+            public void GivenNullOpenAuthClientInformationThrowsException()
             {
                 var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
 
                 var applicationCredentials = CreateApplicationCredentials();
-                var queryParameters = CreateQueryParameters();
-                IDictionary<string, string> bodyParameters = null;
                 var authorizationInformation = CreateAuthorizationInformation();
-                var method = HttpMethod.Get;
-                var url = "http://www.google.com";
 
-                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, method, url));
+                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, authorizationInformation, null));
 
                 Assert.NotNull(exception);
                 Assert.IsType<ArgumentNullException>(exception);
-                Assert.Contains("bodyParameters", exception.Message);
-            }
-
-            [Fact]
-            public void GivenNullQueryParametersThrowsException()
-            {
-                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
-
-                var applicationCredentials = CreateApplicationCredentials();
-                IDictionary<string, string> queryParameters = null;
-                var bodyParameters = CreateBodyParameters();
-                var authorizationInformation = CreateAuthorizationInformation();
-                var method = HttpMethod.Get;
-                var url = "http://www.google.com";
-
-                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, method, url));
-
-                Assert.NotNull(exception);
-                Assert.IsType<ArgumentNullException>(exception);
-                Assert.Contains("queryParameters", exception.Message);
-            }
-
-            [Fact]
-            public void GivenNullUrlThrowsException()
-            {
-                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
-
-                var applicationCredentials = CreateApplicationCredentials();
-                var queryParameters = CreateQueryParameters();
-                var bodyParameters = CreateBodyParameters();
-                var authorizationInformation = CreateAuthorizationInformation();
-                var method = HttpMethod.Get;
-                string url = null;
-
-                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, method, url));
-
-                Assert.NotNull(exception);
-                Assert.IsType<ArgumentNullException>(exception);
-                Assert.Contains("url", exception.Message);
-            }
-
-            [Fact]
-            public void GivenValidInputsGeneratesCorrectHeader()
-            {
-                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
-
-                var applicationCredentials = CreateApplicationCredentials();
-                var queryParameters = CreateQueryParameters();
-                var bodyParameters = CreateBodyParameters();
-                var authorizationInformation = CreateAuthorizationInformation();
-                var method = HttpMethod.Get;
-                string url = "http://www.google.com/";
-
-                var result = authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, method, url);
-
-                Assert.NotNull(result);
-                Assert.False(string.IsNullOrWhiteSpace(result));
-                Assert.Equal(GetResult, result);
+                Assert.Contains("openAuthClient", exception.Message);
             }
 
             [Fact]
             public void GivenValidInputsAndPostMethodIncludeBodyParametersGeneratesCorrectHeader()
             {
-                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
+                var signer = CreateAuthorizationSigner();
+                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator(signer);
 
+                var openAuthClient = CreateOpenAuthClient(method: HttpMethod.Post);
                 var applicationCredentials = CreateApplicationCredentials();
-                var queryParameters = CreateQueryParameters();
-                var bodyParameters = CreateBodyParameters();
                 var authorizationInformation = CreateAuthorizationInformation();
-                var method = HttpMethod.Post;
 
-                string url = "http://www.google.com/";
+                var result = authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, authorizationInformation, openAuthClient);
 
-                var result = authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, method, url);
 
+                signer.Received().GetSignature(ApplicationSecret, AccessTokenSecret, Url, "POST", Arg.Any<IEnumerable<KeyValuePair<string, string>>[]>());
                 Assert.NotNull(result);
-                Assert.False(string.IsNullOrWhiteSpace(result));
-                Assert.Equal(PostResult, result);
+                Assert.False(string.IsNullOrWhiteSpace(result.Parameter));
+                Assert.Equal(PostResult, result.Parameter);
             }
 
+            [Fact]
+            public void GivenValidInputsGeneratesHeader()
+            {
+                var signer = CreateAuthorizationSigner();
+                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator(signer);
+
+                var openAuthClient = CreateOpenAuthClient();
+                var applicationCredentials = CreateApplicationCredentials();
+                var authorizationInformation = CreateAuthorizationInformation();
+
+                var result = authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, authorizationInformation, openAuthClient);
+
+                signer.Received().GetSignature(ApplicationSecret, AccessTokenSecret, Url, "GET", Arg.Any<IEnumerable<KeyValuePair<string, string>>[]>());
+
+                Assert.NotNull(result);
+                Assert.False(string.IsNullOrWhiteSpace(result.Parameter));
+                Assert.Equal(GetResult, result.Parameter);
+                Assert.Equal("OAuth", result.Scheme);
+            }
         }
     }
-} ;
+}
