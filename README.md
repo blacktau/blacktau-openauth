@@ -5,11 +5,12 @@ Currently only OpenAuth 1.0a is supported but OAuth 2.0 will be along shortly.
 
 On the To Do list in no particular order:
 
-* Support OpenAuth 2.0 as a client/consumer
 * Publish nuget packages
 * Add libraries supporting common DI/IOC containers.
 * Add an Asp.net Core Middleware for obtaining authorization and/or authentication
 * Improve exception handling.
+* Increase Test coverage
+* Clean up / remove redundancies OAuth2 usage. 
 
 It is not intended for this library to include support for creating a server (service provider/resource) implementation of OAuth. There are plenty of those. 
 This project strives to be a simple to use lightweight wrapper aroung HttpClient providing access to OpenAuth protected resources. 
@@ -26,9 +27,9 @@ A library to use when you don't want an IOC container. This is a hard wired libr
 
 ### Blacktau.OpenAuth.TestHarness 
 
-A sample command line application using Blacktau.OpenAuth.Basic in order to make simple calls to [Tumblr API](https://www.tumblr.com/docs/en/api/v2) and [Twitter API](https://dev.twitter.com/rest/public).
-You will need to supply your own Consumer Keys, Consumer Secrets, Access Tokens and AccessTokenSecrets. 
-The first two you will need to obtain from the respective resouces by registering your application and the second two by obtaining Authorization from those APIs. 
+A sample command line application using Blacktau.OpenAuth.Basic in order to make simple calls to [Tumblr API](https://www.tumblr.com/docs/en/api/v2), [Twitter API](https://dev.twitter.com/rest/public) and [Facebook GraphAPI](https://developers.facebook.com/docs/graph-api) 
+You will need to supply your own Consumer Keys, Consumer Secrets, Access Tokens and Access Token Secrets. 
+The first two you will need to obtain from the respective resources by registering your application and the second two by obtaining Authorization from those APIs. In the case of OAuth2 (Facebook/Google) you will need only an AccessToken as there is no access token secret in OAuth 2.
 
 ## Usage
 
