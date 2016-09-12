@@ -11,7 +11,6 @@
     using System.Threading.Tasks;
 
     using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.VersionOneA;
 
     public class OpenAuthClient : IOpenAuthClient
     {
@@ -29,12 +28,13 @@
 
         private IHttpClient client;
 
-        public OpenAuthClient(string url,
-                              HttpMethod method,
-                              IApplicationCredentials applicationCredentials,
-                              IAuthorizationHeaderGenerator authHeaderGenerator,
-                              IAuthorizationInformation authorizationInformation,
-                              IHttpClientFactory httpClientFactory)
+        public OpenAuthClient(
+            string url,
+            HttpMethod method,
+            IApplicationCredentials applicationCredentials,
+            IAuthorizationHeaderGenerator authHeaderGenerator,
+            IAuthorizationInformation authorizationInformation,
+            IHttpClientFactory httpClientFactory)
         {
             if (applicationCredentials == null)
             {
@@ -76,11 +76,47 @@
 
         public IReadOnlyDictionary<string, string> BodyParameters => new ReadOnlyDictionary<string, string>(this.bodyParameters);
 
-        public IReadOnlyDictionary<string, string> QueryParameters => new ReadOnlyDictionary<string, string>(this.queryParameters);
-
         public HttpMethod Method { get; set; }
 
+        public IReadOnlyDictionary<string, string> QueryParameters => new ReadOnlyDictionary<string, string>(this.queryParameters);
+
         public string Url { get; set; }
+
+        public void AddBodyParameter(string name, string value)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("invalid value.", nameof(name));
+            }
+
+            this.bodyParameters.Add(name, value);
+        }
+
+        public void AddQueryParameter(string name, string value)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("invalid value.", nameof(name));
+            }
+
+            this.queryParameters.Add(name, value);
+        }
+
+        public void ClearParameters()
+        {
+            this.queryParameters.Clear();
+            this.bodyParameters.Clear();
+        }
 
         public async Task<string> Execute()
         {
@@ -104,50 +140,9 @@
             throw new Exception("Unexpected HttpMethod");
         }
 
-        public void AddQueryParameter(string name, string value)
-        {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("invalid value.", nameof(name));
-            }
-
-            this.queryParameters.Add(name, value);
-        }
-
-        public void AddBodyParameter(string name, string value)
-        {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("invalid value.", nameof(name));
-            }
-
-            this.bodyParameters.Add(name, value);
-        }
-
-        public void ClearParameters()
-        {
-            this.queryParameters.Clear();
-            this.bodyParameters.Clear();
-        }
-
         private void CreateHttpClient()
         {
-            var handler = new HttpClientHandler
-            {
-                AllowAutoRedirect = true,
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None,
-                PreAuthenticate = true
-            };
+            var handler = new HttpClientHandler { AllowAutoRedirect = true, AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None, PreAuthenticate = true };
 
             this.client = this.httpClientFactory.CreateHttpClient(handler);
 

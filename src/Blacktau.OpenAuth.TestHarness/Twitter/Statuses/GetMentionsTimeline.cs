@@ -1,11 +1,11 @@
-﻿namespace Blacktau.OpenAuth.TestHarness.Twitter
+﻿namespace Blacktau.OpenAuth.TestHarness.Twitter.Statuses
 {
     using System.Threading.Tasks;
 
     using Blacktau.OpenAuth.Basic;
     using Blacktau.OpenAuth.Interfaces;
 
-    public class GetUserTimeline
+    public class GetMentionsTimeline
     {
         public async Task<string> Execute()
         {
@@ -15,9 +15,9 @@
 
             var openAuthClientFactory = new OpenAuthClientFactory(applicationCredentials, authorizationInformation);
 
-            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://api.twitter.com/1.1/statuses/user_timeline.json", HttpMethod.Get, OpenAuthVersion.OneA);
+            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://api.twitter.com/1.1/statuses/mentions_timeline.json", HttpMethod.Get, OpenAuthVersion.OneA);
 
-            openAuthClient.AddQueryParameter("screen_name", "blacktau");
+//            openAuthClient.AddQueryParameter("screen_name", "blacktau");
             openAuthClient.AddQueryParameter("count", "2");
 
             var result = await openAuthClient.Execute();
