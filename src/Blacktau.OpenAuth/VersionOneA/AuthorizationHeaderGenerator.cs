@@ -8,7 +8,7 @@
     using Blacktau.OpenAuth.Interfaces;
     using Blacktau.OpenAuth.Interfaces.VersionOneA;
 
-    public class AuthorizationHeaderGenerator : IAuthorizationHeaderGenerator
+    public class AuthorizationHeaderGenerator : IOpenAuthVersionOneAAuthorizationHeaderGenerator
     {
         private readonly IAuthorizationSigner authorizationSigner;
 

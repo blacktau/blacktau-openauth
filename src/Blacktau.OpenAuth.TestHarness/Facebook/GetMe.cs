@@ -2,7 +2,6 @@
 {
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Basic;
     using Blacktau.OpenAuth.Interfaces;
 
     public class GetMe
@@ -13,9 +12,9 @@
 
             IAuthorizationInformation authorizationInformation = FacebookProvider.CreateFacebookAuthorizationInformation();
 
-            var openAuthClientFactory = new OpenAuthClientFactory(applicationCredentials, authorizationInformation);
+            var openAuthClientFactory = new OpenAuthClientFactory();
 
-            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://graph.facebook.com/v2.7/me", HttpMethod.Get, OpenAuthVersion.Two);
+            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://graph.facebook.com/v2.7/me", HttpMethod.Get, OpenAuthVersion.Two, applicationCredentials, authorizationInformation);
 
             return openAuthClient.Execute();
         }

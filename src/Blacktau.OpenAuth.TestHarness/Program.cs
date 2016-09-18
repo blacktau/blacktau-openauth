@@ -3,19 +3,15 @@
     using System;
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Basic;
-    using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.TestHarness.Facebook;
     using Blacktau.OpenAuth.TestHarness.Twitter;
-    using Blacktau.OpenAuth.TestHarness.Twitter.Statuses;
 
     public class Program
     {
         public static void Main(string[] args)
         {
             TestTwitter();
-            //TestTumblr();
-            //TestFacebook();
+            TestTumblr();
+            TestFacebook();
             Console.ReadLine();
         }
 

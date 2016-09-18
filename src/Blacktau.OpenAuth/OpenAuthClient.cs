@@ -91,7 +91,7 @@
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentException("invalid value.", nameof(name));
+                throw new ArgumentException(Resources.Exception_InvalidBodyParameterName, nameof(name));
             }
 
             this.bodyParameters.Add(name, value);
@@ -106,7 +106,7 @@
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentException("invalid value.", nameof(name));
+                throw new ArgumentException(Resources.Exception_InvalidQueryParameterName);
             }
 
             this.queryParameters.Add(name, value);
@@ -137,7 +137,7 @@
                     return await this.MakePostRequest(fullUrl);
             }
 
-            throw new Exception("Unexpected HttpMethod");
+            throw new Exception(Resources.Exception_UnexpectedHttpMethod);
         }
 
         private void CreateHttpClient()
@@ -196,7 +196,7 @@
         {
             if (string.IsNullOrWhiteSpace(this.Url))
             {
-                throw new InvalidOperationException("Url must be specified.");
+                throw new InvalidOperationException(string.Format(Resources.Exception_IsRequired, nameof(this.Url)));
             }
         }
     }

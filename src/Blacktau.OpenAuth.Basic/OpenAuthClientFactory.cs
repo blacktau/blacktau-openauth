@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.Basic
+﻿namespace Blacktau.OpenAuth.IOC.Basic
 {
     using System;
 
@@ -8,21 +8,14 @@
 
     public class OpenAuthClientFactory : IOpenAuthClientFactory
     {
-        private readonly IApplicationCredentials applicationCredentials;
-
-        private readonly IAuthorizationHeaderGenerator versionOneAAuthorizationHeaderGenerator;
-
-        private readonly IAuthorizationInformation authorizationInformation;
+        private readonly IOpenAuthVersionOneAAuthorizationHeaderGenerator versionOneAAuthorizationHeaderGenerator;
 
         private readonly IHttpClientFactory httpClientFactory;
 
-        private readonly IAuthorizationHeaderGenerator versionTwoAuthorizationHeaderGenerator;
+        private readonly IOpenAuthVersionTwoAuthorizationHeaderGenerator versionTwoAuthorizationHeaderGenerator;
 
-        public OpenAuthClientFactory(IApplicationCredentials applicationCredentials, IAuthorizationInformation authorizationInformation)
+        public OpenAuthClientFactory()
         {
-            this.applicationCredentials = applicationCredentials;
-            this.authorizationInformation = authorizationInformation;
-
             // This code could be refactored but won't be because it serves to illustrate the dependencies in creating a versionOne AuthorizationHeaderGenerator
             var clock = CreateClock();
             var timeStampFactory = CreateTimeStampFactory(clock);
@@ -37,7 +30,7 @@
             this.versionTwoAuthorizationHeaderGenerator = CreateVersionTwoAuthorizationHeaderGenerator();
         }
 
-        public IOpenAuthClient CreateOpenAuthClient(string baseUrl, HttpMethod method, OpenAuthVersion openAuthVersion)
+        public IOpenAuthClient CreateOpenAuthClient(string baseUrl, HttpMethod method, OpenAuthVersion openAuthVersion, IApplicationCredentials applicationCredentials, IAuthorizationInformation authorizationInformation)
         {
             IAuthorizationHeaderGenerator authorizationHeaderGenerator;
 
@@ -55,15 +48,15 @@
                     throw new ArgumentException("Unsupported OpenAuthVersion.", nameof(openAuthVersion));
             }
 
-            return new OpenAuthClient(baseUrl, method, this.applicationCredentials, authorizationHeaderGenerator, this.authorizationInformation, this.httpClientFactory);
+            return new OpenAuthClient(baseUrl, method, applicationCredentials, authorizationHeaderGenerator, authorizationInformation, this.httpClientFactory);
         }
 
-        private static IAuthorizationHeaderGenerator CreateVersionOneAAuthorizationHeaderGenerator(IAuthorizationParametersGenerator parametersGenerator, IAuthorizationSigner authorizationSigner)
+        private static IOpenAuthVersionOneAAuthorizationHeaderGenerator CreateVersionOneAAuthorizationHeaderGenerator(IAuthorizationParametersGenerator parametersGenerator, IAuthorizationSigner authorizationSigner)
         {
             return new VersionOneA.AuthorizationHeaderGenerator(parametersGenerator, authorizationSigner);
         }
 
-        private static IAuthorizationHeaderGenerator CreateVersionTwoAuthorizationHeaderGenerator()
+        private static IOpenAuthVersionTwoAuthorizationHeaderGenerator CreateVersionTwoAuthorizationHeaderGenerator()
         {
             return new VersionTwo.AuthorizationHeaderGenerator();
         }

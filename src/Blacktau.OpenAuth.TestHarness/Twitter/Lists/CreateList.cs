@@ -3,8 +3,8 @@
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Basic;
     using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.IOC.Basic;
 
     public class CreateList
     {
@@ -16,9 +16,9 @@
 
             IAuthorizationInformation authorizationInformation = TwitterProvider.CreateTwitterAuthorizationInformation();
 
-            var openAuthClientFactory = new OpenAuthClientFactory(applicationCredentials, authorizationInformation);
+            var openAuthClientFactory = new OpenAuthClientFactory();
 
-            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://api.twitter.com/1.1/lists/create.json", HttpMethod.Post, OpenAuthVersion.OneA);
+            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://api.twitter.com/1.1/lists/create.json", HttpMethod.Post, OpenAuthVersion.OneA, applicationCredentials, authorizationInformation);
 
             openAuthClient.AddQueryParameter("name", "test_list_magec");
             openAuthClient.AddQueryParameter("mode", "private");

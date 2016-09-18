@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Basic;
     using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.IOC.Basic;
 
     public class ShowList
     {
@@ -13,9 +13,9 @@
 
             IAuthorizationInformation authorizationInformation = TwitterProvider.CreateTwitterAuthorizationInformation();
 
-            var openAuthClientFactory = new OpenAuthClientFactory(applicationCredentials, authorizationInformation);
+            var openAuthClientFactory = new OpenAuthClientFactory();
 
-            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://api.twitter.com/1.1/lists/show.json", HttpMethod.Get, OpenAuthVersion.OneA);
+            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://api.twitter.com/1.1/lists/show.json", HttpMethod.Get, OpenAuthVersion.OneA, applicationCredentials, authorizationInformation);
 
             openAuthClient.AddQueryParameter("list_id", id);
 

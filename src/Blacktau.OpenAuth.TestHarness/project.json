@@ -5,7 +5,7 @@
     },
 
     "dependencies": {
-        "Blacktau.OpenAuth.Basic": "0.1.0-beta-*",
+        "Blacktau.OpenAuth.IOC.Basic": "0.1.0-beta-*",
         "Microsoft.NETCore.App": {
             "type": "platform",
             "version": "1.0.0"

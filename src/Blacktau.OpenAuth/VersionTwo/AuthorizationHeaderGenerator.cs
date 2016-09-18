@@ -4,7 +4,7 @@
 
     using Blacktau.OpenAuth.Interfaces;
 
-    public class AuthorizationHeaderGenerator : IAuthorizationHeaderGenerator
+    public class AuthorizationHeaderGenerator : IOpenAuthVersionTwoAuthorizationHeaderGenerator
     {
         public AuthenticationHeaderValue GenerateHeaderValue(IApplicationCredentials applicationCredentials, IAuthorizationInformation authorizationInformation, IOpenAuthClient openAuthClient)
         {

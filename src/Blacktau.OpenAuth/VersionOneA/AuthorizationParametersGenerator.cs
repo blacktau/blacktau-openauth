@@ -61,7 +61,7 @@
 
             if (string.IsNullOrWhiteSpace(accessToken))
             {
-                throw new ArgumentException("Invalid accessToken", nameof(accessToken));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_Invalid, nameof(accessToken)), nameof(accessToken));
             }
 
 

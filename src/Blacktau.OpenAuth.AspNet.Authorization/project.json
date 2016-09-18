@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0-*",
+
+    "dependencies": {
+        "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
+        "Microsoft.Extensions.Options": "1.0.0",
+        "NETStandard.Library": "1.6.0",
+        "Blacktau.OpenAuth": "0.1.0-beta-*",
+        "Microsoft.Extensions.Logging.Debug": "1.0.0"
+    },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}

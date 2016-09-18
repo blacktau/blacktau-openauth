@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Basic;
     using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.IOC.Basic;
 
     public class AddDraftTextPost
     {
@@ -13,9 +13,9 @@
 
             IAuthorizationInformation authorizationInformation = TumblrProvider.CreateTumblrAuthorizationInformation();
 
-            var openAuthClientFactory = new OpenAuthClientFactory(applicationCredentials, authorizationInformation);
+            var openAuthClientFactory = new OpenAuthClientFactory();
 
-            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://api.tumblr.com/v2/blog/photography.blacktau.com/post", HttpMethod.Post, OpenAuthVersion.OneA);
+            var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://api.tumblr.com/v2/blog/photography.blacktau.com/post", HttpMethod.Post, OpenAuthVersion.OneA, applicationCredentials, authorizationInformation);
 
             openAuthClient.AddBodyParameter("type", "text");
             openAuthClient.AddBodyParameter("state", "draft");

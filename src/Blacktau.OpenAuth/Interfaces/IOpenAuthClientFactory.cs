@@ -2,6 +2,6 @@
 {
     public interface IOpenAuthClientFactory
     {
-        IOpenAuthClient CreateOpenAuthClient(string baseUrl, HttpMethod method, OpenAuthVersion openAuthVersion);
+        IOpenAuthClient CreateOpenAuthClient(string baseUrl, HttpMethod method, OpenAuthVersion openAuthVersion, IApplicationCredentials applicationCredentials, IAuthorizationInformation authorizationInformation);
     }
 }
