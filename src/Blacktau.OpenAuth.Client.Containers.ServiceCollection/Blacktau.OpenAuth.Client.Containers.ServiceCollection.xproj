@@ -6,8 +6,8 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>c0f6ebea-f5c5-4749-bf91-168d45c5abe5</ProjectGuid>
-    <RootNamespace>Blacktau.OpenAuth.IOC.Basic</RootNamespace>
+    <ProjectGuid>00011f92-3605-41b7-b7a0-3fc1fdc97f13</ProjectGuid>
+    <RootNamespace>Blacktau.OpenAuth.Client.Containers.ServiceCollection</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
