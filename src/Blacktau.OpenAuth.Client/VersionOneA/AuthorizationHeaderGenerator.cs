@@ -1,12 +1,12 @@
-﻿namespace Blacktau.OpenAuth.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.VersionOneA
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http.Headers;
 
-    using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.Interfaces.VersionOneA;
+    using Blacktau.OpenAuth.Client.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces.VersionOneA;
 
     public class AuthorizationHeaderGenerator : IOpenAuthVersionOneAAuthorizationHeaderGenerator
     {

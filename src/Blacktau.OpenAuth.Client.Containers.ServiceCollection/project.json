@@ -4,7 +4,7 @@
     "dependencies": {
         "NETStandard.Library": "1.6.0",
         "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-        "Blacktau.OpenAuth": "0.1.0-beta-*"
+        "Blacktau.OpenAuth.Client": "0.1.0-beta-*"
     },
 
   "frameworks": {

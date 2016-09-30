@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.Interfaces.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.Interfaces.VersionOneA
 {
     public interface INonceFactory
     {

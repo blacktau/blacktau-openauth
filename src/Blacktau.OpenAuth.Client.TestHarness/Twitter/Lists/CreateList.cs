@@ -1,14 +1,14 @@
-﻿namespace Blacktau.OpenAuth.TestHarness.Twitter.Lists
+﻿namespace Blacktau.OpenAuth.Client.TestHarness.Twitter.Lists
 {
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.IOC.Basic;
+    using Blacktau.OpenAuth.Client.Containers.Basic;
+    using Blacktau.OpenAuth.Client.Interfaces;
 
     public class CreateList
     {
-        private Regex idRegex = new Regex("\"id_str\":\"(.+?)\"");
+        private readonly Regex idRegex = new Regex("\"id_str\":\"(.+?)\"");
 
         public async Task<string> Execute()
         {

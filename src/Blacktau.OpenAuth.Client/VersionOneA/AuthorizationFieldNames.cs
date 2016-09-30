@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.VersionOneA
 {
     public static class AuthorizationFieldNames
     {

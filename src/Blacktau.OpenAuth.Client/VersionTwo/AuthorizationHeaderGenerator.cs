@@ -1,8 +1,8 @@
-﻿namespace Blacktau.OpenAuth.VersionTwo
+﻿namespace Blacktau.OpenAuth.Client.VersionTwo
 {
     using System.Net.Http.Headers;
 
-    using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces;
 
     public class AuthorizationHeaderGenerator : IOpenAuthVersionTwoAuthorizationHeaderGenerator
     {

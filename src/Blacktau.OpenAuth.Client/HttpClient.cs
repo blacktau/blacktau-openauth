@@ -1,14 +1,14 @@
-﻿namespace Blacktau.OpenAuth
+﻿namespace Blacktau.OpenAuth.Client
 {
     using System;
     using System.IO;
     using System.Net.Http;
-    using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces;
 
+    using HttpRequestHeaders = Blacktau.OpenAuth.Client.HttpRequestHeaders;
 
     internal class HttpClient : IHttpClient
     {
@@ -17,19 +17,19 @@
         public HttpClient()
         {
             this.client = new System.Net.Http.HttpClient();
-            this.DefaultRequestHeaders = new HttpRequestHeaders(this.client.DefaultRequestHeaders);
+            this.DefaultRequestHeaders = new Client.HttpRequestHeaders(this.client.DefaultRequestHeaders);
         }
 
         public HttpClient(HttpMessageHandler handler)
         {
             this.client = new System.Net.Http.HttpClient(handler);
-            this.DefaultRequestHeaders = new HttpRequestHeaders(this.client.DefaultRequestHeaders);
+            this.DefaultRequestHeaders = new Client.HttpRequestHeaders(this.client.DefaultRequestHeaders);
         }
 
         public HttpClient(HttpMessageHandler handler, bool disposeHandler)
         {
             this.client = new System.Net.Http.HttpClient(handler, disposeHandler);
-            this.DefaultRequestHeaders = new HttpRequestHeaders(this.client.DefaultRequestHeaders);
+            this.DefaultRequestHeaders = new Client.HttpRequestHeaders(this.client.DefaultRequestHeaders);
         }
 
         public Uri BaseAddress

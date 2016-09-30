@@ -1,9 +1,11 @@
-﻿namespace Blacktau.OpenAuth.TestHarness
+﻿namespace Blacktau.OpenAuth.Client.TestHarness
 {
     using System;
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.TestHarness.Twitter;
+    using Blacktau.OpenAuth.Client.TestHarness.Facebook;
+    using Blacktau.OpenAuth.Client.TestHarness.Tumblr;
+    using Blacktau.OpenAuth.Client.TestHarness.Twitter;
 
     public class Program
     {
@@ -23,13 +25,13 @@
 
         private static void TestFacebook()
         {
-            var facebookTest = new Facebook.GetMe();
+            var facebookTest = new GetMe();
             facebookTest.Execute().ContinueWith(PrintResponse).Wait();
         }
 
         private static void TestTumblr()
         {
-            var tumblrTest = new Tumblr.AddDraftTextPost();
+            var tumblrTest = new AddDraftTextPost();
             tumblrTest.Execute().ContinueWith(PrintResponse).Wait();
         }
         

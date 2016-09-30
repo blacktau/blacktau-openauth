@@ -1,10 +1,10 @@
-﻿namespace Blacktau.OpenAuth.TestHarness.Twitter
+﻿namespace Blacktau.OpenAuth.Client.TestHarness.Twitter
 {
     using System;
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.TestHarness.Twitter.Lists;
-    using Blacktau.OpenAuth.TestHarness.Twitter.Statuses;
+    using Blacktau.OpenAuth.Client.TestHarness.Twitter.Lists;
+    using Blacktau.OpenAuth.Client.TestHarness.Twitter.Statuses;
 
     public class TwitterTestHarness
     {

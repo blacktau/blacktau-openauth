@@ -1,9 +1,9 @@
-﻿namespace Blacktau.OpenAuth.TestHarness.Tumblr
+﻿namespace Blacktau.OpenAuth.Client.TestHarness.Tumblr
 {
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.IOC.Basic;
+    using Blacktau.OpenAuth.Client.Containers.Basic;
+    using Blacktau.OpenAuth.Client.Interfaces;
 
     public class AddDraftTextPost
     {

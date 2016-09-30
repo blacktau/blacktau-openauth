@@ -1,11 +1,11 @@
-﻿namespace Blacktau.OpenAuth.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.VersionOneA
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
 
-    using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.Interfaces.VersionOneA;
+    using Blacktau.OpenAuth.Client.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces.VersionOneA;
 
     public class AuthorizationParametersGenerator : IAuthorizationParametersGenerator
     {
@@ -63,7 +63,6 @@
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_Invalid, nameof(accessToken)), nameof(accessToken));
             }
-
 
             var result = this.CreateStandardParameterSet(credentials);
             result.Add(AuthorizationFieldNames.Token, accessToken);

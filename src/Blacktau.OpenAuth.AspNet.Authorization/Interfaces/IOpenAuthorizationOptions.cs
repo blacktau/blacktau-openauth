@@ -1,6 +1,7 @@
 ﻿namespace Blacktau.OpenAuth.AspNet.Authorization.Interfaces
 {
-    using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.Client;
+    using Blacktau.OpenAuth.Client.Interfaces;
 
     public interface IOpenAuthorizationOptions
     {

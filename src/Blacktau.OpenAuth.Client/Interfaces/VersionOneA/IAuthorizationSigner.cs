@@ -1,6 +1,5 @@
-﻿namespace Blacktau.OpenAuth.Interfaces.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.Interfaces.VersionOneA
 {
-    using System.Collections;
     using System.Collections.Generic;
 
     public interface IAuthorizationSigner

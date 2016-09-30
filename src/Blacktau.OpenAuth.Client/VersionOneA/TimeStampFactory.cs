@@ -1,8 +1,8 @@
-﻿namespace Blacktau.OpenAuth.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.VersionOneA
 {
     using System;
 
-    using Blacktau.OpenAuth.Interfaces.VersionOneA;
+    using Blacktau.OpenAuth.Client.Interfaces.VersionOneA;
 
     public class TimeStampFactory : ITimeStampFactory
     {

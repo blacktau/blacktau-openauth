@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    using Blacktau.OpenAuth.VersionOneA;
+    using Blacktau.OpenAuth.Client.VersionOneA;
 
     using NSubstitute;
 

@@ -14,23 +14,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client", "src\Blacktau.OpenAuth\Blacktau.OpenAuth.Client.xproj", "{2D0072FC-FB01-4E06-920B-B3C4B2F2B0AA}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client", "src\Blacktau.OpenAuth.Client\Blacktau.OpenAuth.Client.xproj", "{2D0072FC-FB01-4E06-920B-B3C4B2F2B0AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{63AE6637-0AA3-4AF7-A27D-CD814089C559}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.Tests", "test\Blacktau.OpenAuth.Tests\Blacktau.OpenAuth.Client.Tests.xproj", "{8C10889A-6773-48F0-9BA1-8AAC24B31E06}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.Tests", "test\Blacktau.OpenAuth.Client.Tests\Blacktau.OpenAuth.Client.Tests.xproj", "{8C10889A-6773-48F0-9BA1-8AAC24B31E06}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.TestHarness", "src\Blacktau.OpenAuth.TestHarness\Blacktau.OpenAuth.TestHarness.xproj", "{CDE35322-1950-465B-A653-386B92619EF9}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.TestHarness", "src\Blacktau.OpenAuth.Client.TestHarness\Blacktau.OpenAuth.Client.TestHarness.xproj", "{CDE35322-1950-465B-A653-386B92619EF9}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.Containers.Basic", "src\Blacktau.OpenAuth.Basic\Blacktau.OpenAuth.Client.Containers.Basic.xproj", "{C0F6EBEA-F5C5-4749-BF91-168D45C5ABE5}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.Containers.Basic", "src\Blacktau.OpenAuth.Client.Containers.Basic\Blacktau.OpenAuth.Client.Containers.Basic.xproj", "{C0F6EBEA-F5C5-4749-BF91-168D45C5ABE5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{9BDE043E-8E81-4C67-ACFC-7707CCB35608}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.WebTest", "Blacktau.OpenAuth.WebTest\Blacktau.OpenAuth.WebTest.xproj", "{41646CD2-7C29-40ED-A0C1-61512D816447}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.WebTest", "src\Blacktau.OpenAuth.AspNet.WebTest\Blacktau.OpenAuth.AspNet.WebTest.xproj", "{41646CD2-7C29-40ED-A0C1-61512D816447}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.Authorization", "src\Blacktau.OpenAuth.AspNet.Authorization\Blacktau.OpenAuth.AspNet.Authorization.xproj", "{C2120322-D935-48B2-9ED6-3BAF2FD76D0D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.Containers.ServiceCollection", "src\Blacktau.OpenAuth.IOC.ServiceCollection\Blacktau.OpenAuth.Client.Containers.ServiceCollection.xproj", "{00011F92-3605-41B7-B7A0-3FC1FDC97F13}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.Containers.ServiceCollection", "src\Blacktau.OpenAuth.Client.Containers.ServiceCollection\Blacktau.OpenAuth.Client.Containers.ServiceCollection.xproj", "{00011F92-3605-41B7-B7A0-3FC1FDC97F13}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2D0072FC-FB01-4E06-920B-B3C4B2F2B0AA} = {2D0072FC-FB01-4E06-920B-B3C4B2F2B0AA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

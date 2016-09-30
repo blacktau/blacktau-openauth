@@ -3,8 +3,9 @@
     using System;
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.VersionOneA;
+    using Blacktau.OpenAuth.Client;
+    using Blacktau.OpenAuth.Client.Interfaces;
+    using Blacktau.OpenAuth.Client.VersionOneA;
 
     using NSubstitute;
 

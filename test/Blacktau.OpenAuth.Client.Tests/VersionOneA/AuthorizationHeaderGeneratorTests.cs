@@ -4,9 +4,10 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
-    using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.Interfaces.VersionOneA;
-    using Blacktau.OpenAuth.VersionOneA;
+    using Blacktau.OpenAuth.Client;
+    using Blacktau.OpenAuth.Client.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces.VersionOneA;
+    using Blacktau.OpenAuth.Client.VersionOneA;
 
     using NSubstitute;
 
