@@ -1,11 +1,13 @@
-﻿namespace Blacktau.OpenAuth.IOC.ServiceCollection
+﻿namespace Blacktau.OpenAuth.Client.Containers.ServiceCollection
 {
-    using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.Interfaces.VersionOneA;
-    using Blacktau.OpenAuth.VersionOneA;
-    using Blacktau.OpenAuth.VersionTwo;
+    using Blacktau.OpenAuth.Client;
+    using Blacktau.OpenAuth.Client.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces.VersionOneA;
+    using Blacktau.OpenAuth.Client.VersionOneA;
 
     using Microsoft.Extensions.DependencyInjection;
+
+    using AuthorizationHeaderGenerator = Blacktau.OpenAuth.Client.VersionOneA.AuthorizationHeaderGenerator;
 
     public static class ServiceCollectionExtensions
     {
@@ -17,8 +19,8 @@
             serviceCollection.AddSingleton<ITimeStampFactory, TimeStampFactory>();
             serviceCollection.AddSingleton<IAuthorizationSigner, AuthorizationSigner>();
             serviceCollection.AddSingleton<IAuthorizationParametersGenerator, AuthorizationParametersGenerator>();
-            serviceCollection.AddSingleton<IOpenAuthVersionOneAAuthorizationHeaderGenerator, VersionOneA.AuthorizationHeaderGenerator>();
-            serviceCollection.AddSingleton<IOpenAuthVersionTwoAuthorizationHeaderGenerator, VersionTwo.AuthorizationHeaderGenerator>();
+            serviceCollection.AddSingleton<IOpenAuthVersionOneAAuthorizationHeaderGenerator, AuthorizationHeaderGenerator>();
+            serviceCollection.AddSingleton<IOpenAuthVersionTwoAuthorizationHeaderGenerator, Client.VersionTwo.AuthorizationHeaderGenerator>();
             serviceCollection.AddSingleton<IOpenAuthClientFactory, OpenAuthClientFactory>();
 
             return serviceCollection;

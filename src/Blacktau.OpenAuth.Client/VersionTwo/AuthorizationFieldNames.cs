@@ -1,6 +1,6 @@
-﻿namespace Blacktau.OpenAuth.VersionTwo
+﻿namespace Blacktau.OpenAuth.Client.VersionTwo
 {
-    public class AuthorizationFieldNames
+    public static class AuthorizationFieldNames
     {
         public const string ClientId = "client_id";
 

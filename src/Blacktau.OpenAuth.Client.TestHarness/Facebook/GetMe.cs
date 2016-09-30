@@ -1,8 +1,9 @@
-﻿namespace Blacktau.OpenAuth.TestHarness.Facebook
+﻿namespace Blacktau.OpenAuth.Client.TestHarness.Facebook
 {
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.Client.Containers.Basic;
+    using Blacktau.OpenAuth.Client.Interfaces;
 
     public class GetMe
     {

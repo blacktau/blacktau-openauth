@@ -3,6 +3,8 @@
     using System;
     using System.Net.Http;
 
+    using Blacktau.OpenAuth.Client;
+
     using Xunit;
 
     public class HttpClientTests

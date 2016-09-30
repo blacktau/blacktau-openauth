@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.TestHarness.Twitter
+﻿namespace Blacktau.OpenAuth.Client.TestHarness.Twitter
 {
     public class TwitterProvider
     {

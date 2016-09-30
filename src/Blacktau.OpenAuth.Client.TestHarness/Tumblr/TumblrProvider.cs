@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.TestHarness.Tumblr
+﻿namespace Blacktau.OpenAuth.Client.TestHarness.Tumblr
 {
     public class TumblrProvider
     {

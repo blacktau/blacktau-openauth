@@ -1,10 +1,10 @@
-﻿namespace Blacktau.OpenAuth.IOC.Basic
+﻿namespace Blacktau.OpenAuth.Client.Containers.Basic
 {
     using System;
 
-    using Blacktau.OpenAuth.Interfaces;
-    using Blacktau.OpenAuth.Interfaces.VersionOneA;
-    using Blacktau.OpenAuth.VersionOneA;
+    using Blacktau.OpenAuth.Client.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces.VersionOneA;
+    using Blacktau.OpenAuth.Client.VersionOneA;
 
     public class OpenAuthClientFactory : IOpenAuthClientFactory
     {

@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth
+﻿namespace Blacktau.OpenAuth.Client
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces;
 
     public class OpenAuthClient : IOpenAuthClient
     {

@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.Interfaces
+﻿namespace Blacktau.OpenAuth.Client.Interfaces
 {
     using System.Net.Http;
 

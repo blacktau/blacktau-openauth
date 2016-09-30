@@ -1,6 +1,6 @@
-﻿namespace Blacktau.OpenAuth
+﻿namespace Blacktau.OpenAuth.Client
 {
-    using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces;
 
     public class AuthorizationInformation : IAuthorizationInformation
     {

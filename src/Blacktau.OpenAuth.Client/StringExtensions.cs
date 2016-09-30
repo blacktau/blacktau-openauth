@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth
+﻿namespace Blacktau.OpenAuth.Client
 {
     using System;
 

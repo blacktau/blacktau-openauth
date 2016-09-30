@@ -5,6 +5,7 @@
 
     using Blacktau.OpenAuth.AspNet.Authorization.Interfaces;
     using Blacktau.OpenAuth.AspNet.Authorization.VersionOneA;
+    using Blacktau.OpenAuth.Client;
 
     using Microsoft.Extensions.Logging;
 
@@ -29,7 +30,7 @@
                 return new OpenAuthorizationVersionOneAHandler(this.loggerFactory, options);
             }
             
-            throw new Exception(string.Format(CultureInfo.CurrentCulture, OpenAuth.Resources.Exception_Invalid, options.OpenAuthVersion));
+            throw new Exception(string.Format(CultureInfo.CurrentCulture, Client.Resources.Exception_Invalid, options.OpenAuthVersion));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.VersionOneA
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    using Blacktau.OpenAuth.Interfaces.VersionOneA;
+    using Blacktau.OpenAuth.Client.Interfaces.VersionOneA;
 
     public class AuthorizationSigner : IAuthorizationSigner
     {

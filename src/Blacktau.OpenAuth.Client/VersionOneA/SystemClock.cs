@@ -1,7 +1,9 @@
-﻿namespace Blacktau.OpenAuth.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.VersionOneA
 {
     using System;
-    using Interfaces.VersionOneA;
+
+    using Blacktau.OpenAuth.Client.Interfaces.VersionOneA;
+
     public class SystemClock : IClock
     {
         public DateTime Now => DateTime.Now;

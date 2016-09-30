@@ -1,5 +1,7 @@
 ﻿namespace Blacktau.OpenAuth.Tests
 {
+    using Blacktau.OpenAuth.Client;
+
     using Xunit;
 
     public class StringExtensionsTests

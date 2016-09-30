@@ -1,8 +1,8 @@
-﻿namespace Blacktau.OpenAuth
+﻿namespace Blacktau.OpenAuth.Client
 {
     using System.Net.Http;
 
-    using Blacktau.OpenAuth.Interfaces;
+    using Blacktau.OpenAuth.Client.Interfaces;
 
     public class HttpClientFactory : IHttpClientFactory
     {

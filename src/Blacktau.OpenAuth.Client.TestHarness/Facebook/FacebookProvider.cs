@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.TestHarness.Facebook
+﻿namespace Blacktau.OpenAuth.Client.TestHarness.Facebook
 {
     public class FacebookProvider
     {

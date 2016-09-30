@@ -2,8 +2,8 @@
 {
     using System;
 
-    using Blacktau.OpenAuth.Interfaces.VersionOneA;
-    using Blacktau.OpenAuth.VersionOneA;
+    using Blacktau.OpenAuth.Client.Interfaces.VersionOneA;
+    using Blacktau.OpenAuth.Client.VersionOneA;
 
     using NSubstitute;
 
