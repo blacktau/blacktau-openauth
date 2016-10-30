@@ -5,7 +5,6 @@
     using System.Threading.Tasks;
 
     using Blacktau.OpenAuth.AspNet.Authorization.Interfaces;
-    using Blacktau.OpenAuth.AspNet.Authorization.VersionOneA;
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
@@ -44,7 +43,50 @@
             this.Logger = loggerFactory.CreateLogger(this.GetType().FullName);
             this.next = next;
             this.openAuthorizationHandlerFactory = openAuthorizationHandlerFactory;
+            
 
+            this.ValidateOptions();
+        }
+
+        protected ILogger Logger { get; set; }
+
+        protected TOptions Options { get; private set; }
+
+        public async Task Invoke(HttpContext context)
+        {
+            
+            if (!this.Options.IsRelevantRequest(context))
+            {
+                await this.next(context);
+                return;
+            }
+
+            var handler = this.CreateHandler();
+
+            try
+            {
+                await handler.HandleRequest(context);
+            }
+            finally
+            {
+                try
+                {
+                    await handler.TeardownAsync();
+                }
+                catch (Exception)
+                {
+                    // Don't mask the original exception, if any
+                }
+            }
+        }
+
+        private IOpenAuthorizationHandler CreateHandler()
+        {
+            return this.openAuthorizationHandlerFactory.CreateHandler(this.Options);
+        }
+
+        private void ValidateOptions()
+        {
             if (string.IsNullOrWhiteSpace(this.Options.AccessTokenEndpointUri))
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.AccessTokenEndpointUri)));
@@ -79,40 +121,6 @@
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.ServiceProviderName)));
             }
-        }
-
-        protected ILogger Logger { get; set; }
-
-        protected TOptions Options { get; private set; }
-
-        public async Task Invoke(HttpContext context)
-        {
-            var handler = this.CreateHandler();
-            //await handler.InitializeAsync(this.Options, context);
-
-            try
-            {
-                {
-                    // if (!await handler.HandleRequestAsync())
-                    await this.next(context);
-                }
-            }
-            finally
-            {
-                try
-                {
-                    // await handler.TeardownAsync();
-                }
-                catch (Exception)
-                {
-                    // Don't mask the original exception, if any
-                }
-            }
-        }
-
-        private IOpenAuthorizationHandler CreateHandler()
-        {
-            return this.openAuthorizationHandlerFactory.CreateHandler(this.Options);
         }
     }
 }

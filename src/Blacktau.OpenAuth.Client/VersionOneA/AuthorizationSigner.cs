@@ -64,12 +64,12 @@
 
         private static string GenerateBaseSignatureString(string method, string url, string parametersString)
         {
-            return method.ToUpper() + "&" + url.UrlEncode() + "&" + parametersString.UrlEncode();
+            return string.Join("&", method.ToUpper(), url.UrlEncode(), parametersString.UrlEncode());
         }
 
         private static string GetSigningKey(string applicationSecret, string accessTokenSecret)
         {
-            return applicationSecret + "&" + (accessTokenSecret ?? string.Empty);
+            return string.Join("&", applicationSecret, accessTokenSecret ?? string.Empty);
         }
 
         private static string Sign(string signatureBaseString, string signingKey)

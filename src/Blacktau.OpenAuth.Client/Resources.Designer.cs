@@ -69,6 +69,15 @@ namespace Blacktau.OpenAuth.Client {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to &quot;Invalid AuthorizationHeader parameter name &apos;{0}&apos;&quot;.
+        /// </summary>
+        public static string Exception_InvalidAdditionalAuthorizationHeaderParameterName {
+            get {
+                return ResourceManager.GetString("Exception_InvalidAdditionalAuthorizationHeaderParameterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to &quot;Invalid Body parameter name &apos;{0}&apos;&quot;.
         /// </summary>
         public static string Exception_InvalidBodyParameterName {
@@ -92,6 +101,15 @@ namespace Blacktau.OpenAuth.Client {
         public static string Exception_IsRequired {
             get {
                 return ResourceManager.GetString("Exception_IsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to &quot;Provider did not provide request token. Check your application registration, credentials, callback to be accurate and valid.&quot;.
+        /// </summary>
+        public static string Exception_MissingRequestToken {
+            get {
+                return ResourceManager.GetString("Exception_MissingRequestToken", resourceCulture);
             }
         }
         

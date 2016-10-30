@@ -13,6 +13,8 @@
 
         IReadOnlyDictionary<string, string> BodyParameters { get; }
 
+        IReadOnlyDictionary<string, string> AuthorizationHeaderParameters { get; }
+
         void AddBodyParameter(string name, string value);
 
         void AddQueryParameter(string name, string value);
@@ -20,5 +22,7 @@
         void ClearParameters();
 
         Task<string> Execute();
+
+        void AddAdditionalAuthorizationParameter(string name, string value);
     }
 }

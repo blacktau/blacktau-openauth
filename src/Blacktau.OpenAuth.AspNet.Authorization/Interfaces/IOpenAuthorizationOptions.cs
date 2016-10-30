@@ -5,8 +5,6 @@
 
     public interface IOpenAuthorizationOptions
     {
-        IApplicationCredentials ApplicationCredentials { get; set; }
-
         string RequestTokenEndpointUri { get; set; }
 
         string AuthorizeEndpointUri { get; set; }
@@ -16,5 +14,7 @@
         OpenAuthVersion OpenAuthVersion { get; set; }
 
         string ServiceProviderName { get; set; }
+
+        string DisplayName { get; set; }
     }
 }

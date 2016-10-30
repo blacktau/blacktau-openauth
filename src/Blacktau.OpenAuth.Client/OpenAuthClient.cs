@@ -14,6 +14,8 @@
 
     public class OpenAuthClient : IOpenAuthClient
     {
+        private readonly Dictionary<string, string> additionalAuthorizationHeaderParameters;
+
         private readonly IApplicationCredentials applicationCredentials;
 
         private readonly IAuthorizationHeaderGenerator authHeaderGenerator;
@@ -46,11 +48,6 @@
                 throw new ArgumentNullException(nameof(authHeaderGenerator));
             }
 
-            if (authorizationInformation == null)
-            {
-                throw new ArgumentNullException(nameof(authorizationInformation));
-            }
-
             if (httpClientFactory == null)
             {
                 throw new ArgumentNullException(nameof(httpClientFactory));
@@ -70,9 +67,12 @@
 
             this.queryParameters = new Dictionary<string, string>();
             this.bodyParameters = new Dictionary<string, string>();
+            this.additionalAuthorizationHeaderParameters = new Dictionary<string, string>();
 
             this.CreateHttpClient();
         }
+
+        public IReadOnlyDictionary<string, string> AuthorizationHeaderParameters => new ReadOnlyDictionary<string, string>(this.additionalAuthorizationHeaderParameters);
 
         public IReadOnlyDictionary<string, string> BodyParameters => new ReadOnlyDictionary<string, string>(this.bodyParameters);
 
@@ -81,6 +81,21 @@
         public IReadOnlyDictionary<string, string> QueryParameters => new ReadOnlyDictionary<string, string>(this.queryParameters);
 
         public string Url { get; set; }
+
+        public void AddAdditionalAuthorizationParameter(string name, string value)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(Resources.Exception_InvalidAdditionalAuthorizationHeaderParameterName);
+            }
+
+            this.additionalAuthorizationHeaderParameters.Add(name, value);
+        }
 
         public void AddBodyParameter(string name, string value)
         {
@@ -116,6 +131,7 @@
         {
             this.queryParameters.Clear();
             this.bodyParameters.Clear();
+            this.additionalAuthorizationHeaderParameters.Clear();
         }
 
         public async Task<string> Execute()
@@ -129,11 +145,9 @@
             switch (this.Method)
             {
                 case HttpMethod.Get:
-
                     return await this.MakeGetRequest(fullUrl);
 
                 case HttpMethod.Post:
-
                     return await this.MakePostRequest(fullUrl);
             }
 
@@ -161,9 +175,9 @@
                 return new Uri(this.Url);
             }
 
-            var queryString = this.ToQueryString(this.queryParameters);
+            var queryString = this.queryParameters.ToQueryString();
 
-            return new Uri(new Uri(this.Url), "?" + queryString);
+            return new Uri(new Uri(this.Url), UriConstants.QuestionMarkDelimiter + queryString);
         }
 
         private async Task<string> MakeGetRequest(Uri fullUrl)
@@ -173,23 +187,12 @@
 
         private async Task<string> MakePostRequest(Uri fullUrl)
         {
-            var queryString = this.ToQueryString(this.bodyParameters);
+            var queryString = this.bodyParameters.ToQueryString();
             var content = new StringContent(queryString, Encoding.UTF8);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
             var result = await this.client.PostAsync(fullUrl, content);
             return await result.Content.ReadAsStringAsync();
-        }
-
-        private string ToQueryString(Dictionary<string, string> dictionary)
-        {
-            var query = dictionary.Select(kv => string.Format("{0}={1}", kv.Key, kv.Value)).Aggregate(string.Empty, (q, next) => q + next + "&");
-            if (string.IsNullOrEmpty(query))
-            {
-                return string.Empty;
-            }
-
-            return query.Substring(0, query.Length - 1);
         }
 
         private void ValidateRequest()
