@@ -63,8 +63,16 @@ Invoke-MSBuild
 $revision = @{ $true = $env:APPVEYOR_BUILD_NUMBER; $false = 1 }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
 $revision = "{0:D4}" -f [convert]::ToInt32($revision, 10)
 
-exec { & dotnet test .\test\Blacktau.OpenAuth.Tests -c Release }
+exec { & dotnet test .\test\Blacktau.OpenAuth.Client.Tests -c Release }
 
-exec { & dotnet pack .\src\Blacktau.OpenAuth -c Release -o .\artifacts --version-suffix=$revision }  
+exec { & dotnet pack .\src\Blacktau.OpenAuth.Client -c Release -o .\artifacts --version-suffix=$revision }  
 
-exec { & dotnet pack .\src\Blacktau.OpenAuth.Basic -c Release -o .\artifacts --version-suffix=$revision }  
+exec { & dotnet pack .\src\Blacktau.OpenAuth.Client.Containers.Basic -c Release -o .\artifacts --version-suffix=$revision }  
+
+exec { & dotnet pack .\src\Blacktau.OpenAuth.Client.Containers.ServiceCollection -c Release -o .\artifacts --version-suffix=$revision }  
+
+exec { & dotnet pack .\src\Blacktau.OpenAuth.AspNet.SessionStateStorage -c Release -o .\artifacts --version-suffix=$revision }  
+
+exec { & dotnet pack .\src\Blacktau.OpenAuth.AspNet.Authorization -c Release -o .\artifacts --version-suffix=$revision }  
+
+exec { & dotnet pack .\src\Blacktau.OpenAuth.AspNet.Authorization.Twitter -c Release -o .\artifacts --version-suffix=$revision }  
