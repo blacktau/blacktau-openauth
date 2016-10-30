@@ -1,5 +1,5 @@
 {
-    "version": "0.1.0-beta-*",
+    "version": "0.1.0",
     "buildOptions": {
         "emitEntryPoint": true
     },
@@ -9,7 +9,7 @@
             "version": "1.0.1",
             "type": "platform"
         },
-        "Blacktau.OpenAuth.Client.Containers.Basic": "0.1.0-beta-*"
+        "Blacktau.OpenAuth.Client.Containers.Basic": "0.1.*"
     },
 
     "frameworks": {

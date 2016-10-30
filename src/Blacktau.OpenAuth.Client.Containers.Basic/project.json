@@ -1,8 +1,8 @@
 {
-    "version": "0.1.0-beta-*",
+    "version": "0.1.0",
 
     "dependencies": {
-        "Blacktau.OpenAuth.Client": "0.1.0-beta-*",
+        "Blacktau.OpenAuth.Client": "0.1.*",
         "NETStandard.Library": "1.6.0"
     },
 

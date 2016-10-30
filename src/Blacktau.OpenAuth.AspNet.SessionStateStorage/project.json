@@ -1,8 +1,8 @@
 ﻿{
-  "version": "1.0.0-*",
+  "version": "0.1.0",
 
     "dependencies": {
-        "Blacktau.OpenAuth.AspNet.Authorization": "1.0.0-*",
+        "Blacktau.OpenAuth.AspNet.Authorization": "0.1.*",
         "NETStandard.Library": "1.6.0",
         "Microsoft.AspNetCore.Session": "1.0.0",
         "Microsoft.AspNetCore.Http.Extensions": "1.0.0",
