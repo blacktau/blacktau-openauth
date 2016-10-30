@@ -1,11 +1,11 @@
 {
-    "version": "1.0.0-*",
+    "version": "0.1.0",
 
     "dependencies": {
         "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
         "Microsoft.Extensions.Options": "1.0.0",
         "NETStandard.Library": "1.6.0",
-        "Blacktau.OpenAuth.Client.Containers.ServiceCollection": "0.1.0-beta-*",
+        "Blacktau.OpenAuth.Client.Containers.ServiceCollection": "0.1.*",
         "Microsoft.Extensions.Logging.Debug": "1.0.0"
     },
 

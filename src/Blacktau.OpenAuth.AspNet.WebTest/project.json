@@ -9,8 +9,8 @@
         "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
         "Microsoft.Extensions.Logging.Console": "1.0.0",
         "Microsoft.AspNetCore.Mvc": "1.0.1",
-        "Blacktau.OpenAuth.AspNet.Authorization.Twitter": "1.0.0-*",
-        "Blacktau.OpenAuth.AspNet.SessionStateStorage": "1.0.0-*"
+        "Blacktau.OpenAuth.AspNet.Authorization.Twitter": "0.1.*",
+        "Blacktau.OpenAuth.AspNet.SessionStateStorage": "0.1.*"
     },
 
   "tools": {
