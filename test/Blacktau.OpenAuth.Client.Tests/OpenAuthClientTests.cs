@@ -1,7 +1,6 @@
-﻿namespace Blacktau.OpenAuth.Tests
+﻿namespace Blacktau.OpenAuth.Client.Tests
 {
     using System;
-    using System.Threading.Tasks;
 
     using Blacktau.OpenAuth.Client;
     using Blacktau.OpenAuth.Client.Interfaces;
@@ -56,8 +55,6 @@
         private static IAuthorizationHeaderGenerator CreateAuthorizationHeaderGenerator()
         {
             return new AuthorizationHeaderGenerator(new AuthorizationParametersGenerator(new NonceFactory(), new TimeStampFactory(new SystemClock())), new AuthorizationSigner());
-
-            //return Substitute.For<IAuthorizationHeaderGenerator>();
         }
 
         private static IAuthorizationInformation CreateAuthorizationInformation()
@@ -87,7 +84,6 @@
             httpClient.DefaultRequestHeaders.Returns(httpRequestHeaders);
             return httpClient;
         }
-
 
         private static OpenAuthClient CreateOpenAuthClientForPost()
         {
@@ -138,20 +134,6 @@
                 Assert.NotNull(exception);
                 Assert.IsType<ArgumentNullException>(exception);
                 Assert.Contains("authHeaderGenerator", exception.Message);
-            }
-
-            [Fact]
-            public void GivenNullAuthorizationInformationRaisesException()
-            {
-                var applicationCredentials = Substitute.For<IApplicationCredentials>();
-                var authorizationHeaderGenerator = Substitute.For<IAuthorizationHeaderGenerator>();
-                var httpClientFactory = CreateHttpClientFactory();
-
-                var exception = Record.Exception(() => new OpenAuthClient(PostUrl, HttpMethod.Get, applicationCredentials, authorizationHeaderGenerator, null, httpClientFactory));
-
-                Assert.NotNull(exception);
-                Assert.IsType<ArgumentNullException>(exception);
-                Assert.Contains("authorizationInformation", exception.Message);
             }
 
             [Fact]
@@ -332,24 +314,6 @@
 
                 Assert.Equal(BodyParameterOneValue, client.BodyParameters[BodyParameterOneName]);
                 Assert.Equal(BodyParameterTwoValue, client.BodyParameters[BodyParameterTwoName]);
-            }
-        }
-
-        public class ExecuteMethod
-        {
-            //[Fact]
-            public async Task GivenValidInputExectuesApiRequest()
-            {
-                var client = CreateOpenAuthClientForGet();
-
-                client.AddBodyParameter("type", "text");
-                client.AddBodyParameter("state", "draft");
-                client.AddBodyParameter("title", "A test posting");
-                client.AddBodyParameter("body", "A test posting from my new oauth library.");
-
-                var result = await client.Execute();
-
-                Assert.Equal(string.Empty, result);
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.Tests.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.Tests.VersionOneA
 {
     using System.Collections.Generic;
 

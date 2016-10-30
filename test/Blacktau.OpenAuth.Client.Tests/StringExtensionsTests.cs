@@ -1,18 +1,16 @@
-﻿namespace Blacktau.OpenAuth.Tests
+﻿namespace Blacktau.OpenAuth.Client.Tests
 {
-    using Blacktau.OpenAuth.Client;
-
     using Xunit;
 
     public class StringExtensionsTests
     {
         public class TheUrlEncodeMethod
         {
-            public const string RegularCharacters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-._~";
+            private const string RegularCharacters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-._~";
 
-            public const string NonRegularCharacters = "={[]}£$!\"";
+            private const string NonRegularCharacters = "={[]}£$!\"";
 
-            public const string NonRegularEncoded = "%3D%7B%5B%5D%7D%C2%A3%24%21%22";
+            private const string NonRegularEncoded = "%3D%7B%5B%5D%7D%C2%A3%24%21%22";
 
             [Fact]
             public void RegularCharactersAreNotEncoded()

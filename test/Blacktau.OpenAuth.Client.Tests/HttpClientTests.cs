@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.Tests
+﻿namespace Blacktau.OpenAuth.Client.Tests
 {
     using System;
     using System.Net.Http;

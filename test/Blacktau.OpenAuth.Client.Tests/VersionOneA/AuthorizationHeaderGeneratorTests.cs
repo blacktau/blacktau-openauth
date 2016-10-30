@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.Tests.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.Tests.VersionOneA
 {
     using System;
     using System.Collections.Generic;
@@ -82,6 +82,74 @@
             private const string AccessTokenSecret = "AccessTokenSecret_OWqCTqiAhEs9paf0ufjX";
 
             private const string Url = "https://www.google.com";
+            
+            [Fact]
+            public void GivenNullApplicationCredentialsThrowsException()
+            {
+                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
+                var openAuthClient = CreateOpenAuthClient();
+
+                var authorizationInformation = CreateAuthorizationInformation();
+
+                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(null, authorizationInformation, openAuthClient));
+
+                Assert.NotNull(exception);
+                Assert.IsType<ArgumentNullException>(exception);
+                Assert.Contains("applicationCredentials", exception.Message);
+            }
+
+            [Fact]
+            public void GivenNullOpenAuthClientInformationThrowsException()
+            {
+                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
+
+                var applicationCredentials = CreateApplicationCredentials();
+                var authorizationInformation = CreateAuthorizationInformation();
+
+                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, authorizationInformation, null));
+
+                Assert.NotNull(exception);
+                Assert.IsType<ArgumentNullException>(exception);
+                Assert.Contains("openAuthClient", exception.Message);
+            }
+
+            [Fact]
+            public void GivenValidInputsAndPostMethodIncludeBodyParametersGeneratesCorrectHeader()
+            {
+                var signer = CreateAuthorizationSigner();
+                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator(signer);
+
+                var openAuthClient = CreateOpenAuthClient(method: HttpMethod.Post);
+                var applicationCredentials = CreateApplicationCredentials();
+                var authorizationInformation = CreateAuthorizationInformation();
+
+                var result = authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, authorizationInformation, openAuthClient);
+
+                signer.Received().GetSignature(ApplicationSecret, AccessTokenSecret, Url, "POST", Arg.Any<IEnumerable<KeyValuePair<string, string>>[]>());
+                Assert.NotNull(result);
+                Assert.False(string.IsNullOrWhiteSpace(result.Parameter));
+                Assert.Equal(PostResult, result.Parameter);
+            }
+
+            [Fact]
+            public void GivenValidInputsGeneratesHeader()
+            {
+                var signer = CreateAuthorizationSigner();
+                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator(signer);
+
+                var openAuthClient = CreateOpenAuthClient();
+                var applicationCredentials = CreateApplicationCredentials();
+                var authorizationInformation = CreateAuthorizationInformation();
+
+                var result = authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, authorizationInformation, openAuthClient);
+
+                signer.Received().GetSignature(ApplicationSecret, AccessTokenSecret, Url, "GET", Arg.Any<IEnumerable<KeyValuePair<string, string>>[]>());
+
+                Assert.NotNull(result);
+                Assert.False(string.IsNullOrWhiteSpace(result.Parameter));
+                Assert.Equal(GetResult, result.Parameter);
+                Assert.Equal("OAuth", result.Scheme);
+            }
 
             private static IApplicationCredentials CreateApplicationCredentials()
             {
@@ -117,20 +185,20 @@
                 openAuthClient.BodyParameters.Returns(bodyParameters);
                 openAuthClient.Method.Returns(method.Value);
                 openAuthClient.Url.Returns(url);
-                
+
                 return openAuthClient;
             }
 
             private static IDictionary<string, string> CreateStandardParameterSet()
             {
                 var result = new Dictionary<string, string>
-                {
-                    {AuthorizationFieldNames.ConsumerKey, ApplicationKey},
-                    {AuthorizationFieldNames.Nonce, Nonce},
-                    {AuthorizationFieldNames.SignatureMethod, SignatureMethod},
-                    {AuthorizationFieldNames.TimeStamp, TimeStamp},
-                    {AuthorizationFieldNames.Version, Version}
-                };
+                                 {
+                                         { AuthorizationFieldNames.ConsumerKey, ApplicationKey },
+                                         { AuthorizationFieldNames.Nonce, Nonce },
+                                         { AuthorizationFieldNames.SignatureMethod, SignatureMethod },
+                                         { AuthorizationFieldNames.TimeStamp, TimeStamp },
+                                         { AuthorizationFieldNames.Version, Version }
+                                 };
                 return result;
             }
 
@@ -166,91 +234,6 @@
                 parametersGenerator.GetAuthorizationParameters(null, null).ReturnsForAnyArgs(authorizationParameters);
 
                 return parametersGenerator;
-            }
-
-            [Fact]
-            public void GivenNullApplicationCredentialsThrowsException()
-            {
-                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
-                var openAuthClient = CreateOpenAuthClient();
-
-                var authorizationInformation = CreateAuthorizationInformation();
-
-                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(null, authorizationInformation, openAuthClient));
-
-                Assert.NotNull(exception);
-                Assert.IsType<ArgumentNullException>(exception);
-                Assert.Contains("applicationCredentials", exception.Message);
-            }
-
-            [Fact]
-            public void GivenNullAuthorizationInformationThrowsException()
-            {
-                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
-
-                var openAuthClient = CreateOpenAuthClient();
-
-                var applicationCredentials = CreateApplicationCredentials();
-                
-                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, null, openAuthClient));
-
-                Assert.NotNull(exception);
-                Assert.IsType<ArgumentNullException>(exception);
-                Assert.Contains("authorizationInformation", exception.Message);
-            }
-
-            [Fact]
-            public void GivenNullOpenAuthClientInformationThrowsException()
-            {
-                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator();
-
-                var applicationCredentials = CreateApplicationCredentials();
-                var authorizationInformation = CreateAuthorizationInformation();
-
-                var exception = Record.Exception(() => authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, authorizationInformation, null));
-
-                Assert.NotNull(exception);
-                Assert.IsType<ArgumentNullException>(exception);
-                Assert.Contains("openAuthClient", exception.Message);
-            }
-
-            [Fact]
-            public void GivenValidInputsAndPostMethodIncludeBodyParametersGeneratesCorrectHeader()
-            {
-                var signer = CreateAuthorizationSigner();
-                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator(signer);
-
-                var openAuthClient = CreateOpenAuthClient(method: HttpMethod.Post);
-                var applicationCredentials = CreateApplicationCredentials();
-                var authorizationInformation = CreateAuthorizationInformation();
-
-                var result = authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, authorizationInformation, openAuthClient);
-
-
-                signer.Received().GetSignature(ApplicationSecret, AccessTokenSecret, Url, "POST", Arg.Any<IEnumerable<KeyValuePair<string, string>>[]>());
-                Assert.NotNull(result);
-                Assert.False(string.IsNullOrWhiteSpace(result.Parameter));
-                Assert.Equal(PostResult, result.Parameter);
-            }
-
-            [Fact]
-            public void GivenValidInputsGeneratesHeader()
-            {
-                var signer = CreateAuthorizationSigner();
-                var authorizationHeaderGenerator = CreateAuthorizationHeaderGenerator(signer);
-
-                var openAuthClient = CreateOpenAuthClient();
-                var applicationCredentials = CreateApplicationCredentials();
-                var authorizationInformation = CreateAuthorizationInformation();
-
-                var result = authorizationHeaderGenerator.GenerateHeaderValue(applicationCredentials, authorizationInformation, openAuthClient);
-
-                signer.Received().GetSignature(ApplicationSecret, AccessTokenSecret, Url, "GET", Arg.Any<IEnumerable<KeyValuePair<string, string>>[]>());
-
-                Assert.NotNull(result);
-                Assert.False(string.IsNullOrWhiteSpace(result.Parameter));
-                Assert.Equal(GetResult, result.Parameter);
-                Assert.Equal("OAuth", result.Scheme);
             }
         }
     }
