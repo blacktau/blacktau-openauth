@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.Tests.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.Tests.VersionOneA
 {
     using System;
     using System.Globalization;
@@ -99,7 +99,6 @@
                 var timeStampFactory = CreateMockTimeStampFactory(new TimeSpan(Ticks));
 
                 var generator = new AuthorizationParametersGenerator(nonceFactory, timeStampFactory);
-
 
                 var exception = Record.Exception(() => generator.CreateStandardParameterSet(null));
                 Assert.NotNull(exception);
@@ -226,7 +225,6 @@
                 Assert.Equal(timestamp.TotalSeconds.ToString(CultureInfo.InvariantCulture), standardParameters[AuthorizationFieldNames.TimeStamp]);
             }
 
-
             [Fact]
             public void StandardParametersContainsVersion()
             {
@@ -253,41 +251,10 @@
 
                 Assert.Equal(standardParameters[AuthorizationFieldNames.Version], VersionOnePointZero);
             }
-
         }
 
         public class TheGetAuthorizationParametersMethod
         {
-            [Fact]
-            public void GivenEmptyAccessTokenThrowsException()
-            {
-                var nonceFactory = CreateMockNonceFactory(Nonce);
-                var timeStampFactory = CreateMockTimeStampFactory(new TimeSpan(Ticks));
-                var applicationCredentials = CreateMockApplicationCredentials();
-                var generator = new AuthorizationParametersGenerator(nonceFactory, timeStampFactory);
-
-                var exception = Record.Exception(() => generator.GetAuthorizationParameters(applicationCredentials, string.Empty));
-
-                Assert.NotNull(exception);
-                Assert.IsType<ArgumentException>(exception);
-                Assert.Contains(AccessToken, exception.Message);
-            }
-
-            [Fact]
-            public void GivenNullAccessTokenThrowsException()
-            {
-                var nonceFactory = CreateMockNonceFactory(Nonce);
-                var timeStampFactory = CreateMockTimeStampFactory(new TimeSpan(Ticks));
-                var applicationCredentials = CreateMockApplicationCredentials();
-                var generator = new AuthorizationParametersGenerator(nonceFactory, timeStampFactory);
-
-                var exception = Record.Exception(() => generator.GetAuthorizationParameters(applicationCredentials, null));
-
-                Assert.NotNull(exception);
-                Assert.IsType<ArgumentNullException>(exception);
-                Assert.Contains(AccessToken, exception.Message);
-            }
-
             [Fact]
             public void GivenNullApplicationCredentialsThrowsException()
             {
@@ -353,7 +320,6 @@
 
                 Assert.Equal(AccessToken, authorizationParameters[AuthorizationFieldNames.Token]);
             }
-
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.Tests.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.Tests.VersionOneA
 {
     using System;
     using System.Collections.Generic;
@@ -36,26 +36,6 @@
         private const string Url = "http://photos.example.net/photos";
 
         private const string Method = "GET";
-
-        private static Dictionary<string, string> CreateParameters()
-        {
-            var result = new Dictionary<string, string>
-            {
-                {AuthorizationFieldNames.ConsumerKey, ApplicationKey},
-                {AuthorizationFieldNames.Nonce, Nonce},
-                {AuthorizationFieldNames.SignatureMethod, SignatureMethod},
-                {AuthorizationFieldNames.TimeStamp, Timestamp},
-                {AuthorizationFieldNames.Token, AuthorizationToken},
-                {AuthorizationFieldNames.Version, Version}
-            };
-
-            return result;
-        }
-
-        private static IEnumerable<KeyValuePair<string, string>> CreateDummyParameters()
-        {
-            return Substitute.For<IEnumerable<KeyValuePair<string, string>>>();
-        }
 
         public class TheConstructor
         {
@@ -167,6 +147,25 @@
                 Assert.Equal(ExpectedSignatureWithOutAccessTokenSecret, signature);
             }
 
+            private static Dictionary<string, string> CreateParameters()
+            {
+                var result = new Dictionary<string, string>
+                                 {
+                                         { AuthorizationFieldNames.ConsumerKey, ApplicationKey },
+                                         { AuthorizationFieldNames.Nonce, Nonce },
+                                         { AuthorizationFieldNames.SignatureMethod, SignatureMethod },
+                                         { AuthorizationFieldNames.TimeStamp, Timestamp },
+                                         { AuthorizationFieldNames.Token, AuthorizationToken },
+                                         { AuthorizationFieldNames.Version, Version }
+                                 };
+
+                return result;
+            }
+
+            private static IEnumerable<KeyValuePair<string, string>> CreateDummyParameters()
+            {
+                return Substitute.For<IEnumerable<KeyValuePair<string, string>>>();
+            }
         }
     }
 }

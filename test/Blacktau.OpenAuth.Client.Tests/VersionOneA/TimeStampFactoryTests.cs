@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.Tests.VersionOneA
+﻿namespace Blacktau.OpenAuth.Client.Tests.VersionOneA
 {
     using System;
 
@@ -14,7 +14,7 @@
         public class TheConstuctor
         {
             [Fact]
-            public void GivenAnIClock_Constructs()
+            public void GivenAnIClockConstructs()
             {
                 var clock = Substitute.For<IClock>();
                 
@@ -24,11 +24,10 @@
             }
 
             [Fact]
-            public void GivenNull_ThrowsException()
+            public void GivenNullThrowsException()
             {
                 Assert.Throws<ArgumentNullException>(() => new TimeStampFactory(null));
             }
-
         }
 
         public class TheGetTimeStampMethod
@@ -83,7 +82,6 @@
                 var clock = Substitute.For<IClock>();
                 clock.UtcNow.Returns(now);
                 
-
                 var timeStampFactory = new TimeStampFactory(clock);
                 timeStampFactory.DriftInSeconds = 0;
 
