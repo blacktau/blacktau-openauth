@@ -7,8 +7,6 @@
 
     using Microsoft.Extensions.DependencyInjection;
 
-    using AuthorizationHeaderGenerator = Blacktau.OpenAuth.Client.VersionOneA.AuthorizationHeaderGenerator;
-
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddBlacktauOpenAuthClient(this IServiceCollection serviceCollection)
@@ -19,8 +17,8 @@
             serviceCollection.AddSingleton<ITimeStampFactory, TimeStampFactory>();
             serviceCollection.AddSingleton<IAuthorizationSigner, AuthorizationSigner>();
             serviceCollection.AddSingleton<IAuthorizationParametersGenerator, AuthorizationParametersGenerator>();
-            serviceCollection.AddSingleton<IOpenAuthVersionOneAAuthorizationHeaderGenerator, AuthorizationHeaderGenerator>();
-            serviceCollection.AddSingleton<IOpenAuthVersionTwoAuthorizationHeaderGenerator, Client.VersionTwo.AuthorizationHeaderGenerator>();
+            serviceCollection.AddSingleton<IOpenAuthVersionOneAAuthorizationHeaderGenerator, VersionOneA.AuthorizationHeaderGenerator>();
+            serviceCollection.AddSingleton<IOpenAuthVersionTwoAuthorizationHeaderGenerator, VersionTwo.AuthorizationHeaderGenerator>();
             serviceCollection.AddSingleton<IOpenAuthClientFactory, OpenAuthClientFactory>();
 
             return serviceCollection;

@@ -36,11 +36,11 @@
             {
                 throw new ArgumentNullException(nameof(applicationCredentials));
             }
-
+/*
             if (authorizationInformation == null)
             {
                 throw new ArgumentNullException(nameof(authorizationInformation));
-            }
+            }*/
 
             if (openAuthClient == null)
             {
@@ -49,8 +49,9 @@
 
             var queryParameters = openAuthClient.QueryParameters;
             var bodyParameters = openAuthClient.BodyParameters;
+            var authorizationHeaderParameters = openAuthClient.AuthorizationHeaderParameters;
 
-            var authorizationParameters = this.GetAuthorisationParameters(applicationCredentials, authorizationInformation.AccessToken);
+            var authorizationParameters = this.GetAuthorisationParameters(applicationCredentials, authorizationInformation?.AccessToken, authorizationHeaderParameters);
 
             var signature = this.GetSignature(applicationCredentials, queryParameters, bodyParameters, authorizationInformation, openAuthClient.Method, openAuthClient.Url, authorizationParameters);
 
@@ -103,9 +104,16 @@
             return part;
         }
 
-        private IDictionary<string, string> GetAuthorisationParameters(IApplicationCredentials applicationCredentials, string accessToken)
+        private IDictionary<string, string> GetAuthorisationParameters(IApplicationCredentials applicationCredentials, string accessToken, IReadOnlyDictionary<string, string> additionalAuthorizationParameters)
         {
-            return this.parametersGenerator.GetAuthorizationParameters(applicationCredentials, accessToken);
+            var parameters = this.parametersGenerator.GetAuthorizationParameters(applicationCredentials, accessToken);
+
+            foreach (var additionalAuthorizationParameter in additionalAuthorizationParameters)
+            {
+                parameters.Add(additionalAuthorizationParameter.Key, additionalAuthorizationParameter.Value);
+            }
+
+            return parameters;
         }
 
         private string GetSignature(
@@ -124,7 +132,7 @@
 
             var signature = this.authorizationSigner.GetSignature(
                 applicationCredentials.ApplicationSecret,
-                authorizationInformation.AccessTokenSecret,
+                authorizationInformation?.AccessTokenSecret,
                 urlWithoutQuery,
                 methodText,
                 authorizationParameters,

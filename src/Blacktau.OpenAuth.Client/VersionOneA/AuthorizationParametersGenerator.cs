@@ -54,6 +54,7 @@
                 throw new ArgumentNullException(nameof(credentials));
             }
 
+/*
             if (accessToken == null)
             {
                 throw new ArgumentNullException(nameof(accessToken));
@@ -63,9 +64,15 @@
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_Invalid, nameof(accessToken)), nameof(accessToken));
             }
+*/
 
             var result = this.CreateStandardParameterSet(credentials);
-            result.Add(AuthorizationFieldNames.Token, accessToken);
+
+            if (accessToken != null)
+            {
+                result.Add(AuthorizationFieldNames.Token, accessToken);
+            }
+
             return result;
         }
 

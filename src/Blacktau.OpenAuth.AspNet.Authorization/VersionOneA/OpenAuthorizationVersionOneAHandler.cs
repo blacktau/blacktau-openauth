@@ -1,38 +1,52 @@
 ﻿namespace Blacktau.OpenAuth.AspNet.Authorization.VersionOneA
 {
+    using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Blacktau.OpenAuth.AspNet.Authorization.Interfaces;
+    using Blacktau.OpenAuth.AspNet.Authorization.Interfaces.VersionOneA;
+    using Blacktau.OpenAuth.Client.VersionOneA;
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Primitives;
 
     public class OpenAuthorizationVersionOneAHandler : IOpenAuthorizationHandler
     {
-        private ILogger logger;
+        private readonly ILogger logger;
 
-        private OpenAuthorizationOptions options;
+        private readonly OpenAuthorizationOptions options;
 
-        public OpenAuthorizationVersionOneAHandler(ILoggerFactory loggerFactory, OpenAuthorizationOptions options)
+        private readonly IAuthorizationRequestor authorizationRequestor;
+
+        private readonly ICallbackHandler callbackHandler;
+
+        public OpenAuthorizationVersionOneAHandler(ILoggerFactory loggerFactory, IAuthorizationRequestor authorizationRequestor, ICallbackHandler callbackHandler, OpenAuthorizationOptions options)
         {
+            this.authorizationRequestor = authorizationRequestor;
+            this.callbackHandler = callbackHandler;
             this.options = options;
             this.logger = loggerFactory.CreateLogger(this.GetType().FullName);
         }
 
-        private void CreateCallbackUrl(HttpContext context)
+        public async Task HandleRequest(HttpContext context)
         {
+            if (this.options.IsAuthoriseRequest(context))
+            {
+                await this.authorizationRequestor.RequestAuthorization(context, this.options);
+                return;
+            }
 
+            if (this.options.IsCallbackRequest(context))
+            {
+                await this.callbackHandler.HandleCallBack(context, this.options);
+            }
         }
 
-        public Task InitializeAsync(HttpContext context, ILogger logger)
+        public Task TeardownAsync()
         {
-            this.logger = logger;
-            return Task.FromResult(0);
-        }
-
-        public Task HandleRequest(HttpContext context)
-        {
-            throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }
