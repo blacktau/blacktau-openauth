@@ -7,11 +7,18 @@
 
     public class AddDraftTextPost
     {
+        private readonly TumblrProvider tumblrProvider;
+
+        public AddDraftTextPost(TumblrProvider tumblrProvider)
+        {
+            this.tumblrProvider = tumblrProvider;
+        }
+
         public Task<string> Execute()
         {
-            IApplicationCredentials applicationCredentials = TumblrProvider.CreateTumblrApplicationCredentials();
+            IApplicationCredentials applicationCredentials = this.tumblrProvider.CreateTumblrApplicationCredentials();
 
-            IAuthorizationInformation authorizationInformation = TumblrProvider.CreateTumblrAuthorizationInformation();
+            IAuthorizationInformation authorizationInformation = this.tumblrProvider.CreateTumblrAuthorizationInformation();
 
             var openAuthClientFactory = new OpenAuthClientFactory();
 

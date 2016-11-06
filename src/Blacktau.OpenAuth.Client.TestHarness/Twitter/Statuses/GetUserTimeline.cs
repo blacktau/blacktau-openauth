@@ -7,11 +7,18 @@
 
     public class GetUserTimeline
     {
+        private readonly TwitterProvider twitterProvider;
+
+        public GetUserTimeline(TwitterProvider twitterProvider)
+        {
+            this.twitterProvider = twitterProvider;
+        }
+        
         public async Task<string> Execute()
         {
-            IApplicationCredentials applicationCredentials = TwitterProvider.CreateTwitterApplicationCredentials();
+            IApplicationCredentials applicationCredentials = this.twitterProvider.CreateTwitterApplicationCredentials();
 
-            IAuthorizationInformation authorizationInformation = TwitterProvider.CreateTwitterAuthorizationInformation();
+            IAuthorizationInformation authorizationInformation = this.twitterProvider.CreateTwitterAuthorizationInformation();
 
             var openAuthClientFactory = new OpenAuthClientFactory();
 
@@ -23,6 +30,5 @@
             var result = await openAuthClient.Execute();
             return result;
         }
-
     }
 }

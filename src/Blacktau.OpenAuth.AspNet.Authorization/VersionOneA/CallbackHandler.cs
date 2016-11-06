@@ -65,7 +65,8 @@
             client.AddAdditionalAuthorizationParameter(AuthorizationFieldNames.Verifier, oauthVerifier);
 
             var response = await client.Execute();
-            
+
+            var responseParameters = response.QueryParameterStringToDictionary();
         }
 
         private bool IsDenied(HttpContext context)

@@ -7,32 +7,37 @@
     using Blacktau.OpenAuth.Client.TestHarness.Tumblr;
     using Blacktau.OpenAuth.Client.TestHarness.Twitter;
 
+    using Microsoft.Extensions.Configuration;
+
     public class Program
     {
         public static void Main(string[] args)
         {
-            TestTwitter();
-            TestTumblr();
-            TestFacebook();
+            var configurationBuilder = new ConfigurationBuilder().AddUserSecrets();
+            var configuration = configurationBuilder.Build();
+
+            TestTwitter(configuration);
+            TestTumblr(configuration);
+            TestFacebook(configuration);
             Console.ReadLine();
         }
 
-        private static void TestTwitter()
+        private static void TestTwitter(IConfigurationRoot configuration)
         {
-            var twitterTestHarness = new TwitterTestHarness();
+            var twitterTestHarness = new TwitterTestHarness(configuration);
             twitterTestHarness.Execute().Wait();
         }
 
-        private static void TestFacebook()
+        private static void TestFacebook(IConfigurationRoot configuration)
         {
-            var facebookTest = new GetMe();
-            facebookTest.Execute().ContinueWith(PrintResponse).Wait();
+            var testHarness = new FacebookTestHarness(configuration);
+            testHarness.Execute().Wait();
         }
 
-        private static void TestTumblr()
+        private static void TestTumblr(IConfigurationRoot configuration)
         {
-            var tumblrTest = new AddDraftTextPost();
-            tumblrTest.Execute().ContinueWith(PrintResponse).Wait();
+            var testHarness = new TumblerTestHarness(configuration);
+            testHarness.Execute().Wait();
         }
         
         private static void PrintResponse(Task<string> obj)

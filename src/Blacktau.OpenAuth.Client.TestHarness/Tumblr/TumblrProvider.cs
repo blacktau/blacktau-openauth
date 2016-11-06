@@ -1,27 +1,33 @@
 ﻿namespace Blacktau.OpenAuth.Client.TestHarness.Tumblr
 {
+    using Microsoft.Extensions.Configuration;
+
     public class TumblrProvider
     {
-        private const string TumblrAccessToken = "<Tumblr Access Token Goes Here>";
+        private readonly string tumblrAccessToken;
 
-        private const string TumblrAccessTokenSecret = "<Tumblr Access Token Secret Goes Here>";
+        private readonly string tumblrAccessTokenSecret;
 
-        private const string TumblrApplicationKey = "<Tumblr Application/Consumer Key Goes Here>";
+        private readonly string tumblrApplicationKey;
 
-        private const string TumblrApplicationSecret = "<Tumblr Application/Consumer Secret Goes Here>";
+        private readonly string tumblrApplicationSecret;
 
-        public static ApplicationCredentials CreateTumblrApplicationCredentials()
+        public TumblrProvider(IConfigurationRoot configuration)
         {
-            return new ApplicationCredentials
-            {
-                ApplicationKey = TumblrApplicationKey,
-                ApplicationSecret = TumblrApplicationSecret
-            };
+            this.tumblrAccessToken = configuration["Authorization:Tumblr:AccessToken"];
+            this.tumblrAccessTokenSecret = configuration["Authorization:Tumblr:AccessTokenSecret"];
+            this.tumblrApplicationKey = configuration["Authorization:Tumblr:ApplicationKey"];
+            this.tumblrApplicationSecret = configuration["Authorization:Tumblr:ApplicationSecret"];
         }
 
-        public static AuthorizationInformation CreateTumblrAuthorizationInformation()
+        public ApplicationCredentials CreateTumblrApplicationCredentials()
         {
-            return new AuthorizationInformation(TumblrAccessToken) {AccessTokenSecret = TumblrAccessTokenSecret};
+            return new ApplicationCredentials { ApplicationKey = this.tumblrApplicationKey, ApplicationSecret = this.tumblrApplicationSecret };
+        }
+
+        public AuthorizationInformation CreateTumblrAuthorizationInformation()
+        {
+            return new AuthorizationInformation(this.tumblrAccessToken) { AccessTokenSecret = this.tumblrAccessTokenSecret };
         }
     }
 }
