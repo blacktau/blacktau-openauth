@@ -1,11 +1,13 @@
 ﻿namespace Blacktau.OpenAuth.AspNet.Authorization
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using Blacktau.OpenAuth.AspNet.Authorization.Interfaces;
     using Blacktau.OpenAuth.Client;
     using Blacktau.OpenAuth.Client.Interfaces;
+    using Blacktau.OpenAuth.Client.VersionOneA;
 
     using Microsoft.AspNetCore.Http;
 
@@ -15,11 +17,11 @@
 
         private string callBackUrl;
 
+        private OpenAuthVersion openAuthVersion;
+
         private string pathBase;
 
         private string serviceProviderName;
-
-        private OpenAuthVersion openAuthVersion;
 
         public string AccessTokenEndpointUri { get; set; }
 
@@ -42,6 +44,8 @@
 
         public Func<Exception, HttpContext, Task> FailureHandler { get; set; } = (exception, context) => Task.CompletedTask;
 
+        public Func<IAuthorizationInformation, HttpContext, Task> SuccessHandler { get; set; } = (exception, context) => Task.CompletedTask;
+
         public OpenAuthVersion OpenAuthVersion
         {
             get
@@ -54,11 +58,6 @@
                 this.openAuthVersion = value;
                 this.UpdateVersionName();
             }
-        }
-
-        private void UpdateVersionName()
-        {
-            this.Description.OpenAuthProtocolVersion = this.openAuthVersion == OpenAuthVersion.OneA ? "1.0a" : "2.0";
         }
 
         public string RequestTokenEndpointUri { get; set; }
@@ -113,6 +112,12 @@
             return currentUrl;
         }
 
+        public void StoreAuthorizationInformation(IDictionary<string, string> responseParameters, HttpContext context)
+        {
+            var authorizationInfromation = this.GetAuthorizationInformation(responseParameters);
+            this.SuccessHandler.Invoke(authorizationInfromation, context);
+        }
+
         internal bool IsAuthoriseRequest(HttpContext context)
         {
             return context.Request.Path.Value.Contains(this.authorisePath);
@@ -128,6 +133,24 @@
             return context.Request.Path.Value.Contains(this.pathBase);
         }
 
+        protected string GetAuthorizationFieldValue(IDictionary<string, string> parameters, string fieldName)
+        {
+            return parameters.ContainsKey(fieldName) ? parameters[fieldName] : null;
+        }
+
+        protected virtual IAuthorizationInformation GetAuthorizationInformation(IDictionary<string, string> parameters)
+        {
+            var authorizationInformation = new AuthorizationInformation(string.Empty);
+
+            if (this.OpenAuthVersion == OpenAuthVersion.OneA)
+            {
+                authorizationInformation.AccessToken = this.GetAuthorizationFieldValue(parameters, AuthorizationFieldNames.Token);
+                authorizationInformation.AccessTokenSecret = this.GetAuthorizationFieldValue(parameters, AuthorizationFieldNames.TokenSecret);
+            }
+
+            return authorizationInformation;
+        }
+
         private void UpdatePaths()
         {
             this.pathBase = string.Format("/OpenAuthorization/{0}", this.serviceProviderName);
@@ -135,6 +158,11 @@
             this.callBackUrl = string.Format("{0}/AuthorizeResponse", this.pathBase);
 
             this.Description.ActivationPath = this.authorisePath;
+        }
+
+        private void UpdateVersionName()
+        {
+            this.Description.OpenAuthProtocolVersion = this.openAuthVersion == OpenAuthVersion.OneA ? "1.0a" : "2.0";
         }
     }
 }
