@@ -6,60 +6,63 @@
     using Blacktau.OpenAuth.Client.TestHarness.Twitter.Lists;
     using Blacktau.OpenAuth.Client.TestHarness.Twitter.Statuses;
 
-    public class TwitterTestHarness
+    using Microsoft.Extensions.Configuration;
+
+    public class TwitterTestHarness : TestHarnessBase
     {
+        private readonly TwitterProvider twitterProvider;
+
+        public TwitterTestHarness(IConfigurationRoot configuration)
+        {
+            this.twitterProvider = new TwitterProvider(configuration);
+        }
+
         public async Task Execute()
         {
-            await GetUserTimeline();
-            await GetMentionsTimeline();
+            await this.GetUserTimeline();
+            await this.GetMentionsTimeline();
             Print("Creating Test List");
-            var listId = await CreateTestList();
+            var listId = await this.CreateTestList();
             Print("list Created with id: " + listId);
             Print("showing list");
-            await ShowTestList(listId);
+            await this.ShowTestList(listId);
             Print("Destroying list");
-            await DestroyTestList(listId);
+            await this.DestroyTestList(listId);
             Print("Done");
         }
 
-        private static async Task DestroyTestList(string listId)
+        private async Task<string> CreateTestList()
         {
-            var destroyList = new DestroyList();
+            var createList = new CreateList(this.twitterProvider);
+            return await createList.Execute();
+        }
+
+        private async Task DestroyTestList(string listId)
+        {
+            var destroyList = new DestroyList(this.twitterProvider);
             await destroyList.Execute(listId);
         }
 
-        private static async Task GetUserTimeline()
+        private async Task GetMentionsTimeline()
         {
-            var getUserTimeline = new GetUserTimeline();
-            var result = await getUserTimeline.Execute();
-            Print(result);
-        }
-
-        private static async Task GetMentionsTimeline()
-        {
-            var getMentionsTimeline = new GetMentionsTimeline();
+            var getMentionsTimeline = new GetMentionsTimeline(this.twitterProvider);
             string result = await getMentionsTimeline.Execute();
             Print(result);
         }
 
-        private static async Task<string> CreateTestList()
+        private async Task GetUserTimeline()
         {
-            var createList = new CreateList();
-            return await createList.Execute();
+            var getUserTimeline = new GetUserTimeline(this.twitterProvider);
+            var result = await getUserTimeline.Execute();
+            Print(result);
         }
 
-        private static async Task<string> ShowTestList(string listId)
+        private async Task<string> ShowTestList(string listId)
         {
-            var showList = new ShowList();
+            var showList = new ShowList(this.twitterProvider);
             var result = await showList.Execute(listId);
             Print(result);
             return result;
-        }
-        
-        private static void Print(string response)
-        {
-            Console.WriteLine(response);
-            Console.WriteLine();
         }
     }
 }

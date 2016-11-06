@@ -7,11 +7,18 @@
 
     public class DestroyList
     {
+        private readonly TwitterProvider twitterProvider;
+
+        public DestroyList(TwitterProvider twitterProvider)
+        {
+            this.twitterProvider = twitterProvider;
+        }
+
         public async Task<string> Execute(string id)
         {
-            IApplicationCredentials applicationCredentials = TwitterProvider.CreateTwitterApplicationCredentials();
+            IApplicationCredentials applicationCredentials = this.twitterProvider.CreateTwitterApplicationCredentials();
 
-            IAuthorizationInformation authorizationInformation = TwitterProvider.CreateTwitterAuthorizationInformation();
+            IAuthorizationInformation authorizationInformation = this.twitterProvider.CreateTwitterAuthorizationInformation();
 
             var openAuthClientFactory = new OpenAuthClientFactory();
 

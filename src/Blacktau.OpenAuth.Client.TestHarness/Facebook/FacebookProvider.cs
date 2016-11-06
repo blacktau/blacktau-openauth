@@ -1,25 +1,34 @@
 ﻿namespace Blacktau.OpenAuth.Client.TestHarness.Facebook
 {
+    using Microsoft.Extensions.Configuration;
+
     public class FacebookProvider
     {
-        private const string FacebookApplicationId = "<Facebook Application Id Goes Here>";
+        private readonly string facebookApplicationId;
 
-        private const string FacebookApplicationSecret = "<Facebook Application Secret Goes Here>";
+        private readonly string facebookApplicationSecret;
 
-        private const string FacebookAccessToken = "<Facebook Access Token for User Goes Here>";
+        private readonly string facebookAccessToken;
 
-        public static ApplicationCredentials CreateFacebookApplicationCredentials()
+        public FacebookProvider(IConfigurationRoot configuration)
+        {
+            this.facebookApplicationId = configuration["Authorization:Facebook:ApplicationId"];
+            this.facebookApplicationSecret = configuration["Authorization:Facebook:ApplicationSecret"];
+            this.facebookAccessToken = configuration["Authorization:Facebook:AccessToken"];
+        }
+
+        public ApplicationCredentials CreateFacebookApplicationCredentials()
         {
             return new ApplicationCredentials
             {
-                ApplicationKey = FacebookApplicationId,
-                ApplicationSecret = FacebookApplicationSecret
+                ApplicationKey = this.facebookApplicationId,
+                ApplicationSecret = this.facebookApplicationSecret
             };
         }
 
-        public static AuthorizationInformation CreateFacebookAuthorizationInformation()
+        public AuthorizationInformation CreateFacebookAuthorizationInformation()
         {
-            return new AuthorizationInformation(FacebookAccessToken);
+            return new AuthorizationInformation(this.facebookAccessToken);
         }
     }
 }

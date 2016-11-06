@@ -1,4 +1,6 @@
 {
+    "userSecretsId": "netcoreapp-Blacktau-OpenAuth-Client-TestHarness-e6633cb2-9066-4f8f-9ca1-ee021bf627fc",
+
     "version": "0.1.0",
     "buildOptions": {
         "emitEntryPoint": true
@@ -9,7 +11,9 @@
             "version": "1.0.1",
             "type": "platform"
         },
-        "Blacktau.OpenAuth.Client.Containers.Basic": "0.1.*"
+        "Blacktau.OpenAuth.Client.Containers.Basic": "0.1.*",
+        "Microsoft.Extensions.Configuration": "1.0.0",
+        "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0"
     },
 
     "frameworks": {

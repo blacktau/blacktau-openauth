@@ -7,22 +7,28 @@
 
     public class GetMentionsTimeline
     {
+        private readonly TwitterProvider twitterProvider;
+
+        public GetMentionsTimeline(TwitterProvider twitterProvider)
+        {
+            this.twitterProvider = twitterProvider;
+        }
+
         public async Task<string> Execute()
         {
-            IApplicationCredentials applicationCredentials = TwitterProvider.CreateTwitterApplicationCredentials();
+            IApplicationCredentials applicationCredentials = this.twitterProvider.CreateTwitterApplicationCredentials();
 
-            IAuthorizationInformation authorizationInformation = TwitterProvider.CreateTwitterAuthorizationInformation();
+            IAuthorizationInformation authorizationInformation = this.twitterProvider.CreateTwitterAuthorizationInformation();
 
             var openAuthClientFactory = new OpenAuthClientFactory();
 
             var openAuthClient = openAuthClientFactory.CreateOpenAuthClient("https://api.twitter.com/1.1/statuses/mentions_timeline.json", HttpMethod.Get, OpenAuthVersion.OneA, applicationCredentials, authorizationInformation);
 
-//            openAuthClient.AddQueryParameter("screen_name", "blacktau");
+            // openAuthClient.AddQueryParameter("screen_name", "blacktau");
             openAuthClient.AddQueryParameter("count", "2");
 
             var result = await openAuthClient.Execute();
             return result;
         }
-
     }
 }

@@ -10,11 +10,18 @@
     {
         private readonly Regex idRegex = new Regex("\"id_str\":\"(.+?)\"");
 
+        private readonly TwitterProvider twitterProvider;
+
+        public CreateList(TwitterProvider twitterProvider)
+        {
+            this.twitterProvider = twitterProvider;
+        }
+
         public async Task<string> Execute()
         {
-            IApplicationCredentials applicationCredentials = TwitterProvider.CreateTwitterApplicationCredentials();
+            IApplicationCredentials applicationCredentials = this.twitterProvider.CreateTwitterApplicationCredentials();
 
-            IAuthorizationInformation authorizationInformation = TwitterProvider.CreateTwitterAuthorizationInformation();
+            IAuthorizationInformation authorizationInformation = this.twitterProvider.CreateTwitterAuthorizationInformation();
 
             var openAuthClientFactory = new OpenAuthClientFactory();
 
@@ -33,6 +40,5 @@
 
             return string.Empty;
         }
-
     }
 }

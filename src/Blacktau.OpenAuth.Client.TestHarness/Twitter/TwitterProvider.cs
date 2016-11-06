@@ -1,27 +1,33 @@
 ﻿namespace Blacktau.OpenAuth.Client.TestHarness.Twitter
 {
+    using Microsoft.Extensions.Configuration;
+
     public class TwitterProvider
     {
-        private const string TwitterApplicationKey = "lBdRWTOhTX12lH92QrNvPqLpE";
+        private readonly string twitterAccessToken;
 
-        private const string TwitterApplicationSecret = "7OOsw0qgmGjadqOmeF52pmEGYrtJrv9rpel2PCvaoCFuh8U9nW";
+        private readonly string twitterAccessTokenSecret;
 
-        private const string TwitterAccessToken = "40424119-I6BKoDZOYL9Vl0nPvNHt6LHsydMG776GfDDXLUdWk";
+        private readonly string twitterApplicationKey;
 
-        private const string TwitterAccessTokenSecret = "W4NMkwLq2pm0S07Grd6Yn3sqS7MDha0hkGPAUSw3uY86p";
+        private readonly string twitterApplicationSecret;
 
-        public static ApplicationCredentials CreateTwitterApplicationCredentials()
+        public TwitterProvider(IConfigurationRoot configurationRoot)
         {
-            return new ApplicationCredentials
-            {
-                ApplicationKey = TwitterApplicationKey,
-                ApplicationSecret = TwitterApplicationSecret
-            };
+            this.twitterApplicationKey = configurationRoot["Authorization:Twitter:ApplicationKey"];
+            this.twitterApplicationSecret = configurationRoot["Authorization:Twitter:ApplicationSecret"];
+            this.twitterAccessToken = configurationRoot["Authorization:Twitter:AccessToken"];
+            this.twitterAccessTokenSecret = configurationRoot["Authorization:Twitter:AccessTokenSecret"];
         }
 
-        public static AuthorizationInformation CreateTwitterAuthorizationInformation()
+        public ApplicationCredentials CreateTwitterApplicationCredentials()
         {
-            return new AuthorizationInformation(TwitterAccessToken) { AccessTokenSecret = TwitterAccessTokenSecret };
+            return new ApplicationCredentials { ApplicationKey = this.twitterApplicationKey, ApplicationSecret = this.twitterApplicationSecret };
+        }
+
+        public AuthorizationInformation CreateTwitterAuthorizationInformation()
+        {
+            return new AuthorizationInformation(this.twitterAccessToken) { AccessTokenSecret = this.twitterAccessTokenSecret };
         }
     }
 }

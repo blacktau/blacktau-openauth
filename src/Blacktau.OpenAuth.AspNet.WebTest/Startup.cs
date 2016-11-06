@@ -6,11 +6,29 @@
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
     public class Startup
     {
+        public Startup(IHostingEnvironment env)
+        {
+            var configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if (env.IsDevelopment())
+            {
+                configurationBuilder.AddUserSecrets();
+            }
+
+            this.Configuration = configurationBuilder.Build();
+        }
+
+        public IConfigurationRoot Configuration { get; set; }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
@@ -23,7 +41,12 @@
 
             app.UseSession();
 
-            app.UseTwitterAuthorization(new TwitterAuthorizationOptions() { ConsumerKey = "lBdRWTOhTX12lH92QrNvPqLpE", ConsumerSecret = "7OOsw0qgmGjadqOmeF52pmEGYrtJrv9rpel2PCvaoCFuh8U9nW" });
+            app.UseTwitterAuthorization(
+                new TwitterAuthorizationOptions
+                    {
+                        ConsumerKey = this.Configuration["Authorization:Twitter:ConsumerKey"],
+                        ConsumerSecret = this.Configuration["Authorization:Twitter:ConsumerSecret"]
+                });
 
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
         }

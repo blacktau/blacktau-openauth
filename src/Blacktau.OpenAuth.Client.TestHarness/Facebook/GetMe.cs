@@ -7,11 +7,18 @@
 
     public class GetMe
     {
+        private readonly FacebookProvider provider;
+
+        public GetMe(FacebookProvider provider)
+        {
+            this.provider = provider;
+        }
+
         public Task<string> Execute()
         {
-            IApplicationCredentials applicationCredentials = FacebookProvider.CreateFacebookApplicationCredentials();
+            IApplicationCredentials applicationCredentials = this.provider.CreateFacebookApplicationCredentials();
 
-            IAuthorizationInformation authorizationInformation = FacebookProvider.CreateFacebookAuthorizationInformation();
+            IAuthorizationInformation authorizationInformation = this.provider.CreateFacebookAuthorizationInformation();
 
             var openAuthClientFactory = new OpenAuthClientFactory();
 
