@@ -67,6 +67,8 @@
             var response = await client.Execute();
 
             var responseParameters = response.QueryParameterStringToDictionary();
+
+            options.StoreAuthorizationInformation(responseParameters, context);
         }
 
         private bool IsDenied(HttpContext context)

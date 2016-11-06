@@ -1,5 +1,10 @@
 ﻿namespace Blacktau.OpenAuth.AspNet.Authorization.Twitter
 {
+    using System.Collections.Generic;
+
+    using Blacktau.OpenAuth.Client.Interfaces;
+    using Blacktau.OpenAuth.Client.VersionOneA;
+
     public class TwitterAuthorizationOptions : OpenAuthorizationOptions
     {
         public TwitterAuthorizationOptions()
@@ -36,6 +41,19 @@
             {
                 this.ApplicationSecret = value;
             }
+        }
+
+        protected override IAuthorizationInformation GetAuthorizationInformation(IDictionary<string, string> parameters)
+        {
+            var authorizationInformation = new TwitterAuthorizationInformation(null);
+
+            authorizationInformation.AccessToken = this.GetAuthorizationFieldValue(parameters, AuthorizationFieldNames.Token);
+            authorizationInformation.AccessTokenSecret = this.GetAuthorizationFieldValue(parameters, AuthorizationFieldNames.TokenSecret);
+
+            authorizationInformation.UserId = this.GetAuthorizationFieldValue(parameters, "user_id");
+            authorizationInformation.ScreenName = this.GetAuthorizationFieldValue(parameters, "screen_name");
+
+            return authorizationInformation;
         }
     }
 }
