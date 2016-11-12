@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Blacktau.OpenAuth.AspNet.Authorization.Interfaces;
     using Blacktau.OpenAuth.AspNet.Authorization.Interfaces.VersionOneA;
     using Blacktau.OpenAuth.Client;
     using Blacktau.OpenAuth.Client.Interfaces;
@@ -12,35 +13,38 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
 
-    public class AuthorizationRequestor : IAuthorizationRequestor
+    public class VersionOneAAuthorizationRequestor : IVersionOneAAuthorizationRequestor
     {
         private readonly IOpenAuthClientFactory openAuthClientFactory;
 
         private readonly IRequestTokenStorageManager storageManager;
 
-        private ILogger<AuthorizationRequestor> logger;
+        private readonly IUrlValidator urlValidator;
 
-        public AuthorizationRequestor(IOpenAuthClientFactory openAuthClientFactory, IRequestTokenStorageManager storageManager, ILoggerFactory loggerFactory)
+        private ILogger<VersionOneAAuthorizationRequestor> logger;
+
+        public VersionOneAAuthorizationRequestor(IOpenAuthClientFactory openAuthClientFactory, IRequestTokenStorageManager storageManager, ILoggerFactory loggerFactory, IUrlValidator urlValidator)
         {
             this.openAuthClientFactory = openAuthClientFactory;
             this.storageManager = storageManager;
-            this.logger = loggerFactory.CreateLogger<AuthorizationRequestor>();
+            this.urlValidator = urlValidator;
+            this.logger = loggerFactory.CreateLogger<VersionOneAAuthorizationRequestor>();
         }
 
-        public async Task RequestAuthorization(HttpContext context, OpenAuthorizationOptions options)
+        public async Task RequestAuthorization(HttpContext context, IVersionOneAOpenAuthorizationOptions options)
         {
             var requestToken = await this.CreateRequestToken(context, options);
             this.RedirectToAuthorizationEndpoint(context, requestToken, options);
         }
 
-        private async Task<string> CreateRequestToken(HttpContext context, OpenAuthorizationOptions options)
+        private async Task<string> CreateRequestToken(HttpContext context, IVersionOneAOpenAuthorizationOptions options)
         {
-            var callBackUrl = options.GetCallBackUrl(context);
+            var callBackUrl = this.urlValidator.GetCallbackUrl(context, options);
             var requestTokenResponse = await this.RequestTokenAsync(callBackUrl, options, context);
             return requestTokenResponse[AuthorizationFieldNames.Token];
         }
 
-        private Uri GetAuthorizationUri(string requestToken, OpenAuthorizationOptions options)
+        private Uri GetAuthorizationUri(string requestToken, IVersionOneAOpenAuthorizationOptions options)
         {
             var authorizeEndpointUri = options.AuthorizeEndpointUri;
             var uriBuilder = new UriBuilder(authorizeEndpointUri);
@@ -53,15 +57,17 @@
             return new RequestTokenNotConfirmedException(Resources.Exception_MissingRequestToken, responseParameters);
         }
 
-        private void RedirectToAuthorizationEndpoint(HttpContext context, string requestToken, OpenAuthorizationOptions options)
+        private void RedirectToAuthorizationEndpoint(HttpContext context, string requestToken, IVersionOneAOpenAuthorizationOptions options)
         {
             var authorizationUri = this.GetAuthorizationUri(requestToken, options);
             context.Response.Redirect(authorizationUri.AbsoluteUri);
         }
 
-        private async Task<IDictionary<string, string>> RequestTokenAsync(string callbackUrl, OpenAuthorizationOptions options, HttpContext context)
+        private async Task<IDictionary<string, string>> RequestTokenAsync(string callbackUrl, IVersionOneAOpenAuthorizationOptions options, HttpContext context)
         {
-            var openAuthClient = this.openAuthClientFactory.CreateOpenAuthClient(options.RequestTokenEndpointUri, HttpMethod.Post, OpenAuthVersion.OneA, options.ApplicationCredentials, null);
+            var applicationCredentials = options.GetApplicationCredentials();
+
+            var openAuthClient = this.openAuthClientFactory.CreateOpenAuthClient(options.RequestTokenEndpointUri, HttpMethod.Post, OpenAuthVersion.OneA, applicationCredentials, null);
             openAuthClient.AddAdditionalAuthorizationParameter(AuthorizationFieldNames.Callback, callbackUrl);
 
             var response = await openAuthClient.Execute();
@@ -74,7 +80,7 @@
                 throw this.ProcessRequestTokenNotConfirmedResponse(result);
             }
 
-            this.storageManager.StoreRequestTokenSecret(context, result[AuthorizationFieldNames.Token], result[AuthorizationFieldNames.TokenSecret]);
+            this.storageManager.StoreRequestTokenSecret(context, options, result[AuthorizationFieldNames.Token], result[AuthorizationFieldNames.TokenSecret]);
             return result;
         }
     }

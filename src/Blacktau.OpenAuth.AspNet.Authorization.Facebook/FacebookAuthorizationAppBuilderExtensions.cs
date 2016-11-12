@@ -1,4 +1,4 @@
-﻿namespace Blacktau.OpenAuth.AspNet.Authorization.Twitter
+﻿namespace Blacktau.OpenAuth.AspNet.Authorization.Facebook
 {
     using System;
 
@@ -7,9 +7,9 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Options;
 
-    public static class TwitterAuthorizationAppBuilderExtensions
+    public static class FacebookAuthorizationAppBuilderExtensions
     {
-        public static IApplicationBuilder UseTwitterAuthorization(this IApplicationBuilder app, TwitterAuthorizationOptions options)
+        public static IApplicationBuilder UseFacebookAuthorization(this IApplicationBuilder app, FacebookAuthorizationOptions options)
         {
             if (app == null)
             {
@@ -22,10 +22,10 @@
             }
 
             IOpenAuthorizationResourceProviderRegistery registery = app.ApplicationServices.GetService(typeof(IOpenAuthorizationResourceProviderRegistery)) as IOpenAuthorizationResourceProviderRegistery;
-            
+
             registery?.Register(options);
 
-            return app.UseMiddleware<OpenAuthorizationMiddleware<TwitterAuthorizationOptions>>(Options.Create(options));
+            return app.UseMiddleware<OpenAuthorizationMiddleware<FacebookAuthorizationOptions>>(Options.Create(options));
         }
     }
 }

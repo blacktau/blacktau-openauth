@@ -6,6 +6,6 @@
     {
         IEnumerable<OAuthResourceProviderDescription> GetConfiguredResourceProviders();
 
-        void Register(OpenAuthorizationOptions options);
+        void Register(IOpenAuthorizationOptions options);
     }
 }

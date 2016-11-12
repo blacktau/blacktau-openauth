@@ -1,20 +1,36 @@
 ﻿namespace Blacktau.OpenAuth.AspNet.Authorization.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using Blacktau.OpenAuth.Client;
     using Blacktau.OpenAuth.Client.Interfaces;
 
+    using Microsoft.AspNetCore.Http;
+
     public interface IOpenAuthorizationOptions
     {
-        string RequestTokenEndpointUri { get; set; }
+        string RequestStateStorageKey { get; }
 
-        string AuthorizeEndpointUri { get; set; }
+        string AccessTokenEndpointUri { get;  }
 
-        string AccessTokenEndpointUri { get; set; }
+        string ApplicationKey { get;  }
 
-        OpenAuthVersion OpenAuthVersion { get; set; }
+        string ApplicationSecret { get;  }
 
-        string ServiceProviderName { get; set; }
+        string AuthorizeEndpointUri { get;  }
 
-        string DisplayName { get; set; }
+        OAuthResourceProviderDescription Description { get; }
+
+        Func<Exception, HttpContext, Task> FailureHandler { get; set; }
+
+        OpenAuthVersion OpenAuthVersion { get;  }
+
+        string ServiceProviderName { get; }
+
+        Func<IAuthorizationInformation, HttpContext, Task> SuccessHandler { get; set; }
+
+        IAuthorizationInformation ExtractAuthorizationInformation(IDictionary<string, string> parameters);
     }
 }

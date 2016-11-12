@@ -1,47 +1,39 @@
 ﻿namespace Blacktau.OpenAuth.AspNet.Authorization.VersionOneA
 {
-    using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Blacktau.OpenAuth.AspNet.Authorization.Interfaces;
     using Blacktau.OpenAuth.AspNet.Authorization.Interfaces.VersionOneA;
-    using Blacktau.OpenAuth.Client.VersionOneA;
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Primitives;
 
     public class OpenAuthorizationVersionOneAHandler : IOpenAuthorizationHandler
     {
+        private readonly IVersionOneACallbackHandler versionOneACallbackHandler;
+
         private readonly ILogger logger;
 
-        private readonly OpenAuthorizationOptions options;
+        private readonly IVersionOneAOpenAuthorizationOptions options;
 
-        private readonly IAuthorizationRequestor authorizationRequestor;
+        private readonly IVersionOneAAuthorizationRequestor versionOneAAuthorizationRequestor;
 
-        private readonly ICallbackHandler callbackHandler;
-
-        public OpenAuthorizationVersionOneAHandler(ILoggerFactory loggerFactory, IAuthorizationRequestor authorizationRequestor, ICallbackHandler callbackHandler, OpenAuthorizationOptions options)
+        public OpenAuthorizationVersionOneAHandler(ILoggerFactory loggerFactory, IVersionOneAAuthorizationRequestor versionOneAAuthorizationRequestor, IVersionOneACallbackHandler versionOneACallbackHandler, IVersionOneAOpenAuthorizationOptions options)
         {
-            this.authorizationRequestor = authorizationRequestor;
-            this.callbackHandler = callbackHandler;
+            this.versionOneAAuthorizationRequestor = versionOneAAuthorizationRequestor;
+            this.versionOneACallbackHandler = versionOneACallbackHandler;
             this.options = options;
             this.logger = loggerFactory.CreateLogger(this.GetType().FullName);
         }
 
-        public async Task HandleRequest(HttpContext context)
+        public Task HandleAuthorizationRequest(HttpContext context)
         {
-            if (this.options.IsAuthoriseRequest(context))
-            {
-                await this.authorizationRequestor.RequestAuthorization(context, this.options);
-                return;
-            }
+            return this.versionOneAAuthorizationRequestor.RequestAuthorization(context, this.options);
+        }
 
-            if (this.options.IsCallbackRequest(context))
-            {
-                await this.callbackHandler.HandleCallBack(context, this.options);
-            }
+        public Task HandleAuthorizeCallback(HttpContext context)
+        {
+            return this.versionOneACallbackHandler.HandleCallBack(context, this.options);
         }
 
         public Task TeardownAsync()

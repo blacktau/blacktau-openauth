@@ -1,8 +1,10 @@
 ﻿namespace Blacktau.OpenAuth.WebTest
 {
+    using System;
     using System.Threading.Tasks;
 
     using Blacktau.OpenAuth.AspNet.Authorization;
+    using Blacktau.OpenAuth.AspNet.Authorization.Facebook;
     using Blacktau.OpenAuth.AspNet.Authorization.Twitter;
     using Blacktau.OpenAuth.AspNet.SessionStateStorage;
     using Blacktau.OpenAuth.Client.Interfaces;
@@ -46,9 +48,20 @@
             app.UseTwitterAuthorization(
                 new TwitterAuthorizationOptions
                     {
-                        ConsumerKey = this.Configuration["Authorization:Twitter:ConsumerKey"],
-                        ConsumerSecret = this.Configuration["Authorization:Twitter:ConsumerSecret"],
+                        ConsumerKey = this.GetRequiredConfigurationValue("Authorization:Twitter:ConsumerKey"),
+                        ConsumerSecret = this.GetRequiredConfigurationValue("Authorization:Twitter:ConsumerSecret"),
                         SuccessHandler = this.TwitterSuccessHandler
+                    });
+
+            app.UseFacebookAuthorization(
+                new FacebookAuthorizationOptions
+                    {
+                        ApplicationId = this.GetRequiredConfigurationValue("Authorization:Facebook:ApplicationId"),
+                        ApplicationSecret = this.GetRequiredConfigurationValue("Authorization:Facebook:ApplicationSecret"),
+                        Scope = {
+                                   "publish_actions", "publish_pages" 
+                                },
+                        SuccessHandler = this.FacebookSuccessHandler
                     });
 
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
@@ -63,11 +76,30 @@
             services.AddOpenAuthorizationSessionStorage();
         }
 
+        private string GetRequiredConfigurationValue(string configurationKey)
+        {
+            var value = this.Configuration[configurationKey];
+            if (string.IsNullOrWhiteSpace(configurationKey))
+            {
+                throw new Exception($"Required Configuration '{configurationKey}' missing.");
+            }
+
+            return value;
+        }
+
         private Task TwitterSuccessHandler(IAuthorizationInformation authorizationInformation, HttpContext httpContext)
         {
             // don't do this. put it in a database somewhere. 
             httpContext.Response.Cookies.Append("TwitterAuthorizationInformation", JsonConvert.SerializeObject(authorizationInformation));
             return Task.CompletedTask;
         }
+
+        private Task FacebookSuccessHandler(IAuthorizationInformation authorizationInformation, HttpContext httpContext)
+        {
+            // don't do this. put it in a database somewhere. 
+            httpContext.Response.Cookies.Append("FacebookAuthorizationInformation", JsonConvert.SerializeObject(authorizationInformation));
+            return Task.CompletedTask;
+        }
+
     }
 }
