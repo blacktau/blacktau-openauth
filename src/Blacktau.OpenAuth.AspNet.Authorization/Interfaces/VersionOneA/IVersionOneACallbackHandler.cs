@@ -4,8 +4,8 @@
 
     using Microsoft.AspNetCore.Http;
 
-    public interface ICallbackHandler
+    public interface IVersionOneACallbackHandler
     {
-        Task HandleCallBack(HttpContext context, OpenAuthorizationOptions options);
+        Task HandleCallBack(HttpContext context, IVersionOneAOpenAuthorizationOptions options);
     }
 }

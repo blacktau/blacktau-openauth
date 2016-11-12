@@ -2,6 +2,6 @@
 {
     public interface IOpenAuthorizationHandlerFactory
     {
-        IOpenAuthorizationHandler CreateHandler(OpenAuthorizationOptions options);
+        IOpenAuthorizationHandler CreateHandler(IOpenAuthorizationOptions options);
     }
 }

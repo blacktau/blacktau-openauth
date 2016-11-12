@@ -10,19 +10,27 @@
 
     public class OpenAuthorizationResourceProviderRegistery : IOpenAuthorizationResourceProviderRegistery
     {
-        private readonly List<OpenAuthorizationOptions> configuredOptions;
+        private readonly List<IOpenAuthorizationOptions> configuredOptions;
 
         private readonly ILogger<OpenAuthorizationResourceProviderRegistery> logger;
 
-        public OpenAuthorizationResourceProviderRegistery(ILogger<OpenAuthorizationResourceProviderRegistery> logger)
+        private readonly IUrlValidator urlValidator;
+
+        public OpenAuthorizationResourceProviderRegistery(ILogger<OpenAuthorizationResourceProviderRegistery> logger, IUrlValidator urlValidator)
         {
             if (logger == null)
             {
                 throw new ArgumentNullException(nameof(logger));
             }
 
+            if (urlValidator == null)
+            {
+                throw new ArgumentNullException(nameof(urlValidator));
+            }
+            
             this.logger = logger;
-            this.configuredOptions = new List<OpenAuthorizationOptions>();
+            this.urlValidator = urlValidator;
+            this.configuredOptions = new List<IOpenAuthorizationOptions>();
         }
 
         public IEnumerable<OAuthResourceProviderDescription> GetConfiguredResourceProviders()
@@ -35,7 +43,7 @@
             return this.configuredOptions.Select(o => o.Description);
         }
 
-        public void Register(OpenAuthorizationOptions options)
+        public void Register(IOpenAuthorizationOptions options)
         {
             if (options == null)
             {
@@ -44,22 +52,23 @@
 
             if (this.IsProviderAlreadyConfigured(options))
             {
-                this.logger.LogWarning("Duplicate ResourceProvider Configured {0}. Using last configured", options.DisplayName);
-                this.DeregisterProvider(options.DisplayName);
+                this.logger.LogWarning("Duplicate ResourceProvider Configured {0}. Using last configured", options.Description.ServiceProviderName);
+                this.DeregisterProvider(options.ServiceProviderName);
             }
 
             this.configuredOptions.Add(options);
+            options.Description.ActivationPath = this.urlValidator.GetActivationPath(options);
         }
 
         private void DeregisterProvider(string providerName)
         {
-            var oldOption = this.configuredOptions.FirstOrDefault(o => o.DisplayName == providerName);
+            var oldOption = this.configuredOptions.FirstOrDefault(o => o.ServiceProviderName == providerName);
             this.configuredOptions.Remove(oldOption);
         }
 
-        private bool IsProviderAlreadyConfigured(OpenAuthorizationOptions options)
+        private bool IsProviderAlreadyConfigured(IOpenAuthorizationOptions options)
         {
-            return this.configuredOptions.Any(o => o.DisplayName == options.DisplayName);
+            return this.configuredOptions.Any(o => o.ServiceProviderName == options.ServiceProviderName);
         }
     }
 }

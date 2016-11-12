@@ -8,7 +8,9 @@
 
     public interface IOpenAuthorizationHandler
     {
-        Task HandleRequest(HttpContext context);
+        Task HandleAuthorizationRequest(HttpContext context);
+
+        Task HandleAuthorizeCallback(HttpContext context);
 
         Task TeardownAsync();
     }

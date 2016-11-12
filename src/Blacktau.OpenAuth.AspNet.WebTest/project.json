@@ -12,6 +12,7 @@
         "Microsoft.Extensions.Logging.Console": "1.0.0",
         "Microsoft.AspNetCore.Mvc": "1.0.1",
         "Blacktau.OpenAuth.AspNet.Authorization.Twitter": "0.1.*",
+        "Blacktau.OpenAuth.AspNet.Authorization.Facebook" : "0.1.*",
         "Blacktau.OpenAuth.AspNet.SessionStateStorage": "0.1.*",
         "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
         "Microsoft.Extensions.Configuration.Json": "1.0.0",

@@ -26,6 +26,8 @@
 
         public const string ExpiresIn = "expires_in";
 
+        public const string Expires = "expires";
+
         public const string RefreshToken = "refresh_token";
 
         public const string AuthorizationHeaderStart = "Bearer";

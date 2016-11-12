@@ -60,7 +60,7 @@ namespace Blacktau.OpenAuth.AspNet.Authorization {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to The &apos;{0}&apos; option must be provided..
+        ///    Looks up a localized string similar to The &apos;{0}&apos; option must be provided (&apos;{1}&apos;)..
         /// </summary>
         public static string Exception_OptionMustBeProvided {
             get {

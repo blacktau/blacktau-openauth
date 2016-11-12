@@ -39,6 +39,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.Au
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.SessionStateStorage", "src\Blacktau.OpenAuth.AspNet.SessionStateStorage\Blacktau.OpenAuth.AspNet.SessionStateStorage.xproj", "{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.Authorization.Facebook", "src\Blacktau.OpenAuth.AspNet.Authorization.Facebook\Blacktau.OpenAuth.AspNet.Authorization.Facebook.xproj", "{A84AFBA7-2174-412C-834F-18D6AC5B3D61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A84AFBA7-2174-412C-834F-18D6AC5B3D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A84AFBA7-2174-412C-834F-18D6AC5B3D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A84AFBA7-2174-412C-834F-18D6AC5B3D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A84AFBA7-2174-412C-834F-18D6AC5B3D61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,5 +101,6 @@ Global
 		{00011F92-3605-41B7-B7A0-3FC1FDC97F13} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
 		{192346FE-A0A3-4BA5-BB12-0B1DCE76F5CF} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
 		{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
+		{A84AFBA7-2174-412C-834F-18D6AC5B3D61} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
 	EndGlobalSection
 EndGlobal

@@ -9,8 +9,6 @@
 
     public class RequestTokenStorageManager : IRequestTokenStorageManager
     {
-        private const string RequestTokenResponseKey = "RequestTokenResponse";
-
         private readonly IStateStorageManager storageManager;
 
         public RequestTokenStorageManager(IStateStorageManager storageManager)
@@ -18,15 +16,15 @@
             this.storageManager = storageManager;
         }
 
-        public string RetrieveRequestTokenSecret(HttpContext context, string requestToken)
+        public string RetrieveRequestTokenSecret(HttpContext context, IVersionOneAOpenAuthorizationOptions options, string requestToken)
         {
-            var pair = this.storageManager.Retrieve<Tuple<string, string>>(context, RequestTokenResponseKey);
+            var pair = this.storageManager.Retrieve<Tuple<string, string>>(context, options.RequestStateStorageKey);
             return pair?.Item1 == requestToken ? pair?.Item2 : null;
         }
 
-        public void StoreRequestTokenSecret(HttpContext context, string requestToken, string requestTokenSecret)
+        public void StoreRequestTokenSecret(HttpContext context, IVersionOneAOpenAuthorizationOptions options, string requestToken, string requestTokenSecret)
         {
-            this.storageManager.Store(context, RequestTokenResponseKey, new Tuple<string, string>(requestToken, requestTokenSecret));
+            this.storageManager.Store(context, options.RequestStateStorageKey, new Tuple<string, string>(requestToken, requestTokenSecret));
         }
     }
 }
