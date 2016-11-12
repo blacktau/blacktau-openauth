@@ -1,9 +1,9 @@
 ﻿{
-    "version": "0.1.0",
+    "version": "0.2.0",
 
     "dependencies": {
         "NETStandard.Library": "1.6.0",
-        "Blacktau.OpenAuth.AspNet.Authorization": "0.1.*"
+        "Blacktau.OpenAuth.AspNet.Authorization": "0.2.*",
     },
 
     "frameworks": {
