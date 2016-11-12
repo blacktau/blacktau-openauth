@@ -7,7 +7,6 @@ Currently only OpenAuth 1.0a is supported but OAuth 2.0 will be along shortly.
 
 On the To Do list in no particular order:
 
-* Add OAuth 2.0 support to the Asp.net Core middelware. 
 * Improve exception handling.
 * Increase Test coverage
 * Add more DI container support.
@@ -41,7 +40,11 @@ The core Middleware implementation. This can be used directly by itself but all 
 
 ### Blacktau.OpenAuth.AspNet.Authorization.Twitter 
 
-The Twitter specific Authorization example.  
+An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Twitter (oAuth 1.0a).  
+
+### Blacktau.OpenAuth.AspNet.Authorization.Facebook 
+
+An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Facebook (OAuth 2.0).
 
 ### Blacktau.OpenAuth.AspNet.SessionStateStorage 
 
