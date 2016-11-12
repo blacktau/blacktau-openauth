@@ -2,20 +2,23 @@
 {
     using System.Collections.Generic;
 
+    using Blacktau.OpenAuth.AspNet.Authorization.VersionOneA;
+    using Blacktau.OpenAuth.Client;
     using Blacktau.OpenAuth.Client.Interfaces;
     using Blacktau.OpenAuth.Client.VersionOneA;
 
-    public class TwitterAuthorizationOptions : OpenAuthorizationOptions
+    public sealed class TwitterAuthorizationOptions : VersionOneOpenAuthorizationOptions
     {
         public TwitterAuthorizationOptions()
         {
-            this.Description = new OAuthResourceProviderDescription { DisplayName = "Twitter" };
-            this.ServiceProviderName = "Twitter";
-
-            this.AccessTokenEndpointUri = "https://api.twitter.com/oauth/access_token";
-            this.AuthorizeEndpointUri = "https://api.twitter.com/oauth/authorize";
-            this.RequestTokenEndpointUri = "https://api.twitter.com/oauth/request_token";
+            this.Description.DisplayName = "Twitter";
         }
+
+        public override string RequestStateStorageKey => "TwitterStateKey";
+
+        public override string AccessTokenEndpointUri => "https://api.twitter.com/oauth/access_token";
+
+        public override string AuthorizeEndpointUri => "https://api.twitter.com/oauth/authorize";
 
         public string ConsumerKey
         {
@@ -43,7 +46,11 @@
             }
         }
 
-        protected override IAuthorizationInformation GetAuthorizationInformation(IDictionary<string, string> parameters)
+        public override string RequestTokenEndpointUri => "https://api.twitter.com/oauth/request_token";
+
+        public override string ServiceProviderName => "Twitter";
+
+        public override IAuthorizationInformation ExtractAuthorizationInformation(IDictionary<string, string> parameters)
         {
             var authorizationInformation = new TwitterAuthorizationInformation(null);
 

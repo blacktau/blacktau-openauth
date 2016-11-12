@@ -8,6 +8,11 @@
     {
         public AuthenticationHeaderValue GenerateHeaderValue(IApplicationCredentials applicationCredentials, IAuthorizationInformation authorizationInformation, IOpenAuthClient openAuthClient)
         {
+            if (authorizationInformation == null)
+            {
+                return null;
+            }
+
             return new AuthenticationHeaderValue(AuthorizationFieldNames.AuthorizationHeaderStart, authorizationInformation.AccessToken);
         }
     }

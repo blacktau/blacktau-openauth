@@ -4,8 +4,8 @@
 
     public interface IRequestTokenStorageManager
     {
-        void StoreRequestTokenSecret(HttpContext context, string requestToken, string requestTokenSecret);
+        void StoreRequestTokenSecret(HttpContext context, IVersionOneAOpenAuthorizationOptions options, string requestToken, string requestTokenSecret);
 
-        string RetrieveRequestTokenSecret(HttpContext context, string requestToken);
+        string RetrieveRequestTokenSecret(HttpContext context, IVersionOneAOpenAuthorizationOptions options, string requestToken);
     }
 }

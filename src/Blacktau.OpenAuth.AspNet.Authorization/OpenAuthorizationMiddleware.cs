@@ -17,7 +17,9 @@
 
         private readonly IOpenAuthorizationHandlerFactory openAuthorizationHandlerFactory;
 
-        public OpenAuthorizationMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IOptions<TOptions> options, IOpenAuthorizationHandlerFactory openAuthorizationHandlerFactory)
+        private readonly IUrlValidator urlValidator;
+
+        public OpenAuthorizationMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IOptions<TOptions> options, IOpenAuthorizationHandlerFactory openAuthorizationHandlerFactory, IUrlValidator urlValidator)
         {
             if (next == null)
             {
@@ -39,23 +41,27 @@
                 throw new ArgumentNullException(nameof(openAuthorizationHandlerFactory));
             }
 
+            if (urlValidator == null)
+            {
+                throw new ArgumentNullException(nameof(urlValidator));
+            }
+
             this.Options = options.Value;
             this.Logger = loggerFactory.CreateLogger(this.GetType().FullName);
             this.next = next;
             this.openAuthorizationHandlerFactory = openAuthorizationHandlerFactory;
-            
+            this.urlValidator = urlValidator;
 
             this.ValidateOptions();
         }
 
-        protected ILogger Logger { get; set; }
+        private ILogger Logger { get; set; }
 
-        protected TOptions Options { get; private set; }
+        private TOptions Options { get; set; }
 
         public async Task Invoke(HttpContext context)
         {
-            
-            if (!this.Options.IsRelevantRequest(context))
+            if (!this.urlValidator.IsRelevantRequest(context, this.Options))
             {
                 await this.next(context);
                 return;
@@ -65,7 +71,15 @@
 
             try
             {
-                await handler.HandleRequest(context);
+                if (this.urlValidator.IsAuthorizationRequest(context, this.Options))
+                {
+                    await handler.HandleAuthorizationRequest(context);
+                }
+
+                if (this.urlValidator.IsAuthorizationCallbackRequest(context, this.Options))
+                {
+                    await handler.HandleAuthorizeCallback(context);
+                }
             }
             finally
             {
@@ -89,37 +103,27 @@
         {
             if (string.IsNullOrWhiteSpace(this.Options.AccessTokenEndpointUri))
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.AccessTokenEndpointUri)));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.AccessTokenEndpointUri), this.Options.ServiceProviderName));
             }
 
             if (string.IsNullOrWhiteSpace(this.Options.AuthorizeEndpointUri))
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.AuthorizeEndpointUri)));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.AuthorizeEndpointUri), this.Options.ServiceProviderName));
             }
 
-            if (string.IsNullOrWhiteSpace(this.Options.RequestTokenEndpointUri))
+            if (string.IsNullOrWhiteSpace(this.Options.ApplicationKey))
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.RequestTokenEndpointUri)));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.ApplicationKey), this.Options.ServiceProviderName));
             }
 
-            if (this.Options.ApplicationCredentials == null)
+            if (string.IsNullOrWhiteSpace(this.Options.ApplicationSecret))
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.ApplicationCredentials)));
-            }
-
-            if (string.IsNullOrWhiteSpace(this.Options.ApplicationCredentials.ApplicationKey))
-            {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.ApplicationCredentials.ApplicationKey)));
-            }
-
-            if (string.IsNullOrWhiteSpace(this.Options.ApplicationCredentials.ApplicationSecret))
-            {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.ApplicationCredentials.ApplicationSecret)));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.ApplicationSecret), this.Options.ServiceProviderName));
             }
 
             if (string.IsNullOrWhiteSpace(this.Options.ServiceProviderName))
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.ServiceProviderName)));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_OptionMustBeProvided, nameof(this.Options.ServiceProviderName), this.Options.ServiceProviderName));
             }
         }
     }

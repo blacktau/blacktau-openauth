@@ -5,8 +5,8 @@
 
     using Microsoft.AspNetCore.Http;
 
-    public interface IAuthorizationRequestor
+    public interface IVersionOneAAuthorizationRequestor
     {
-        Task RequestAuthorization(HttpContext context, OpenAuthorizationOptions options);
+        Task RequestAuthorization(HttpContext context, IVersionOneAOpenAuthorizationOptions options);
     }
 }
