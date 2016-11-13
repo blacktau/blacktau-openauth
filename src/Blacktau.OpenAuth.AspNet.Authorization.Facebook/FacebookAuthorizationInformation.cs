@@ -4,9 +4,5 @@
 
     public class FacebookAuthorizationInformation : AuthorizationInformation
     {
-        public FacebookAuthorizationInformation(string accessToken)
-            : base(accessToken)
-        {
-        }
     }
 }

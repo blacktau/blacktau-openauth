@@ -12,7 +12,7 @@
 
         private readonly string twitterApplicationSecret;
 
-        public TwitterProvider(IConfigurationRoot configurationRoot)
+        public TwitterProvider(IConfiguration configurationRoot)
         {
             this.twitterApplicationKey = configurationRoot["Authorization:Twitter:ApplicationKey"];
             this.twitterApplicationSecret = configurationRoot["Authorization:Twitter:ApplicationSecret"];
@@ -27,7 +27,7 @@
 
         public AuthorizationInformation CreateTwitterAuthorizationInformation()
         {
-            return new AuthorizationInformation(this.twitterAccessToken) { AccessTokenSecret = this.twitterAccessTokenSecret };
+            return new AuthorizationInformation { AccessToken = this.twitterAccessToken, AccessTokenSecret = this.twitterAccessTokenSecret };
         }
     }
 }

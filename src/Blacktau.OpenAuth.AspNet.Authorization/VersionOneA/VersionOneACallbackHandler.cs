@@ -31,13 +31,16 @@
 
         public async Task HandleCallBack(HttpContext context, IVersionOneAOpenAuthorizationOptions options)
         {
+            this.logger.LogDebug("HandleCallBack: {0}", options.ServiceProviderName);
+
             if (this.IsDenied(context))
             {
+                this.logger.LogWarning("Authorization Denied: {0}", options.ServiceProviderName);
                 var exception = new Exception("Authorization Denied.");
                 await options.FailureHandler.Invoke(exception, context);
                 return;
             }
-            
+
             await this.RequestAccessToken(context, options);
         }
 
@@ -80,7 +83,7 @@
 
             var oauthVerifier = GetQueryParameterValue(context, AuthorizationFieldNames.Verifier);
 
-            var authorizationInformation = new AuthorizationInformation(requestToken);
+            var authorizationInformation = new AuthorizationInformation { AccessToken = requestToken };
 
             var applicationCredentials = options.GetApplicationCredentials();
 
@@ -91,6 +94,8 @@
 
         private async Task RequestAccessToken(HttpContext context, IVersionOneAOpenAuthorizationOptions options)
         {
+            this.logger.LogDebug("Requesting AccessToken: {0}", options.ServiceProviderName);
+
             var client = this.PrepareRequestClient(context, options);
 
             var response = await client.Execute();

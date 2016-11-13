@@ -52,7 +52,7 @@
 
         public override IAuthorizationInformation ExtractAuthorizationInformation(IDictionary<string, string> parameters)
         {
-            var authorizationInformation = new TwitterAuthorizationInformation(null);
+            var authorizationInformation = new TwitterAuthorizationInformation();
 
             authorizationInformation.AccessToken = this.GetAuthorizationFieldValue(parameters, AuthorizationFieldNames.Token);
             authorizationInformation.AccessTokenSecret = this.GetAuthorizationFieldValue(parameters, AuthorizationFieldNames.TokenSecret);

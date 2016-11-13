@@ -16,7 +16,7 @@
 
         public override IAuthorizationInformation ExtractAuthorizationInformation(IDictionary<string, string> parameters)
         {
-            var authorizationInformation = new AuthorizationInformation(string.Empty)
+            var authorizationInformation = new AuthorizationInformation
                                                {
                                                    RefreshToken = this.GetAuthorizationFieldValue(parameters, AuthorizationFieldNames.RefreshToken),
                                                    AccessToken = this.GetAuthorizationFieldValue(parameters, AuthorizationFieldNames.AccessToken),
@@ -35,8 +35,13 @@
                 return null;
             }
 
-            var seconds = int.Parse(fieldValue);
-            return DateTime.Now.AddSeconds(seconds);
+            int seconds;
+            if (int.TryParse(fieldValue, out seconds))
+            {
+                return DateTime.Now.AddSeconds(seconds);
+            }
+
+            return null;
         }
     }
 }

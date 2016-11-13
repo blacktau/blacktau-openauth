@@ -36,11 +36,6 @@
             {
                 throw new ArgumentNullException(nameof(applicationCredentials));
             }
-/*
-            if (authorizationInformation == null)
-            {
-                throw new ArgumentNullException(nameof(authorizationInformation));
-            }*/
 
             if (openAuthClient == null)
             {

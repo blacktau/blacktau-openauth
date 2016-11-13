@@ -19,7 +19,7 @@
 
         public override IAuthorizationInformation ExtractAuthorizationInformation(IDictionary<string, string> parameters)
         {
-            var authorizationInformation = new AuthorizationInformation(string.Empty);
+            var authorizationInformation = new AuthorizationInformation();
 
             if (this.OpenAuthVersion == OpenAuthVersion.OneA)
             {

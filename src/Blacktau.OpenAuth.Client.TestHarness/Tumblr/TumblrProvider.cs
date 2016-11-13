@@ -12,7 +12,7 @@
 
         private readonly string tumblrApplicationSecret;
 
-        public TumblrProvider(IConfigurationRoot configuration)
+        public TumblrProvider(IConfiguration configuration)
         {
             this.tumblrAccessToken = configuration["Authorization:Tumblr:AccessToken"];
             this.tumblrAccessTokenSecret = configuration["Authorization:Tumblr:AccessTokenSecret"];
@@ -27,7 +27,7 @@
 
         public AuthorizationInformation CreateTumblrAuthorizationInformation()
         {
-            return new AuthorizationInformation(this.tumblrAccessToken) { AccessTokenSecret = this.tumblrAccessTokenSecret };
+            return new AuthorizationInformation { AccessToken = this.tumblrAccessToken, AccessTokenSecret = this.tumblrAccessTokenSecret };
         }
     }
 }

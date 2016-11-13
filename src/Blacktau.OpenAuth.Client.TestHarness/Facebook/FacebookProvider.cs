@@ -4,13 +4,13 @@
 
     public class FacebookProvider
     {
+        private readonly string facebookAccessToken;
+
         private readonly string facebookApplicationId;
 
         private readonly string facebookApplicationSecret;
 
-        private readonly string facebookAccessToken;
-
-        public FacebookProvider(IConfigurationRoot configuration)
+        public FacebookProvider(IConfiguration configuration)
         {
             this.facebookApplicationId = configuration["Authorization:Facebook:ApplicationId"];
             this.facebookApplicationSecret = configuration["Authorization:Facebook:ApplicationSecret"];
@@ -19,16 +19,12 @@
 
         public ApplicationCredentials CreateFacebookApplicationCredentials()
         {
-            return new ApplicationCredentials
-            {
-                ApplicationKey = this.facebookApplicationId,
-                ApplicationSecret = this.facebookApplicationSecret
-            };
+            return new ApplicationCredentials { ApplicationKey = this.facebookApplicationId, ApplicationSecret = this.facebookApplicationSecret };
         }
 
         public AuthorizationInformation CreateFacebookAuthorizationInformation()
         {
-            return new AuthorizationInformation(this.facebookAccessToken);
+            return new AuthorizationInformation { AccessToken = this.facebookAccessToken };
         }
     }
 }

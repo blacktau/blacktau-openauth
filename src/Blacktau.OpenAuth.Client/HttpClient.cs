@@ -8,8 +8,6 @@
 
     using Blacktau.OpenAuth.Client.Interfaces;
 
-    using HttpRequestHeaders = Blacktau.OpenAuth.Client.HttpRequestHeaders;
-
     internal class HttpClient : IHttpClient
     {
         private readonly System.Net.Http.HttpClient client;
@@ -17,44 +15,60 @@
         public HttpClient()
         {
             this.client = new System.Net.Http.HttpClient();
-            this.DefaultRequestHeaders = new Client.HttpRequestHeaders(this.client.DefaultRequestHeaders);
+            this.DefaultRequestHeaders = new HttpRequestHeaders(this.client.DefaultRequestHeaders);
         }
 
         public HttpClient(HttpMessageHandler handler)
         {
             this.client = new System.Net.Http.HttpClient(handler);
-            this.DefaultRequestHeaders = new Client.HttpRequestHeaders(this.client.DefaultRequestHeaders);
+            this.DefaultRequestHeaders = new HttpRequestHeaders(this.client.DefaultRequestHeaders);
         }
 
         public HttpClient(HttpMessageHandler handler, bool disposeHandler)
         {
             this.client = new System.Net.Http.HttpClient(handler, disposeHandler);
-            this.DefaultRequestHeaders = new Client.HttpRequestHeaders(this.client.DefaultRequestHeaders);
+            this.DefaultRequestHeaders = new HttpRequestHeaders(this.client.DefaultRequestHeaders);
         }
 
         public Uri BaseAddress
         {
-            get { return this.client.BaseAddress; }
-            set { this.client.BaseAddress = value; }
+            get
+            {
+                return this.client.BaseAddress;
+            }
+
+            set
+            {
+                this.client.BaseAddress = value;
+            }
         }
 
         public IHttpRequestHeaders DefaultRequestHeaders { get; }
 
         public long MaxResponseContentBufferSize
         {
-            get { return this.client.MaxResponseContentBufferSize; }
-            set { this.client.MaxResponseContentBufferSize = value; }
+            get
+            {
+                return this.client.MaxResponseContentBufferSize;
+            }
+
+            set
+            {
+                this.client.MaxResponseContentBufferSize = value;
+            }
         }
 
         public TimeSpan Timeout
         {
-            get { return this.client.Timeout; }
-            set { this.client.Timeout = value; }
-        }
+            get
+            {
+                return this.client.Timeout;
+            }
 
-        public void Dispose()
-        {
-            this.client.Dispose();
+            set
+            {
+                this.client.Timeout = value;
+            }
         }
 
         public void CancelPendingRequests()
@@ -80,6 +94,11 @@
         public Task<HttpResponseMessage> DeleteAsync(Uri requestUri, CancellationToken cancellationToken)
         {
             return this.client.DeleteAsync(requestUri, cancellationToken);
+        }
+
+        public void Dispose()
+        {
+            this.client.Dispose();
         }
 
         public Task<HttpResponseMessage> GetAsync(string requestUri)
@@ -209,7 +228,6 @@
 
         public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            
             return this.client.SendAsync(request, cancellationToken);
         }
     }

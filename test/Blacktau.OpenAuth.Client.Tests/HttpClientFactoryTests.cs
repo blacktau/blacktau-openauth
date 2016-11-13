@@ -7,7 +7,7 @@
 
     using Xunit;
 
-    public class HttpClientTests
+    public class HttpClientFactoryTests
     {
         public class TheCreateHttpClientMethod
         {
