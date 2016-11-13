@@ -9,8 +9,14 @@
     {
         public static IDictionary<string, string> QueryParameterStringToDictionary(this string query)
         {
-            var keypairs = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
             var result = new Dictionary<string, string>();
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return result;
+            }
+
+            var keypairs = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+            
             foreach (var keypair in keypairs)
             {
                 string[] parts = keypair.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
@@ -27,11 +33,14 @@
 
         public static string ToQueryString(this IDictionary<string, string> dictionary)
         {
-            var query = dictionary.Select(kv => string.Format("{0}={1}", kv.Key, kv.Value)).Aggregate(string.Empty, (q, next) => q + next + UriConstants.AmpersandDelimiter);
-            if (string.IsNullOrEmpty(query))
+            if (dictionary == null || dictionary.Count == 0)
             {
                 return string.Empty;
             }
+
+            var query = dictionary
+                .Select(kv => string.Format("{0}={1}", kv.Key, kv.Value))
+                .Aggregate(string.Empty, (q, next) => q + next + UriConstants.AmpersandDelimiter);
 
             return query.Substring(0, query.Length - 1);
         }

@@ -34,6 +34,14 @@
 
         private const string QueryParameterTwoValue = "QueryParameterTwoValue";
 
+        private const string HeaderParameterOneName = "HeaderParameterOneName";
+
+        private const string HeaderParameterOneValue = "HeaderParameterOneValue";
+
+        private const string HeaderParameterTwoName = "HeaderParameterTwoName";
+
+        private const string HeaderParameterTwoValue = "HeaderParameterTwoValue";
+
         private const string ApplicationSecret = "NotARealApplicationSecret";
 
         private const string AccessToken = "NotARealAccessToken";
@@ -314,6 +322,135 @@
 
                 Assert.Equal(BodyParameterOneValue, client.BodyParameters[BodyParameterOneName]);
                 Assert.Equal(BodyParameterTwoValue, client.BodyParameters[BodyParameterTwoName]);
+            }
+        }
+
+        public class AddAdditionalAuthorizationParameterMethod
+        {
+            [Fact]
+            public void GivenEmptyNameThrowsException()
+            {
+                var client = CreateOpenAuthClientForGet();
+
+                var exception = Record.Exception(() => client.AddAdditionalAuthorizationParameter(string.Empty, HeaderParameterOneValue));
+
+                Assert.NotNull(exception);
+                Assert.IsType<ArgumentException>(exception);
+                Assert.Contains("name", exception.Message);
+            }
+
+            [Fact]
+            public void GivenNullNameThrowsException()
+            {
+                var client = CreateOpenAuthClientForGet();
+
+                var exception = Record.Exception(() => client.AddAdditionalAuthorizationParameter(null, HeaderParameterOneValue));
+
+                Assert.NotNull(exception);
+                Assert.IsType<ArgumentNullException>(exception);
+                Assert.Contains("name", exception.Message);
+            }
+
+            [Fact]
+            public void GivenNullValueAddsHeaderParameter()
+            {
+                var client = CreateOpenAuthClientForGet();
+
+                client.AddAdditionalAuthorizationParameter(HeaderParameterOneName, null);
+
+                Assert.NotEmpty(client.AuthorizationHeaderParameters);
+                Assert.Contains(HeaderParameterOneName, client.AuthorizationHeaderParameters.Keys);
+                Assert.Null(client.AuthorizationHeaderParameters[HeaderParameterOneName]);
+            }
+
+            [Fact]
+            public void GivenValidParametersAddsHeaderParameter()
+            {
+                var client = CreateOpenAuthClientForGet();
+
+                client.AddAdditionalAuthorizationParameter(HeaderParameterOneName, HeaderParameterOneValue);
+
+                Assert.NotEmpty(client.AuthorizationHeaderParameters);
+                Assert.Contains(HeaderParameterOneName, client.AuthorizationHeaderParameters.Keys);
+                Assert.Equal(HeaderParameterOneValue, client.AuthorizationHeaderParameters[HeaderParameterOneName]);
+            }
+
+            [Fact]
+            public void GivenMultipleValidParametersAddsHeaderParameters()
+            {
+                var client = CreateOpenAuthClientForGet();
+
+                client.AddAdditionalAuthorizationParameter(HeaderParameterOneName, HeaderParameterOneValue);
+                client.AddAdditionalAuthorizationParameter(HeaderParameterTwoName, HeaderParameterTwoValue);
+
+                Assert.NotEmpty(client.AuthorizationHeaderParameters);
+                Assert.Equal(2, client.AuthorizationHeaderParameters.Count);
+
+                Assert.Contains(HeaderParameterOneName, client.AuthorizationHeaderParameters.Keys);
+                Assert.Contains(HeaderParameterTwoName, client.AuthorizationHeaderParameters.Keys);
+
+                Assert.Equal(HeaderParameterOneValue, client.AuthorizationHeaderParameters[HeaderParameterOneName]);
+                Assert.Equal(HeaderParameterTwoValue, client.AuthorizationHeaderParameters[HeaderParameterTwoName]);
+            }
+        }
+
+        public class ClearParametersMethod
+        {
+            [Fact]
+            public void GivenPopulatedQueryParametersIsEmptyAfterCalling()
+            {
+                var client = CreateOpenAuthClientForGet();
+
+                client.AddQueryParameter(QueryParameterOneName, QueryParameterOneValue);
+                client.AddQueryParameter(QueryParameterTwoName, QueryParameterTwoValue);
+
+                Assert.NotEmpty(client.QueryParameters);
+                Assert.Equal(2, client.QueryParameters.Count);
+
+
+                client.ClearParameters();
+
+                Assert.NotNull(client.QueryParameters);
+                Assert.Empty(client.QueryParameters);
+                Assert.Equal(0, client.QueryParameters.Count);
+            }
+
+            [Fact]
+            public void GivenPopulatedBodyParametersIsEmptyAfterCalling()
+            {
+                var client = CreateOpenAuthClientForGet();
+
+                client.AddBodyParameter(BodyParameterOneName, BodyParameterOneValue);
+                client.AddBodyParameter(BodyParameterTwoName, BodyParameterTwoValue);
+
+                Assert.NotEmpty(client.BodyParameters);
+                Assert.Equal(2, client.BodyParameters.Count);
+
+
+                client.ClearParameters();
+
+                Assert.NotNull(client.BodyParameters);
+                Assert.Empty(client.BodyParameters);
+                Assert.Equal(0, client.BodyParameters.Count);
+            }
+
+            [Fact]
+            public void GivenPopulatedHeaderParametersIsEmptyAfterCalling()
+            {
+                var client = CreateOpenAuthClientForGet();
+
+                client.AddAdditionalAuthorizationParameter(HeaderParameterOneName, HeaderParameterOneValue);
+                client.AddAdditionalAuthorizationParameter(HeaderParameterTwoName, HeaderParameterTwoValue);
+
+                Assert.NotEmpty(client.AuthorizationHeaderParameters);
+                Assert.Equal(2, client.AuthorizationHeaderParameters.Count);
+
+
+                client.ClearParameters();
+
+                Assert.NotNull(client.AuthorizationHeaderParameters);
+                Assert.Empty(client.AuthorizationHeaderParameters);
+                Assert.Equal(0, client.AuthorizationHeaderParameters.Count);
             }
         }
     }
