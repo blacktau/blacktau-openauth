@@ -15,6 +15,7 @@
         "Blacktau.OpenAuth.AspNet.Authorization.Twitter": "0.2.*",
         "Blacktau.OpenAuth.AspNet.Authorization.Tumblr": "0.2.*",
         "Blacktau.OpenAuth.AspNet.Authorization.Facebook": "0.2.*",
+        "Blacktau.OpenAuth.AspNet.Authorization.Flickr": "0.2.*",
         "Blacktau.OpenAuth.AspNet.SessionStateStorage": "0.2.*",
         "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
         "Microsoft.Extensions.Configuration.Json": "1.0.0",

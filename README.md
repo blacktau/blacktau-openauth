@@ -50,6 +50,10 @@ An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authoriz
 
 An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Tumblr (oAuth 1.0a).  
 
+### Blacktau.OpenAuth.AspNet.Authorization.Flickr 
+
+An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Flickr (oAuth 1.0a).  
+
 ### Blacktau.OpenAuth.AspNet.SessionStateStorage 
 
 An implementation of the IStateStorageManager (required for the normal functioning of `Blacktau.OpenAuth.AspNet.Authorization`) that makes use of Asp.Net Core Sessions. 
@@ -59,7 +63,13 @@ Example Solution
 
 ### Blacktau.OpenAuth.Client.TestHarness 
 
-A sample command line application using `Blacktau.OpenAuth.Containers.Basic` in order to make simple calls to [Tumblr API](https://www.tumblr.com/docs/en/api/v2), [Twitter API](https://dev.twitter.com/rest/public) and [Facebook GraphAPI](https://developers.facebook.com/docs/graph-api) 
+A sample command line application using `Blacktau.OpenAuth.Containers.Basic` in order to make simple calls to the following APIs:
+
+* [Twitter API](https://dev.twitter.com/rest/public)
+* [Facebook GraphAPI](https://developers.facebook.com/docs/graph-api) 
+* [Tumblr API](https://www.tumblr.com/docs/en/api/v2)
+* [Flickr API](https://www.flickr.com/services/api/)
+
 You will need to supply your own Consumer Keys, Consumer Secrets, Access Tokens and Access Token Secrets. 
 The first two you will need to obtain from the respective resources by registering your application and the second two by obtaining Authorization from those APIs. In the case of OAuth2 (Facebook/Google) you will need only an AccessToken as there is no access token secret in OAuth 2.
 
