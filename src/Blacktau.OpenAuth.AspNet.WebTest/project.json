@@ -1,6 +1,6 @@
 ﻿{
     "userSecretsId": "aspnet-Blacktau-OpenAuth-AspNet-WebTest-9f211c2c-22cf-4189-99ad-899d45ad0998",
-    "version": "0.2.1",
+    "version": "0.2.3",
 
     "dependencies": {
         "Microsoft.NETCore.App": {
