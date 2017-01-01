@@ -5,6 +5,7 @@
 
     using Blacktau.OpenAuth.AspNet.Authorization;
     using Blacktau.OpenAuth.AspNet.Authorization.Facebook;
+    using Blacktau.OpenAuth.AspNet.Authorization.Tumblr;
     using Blacktau.OpenAuth.AspNet.Authorization.Twitter;
     using Blacktau.OpenAuth.AspNet.SessionStateStorage;
     using Blacktau.OpenAuth.Client.Interfaces;
@@ -64,6 +65,14 @@
                         SuccessHandler = this.FacebookSuccessHandler
                     });
 
+            app.UseTumblrAuthorization(
+                new TumblrAuthorizationOptions
+                    {
+                        ConsumerKey = this.GetRequiredConfigurationValue("Authorization:Tumblr:ConsumerKey"),
+                        ConsumerSecret = this.GetRequiredConfigurationValue("Authorization:Tumblr:ConsumerSecret"),
+                        SuccessHandler = this.TumblrSuccessHandler
+                    });
+
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
         }
 
@@ -87,6 +96,13 @@
             return value;
         }
 
+        private Task TumblrSuccessHandler(IAuthorizationInformation authorizationInformation, HttpContext httpContext)
+        {
+            // don't do this. put it in a database somewhere. 
+            httpContext.Response.Cookies.Append("TumblrAuthorizationInformation", JsonConvert.SerializeObject(authorizationInformation));
+            return Task.CompletedTask;
+        }
+
         private Task TwitterSuccessHandler(IAuthorizationInformation authorizationInformation, HttpContext httpContext)
         {
             // don't do this. put it in a database somewhere. 
@@ -100,6 +116,5 @@
             httpContext.Response.Cookies.Append("FacebookAuthorizationInformation", JsonConvert.SerializeObject(authorizationInformation));
             return Task.CompletedTask;
         }
-
     }
 }

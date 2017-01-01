@@ -81,6 +81,7 @@
             var oauthVerifier = GetQueryParameterValue(context, AuthorizationFieldNames.Verifier);
 
             var authorizationInformation = new AuthorizationInformation(requestToken);
+            authorizationInformation.AccessTokenSecret = requestTokenSecret;
 
             var applicationCredentials = options.GetApplicationCredentials();
 

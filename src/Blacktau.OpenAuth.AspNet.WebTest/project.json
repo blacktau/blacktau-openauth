@@ -1,5 +1,6 @@
 ﻿{
     "userSecretsId": "aspnet-Blacktau-OpenAuth-AspNet-WebTest-9f211c2c-22cf-4189-99ad-899d45ad0998",
+    "version": "0.2.1",
 
     "dependencies": {
         "Microsoft.NETCore.App": {
@@ -12,7 +13,8 @@
         "Microsoft.Extensions.Logging.Console": "1.0.0",
         "Microsoft.AspNetCore.Mvc": "1.0.1",
         "Blacktau.OpenAuth.AspNet.Authorization.Twitter": "0.2.*",
-        "Blacktau.OpenAuth.AspNet.Authorization.Facebook" : "0.2.*",
+        "Blacktau.OpenAuth.AspNet.Authorization.Tumblr": "0.2.*",
+        "Blacktau.OpenAuth.AspNet.Authorization.Facebook": "0.2.*",
         "Blacktau.OpenAuth.AspNet.SessionStateStorage": "0.2.*",
         "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
         "Microsoft.Extensions.Configuration.Json": "1.0.0",
