@@ -5,6 +5,7 @@
 
     using Blacktau.OpenAuth.AspNet.Authorization;
     using Blacktau.OpenAuth.AspNet.Authorization.Facebook;
+    using Blacktau.OpenAuth.AspNet.Authorization.Flickr;
     using Blacktau.OpenAuth.AspNet.Authorization.Tumblr;
     using Blacktau.OpenAuth.AspNet.Authorization.Twitter;
     using Blacktau.OpenAuth.AspNet.SessionStateStorage;
@@ -73,6 +74,14 @@
                         SuccessHandler = this.TumblrSuccessHandler
                     });
 
+            app.UseFlickrAuthorization(
+                new FlickrAuthorizationOptions
+                {
+                    Key = this.GetRequiredConfigurationValue("Authorization:Flickr:Key"),
+                    Secret = this.GetRequiredConfigurationValue("Authorization:Flickr:Secret"),
+                    SuccessHandler = this.FlickrSuccessHandler
+                });
+
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
         }
 
@@ -114,6 +123,13 @@
         {
             // don't do this. put it in a database somewhere. 
             httpContext.Response.Cookies.Append("FacebookAuthorizationInformation", JsonConvert.SerializeObject(authorizationInformation));
+            return Task.CompletedTask;
+        }
+
+        private Task FlickrSuccessHandler(IAuthorizationInformation authorizationInformation, HttpContext httpContext)
+        {
+            // don't do this. put it in a database somewhere. 
+            httpContext.Response.Cookies.Append("FlickrAuthorizationInformation", JsonConvert.SerializeObject(authorizationInformation));
             return Task.CompletedTask;
         }
     }

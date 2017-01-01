@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using Blacktau.OpenAuth.Client.TestHarness.Facebook;
+    using Blacktau.OpenAuth.Client.TestHarness.Flickr;
     using Blacktau.OpenAuth.Client.TestHarness.Tumblr;
     using Blacktau.OpenAuth.Client.TestHarness.Twitter;
 
@@ -16,10 +17,17 @@
             var configurationBuilder = new ConfigurationBuilder().AddUserSecrets();
             var configuration = configurationBuilder.Build();
 
-            TestTwitter(configuration);
-            TestTumblr(configuration);
-            TestFacebook(configuration);
+//            TestTwitter(configuration);
+//            TestTumblr(configuration);
+//            TestFacebook(configuration);
+            TestFlickr(configuration);
             Console.ReadLine();
+        }
+
+        private static void TestFlickr(IConfigurationRoot configuration)
+        {
+            var flickrTestHarness = new FlickrTestHarness(configuration);
+            flickrTestHarness.Execute().Wait();
         }
 
         private static void TestTwitter(IConfigurationRoot configuration)
