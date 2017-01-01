@@ -78,3 +78,5 @@ exec { & dotnet pack .\src\Blacktau.OpenAuth.AspNet.Authorization -c Release -o 
 exec { & dotnet pack .\src\Blacktau.OpenAuth.AspNet.Authorization.Twitter -c Release -o .\artifacts --version-suffix=$revision }  
 
 exec { & dotnet pack .\src\Blacktau.OpenAuth.AspNet.Authorization.Facebook -c Release -o .\artifacts --version-suffix=$revision }  
+
+exec { & dotnet pack .\src\Blacktau.OpenAuth.AspNet.Authorization.Tumblr -c Release -o .\artifacts --version-suffix=$revision }  

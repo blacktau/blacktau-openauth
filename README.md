@@ -46,6 +46,10 @@ An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authoriz
 
 An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Facebook (OAuth 2.0).
 
+### Blacktau.OpenAuth.AspNet.Authorization.Tumblr 
+
+An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Tumblr (oAuth 1.0a).  
+
 ### Blacktau.OpenAuth.AspNet.SessionStateStorage 
 
 An implementation of the IStateStorageManager (required for the normal functioning of `Blacktau.OpenAuth.AspNet.Authorization`) that makes use of Asp.Net Core Sessions. 
