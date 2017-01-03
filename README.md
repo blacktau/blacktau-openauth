@@ -1,6 +1,10 @@
 blacktau-openauth
 =================
 
+[![Build status](https://ci.appveyor.com/api/projects/status/t727ihre65yiiadw?svg=true)](https://ci.appveyor.com/project/blacktau/blacktau-openauth)
+[![MyGet](https://img.shields.io/blacktau-openauth/v/Blacktau.OpenAuth.Client.svg)](https://www.myget.org/feed/Packages/blacktau-openauth)
+[![NuGet](https://img.shields.io/nuget/v/Blacktau.OpenAuth.Client.svg)](https://www.nuget.org/packages/Blacktau.OpenAuth.Client/)
+
 An IOC/DI friendly OpenAuth client library for creating consumer applications written in dotnet core.
 
 Currently only OpenAuth 1.0a is supported but OAuth 2.0 will be along shortly. 
@@ -22,6 +26,9 @@ This project strives to be a simple to use lightweight wrapper aroung HttpClient
 Projects
 --------
 
+Minimal 
+=======
+
 ### Blacktau.OpenAuth.Client
 
 The main library. This can be used directly but it is recommended that one of the IOC container integration libraries is used as they ensure everything is wired correctly. 
@@ -30,9 +37,8 @@ The main library. This can be used directly but it is recommended that one of th
 
 A library to use when an IOC container is not available or needed. This is a hard wired library with an implementation of OpenAuthClientFactory that creates its own dependencies. 
 
-### Blacktau.OpenAuth.Client.Containers.ServiceCollection 
-
-A library making use of the ServiceCollection default IOC/DI implementation in asp.net core.  
+ASP.net Core Middleware
+=======================
 
 ### Blacktau.OpenAuth.AspNet.Authorization
 
@@ -57,6 +63,21 @@ An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authoriz
 ### Blacktau.OpenAuth.AspNet.SessionStateStorage 
 
 An implementation of the IStateStorageManager (required for the normal functioning of `Blacktau.OpenAuth.AspNet.Authorization`) that makes use of Asp.Net Core Sessions. 
+
+Dependency Injection Containers
+===============================
+
+### Blacktau.OpenAuth.Client.Containers.DependencyInjectedBase
+
+The base library that all other DI implementations derive from.
+
+### Blacktau.OpenAuth.Client.Containers.ServiceCollection 
+
+A library making use of the ServiceCollection default IOC/DI implementation in asp.net core.  
+
+### Blacktau.OpenAuth.Client.Containers.SimpleInjector
+
+A library making use of the [SimpleInjector](https://simpleinjector.org/) IOC/DI container  implementation in asp.net core.  
 
 Example Solution
 ---------------- 

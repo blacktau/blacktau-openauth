@@ -1,8 +1,8 @@
-﻿{
-    "version": "0.2.3",
+{
+    "version": "0.2.4",
 
     "dependencies": {
-        "NETStandard.Library": "1.6.0",
+        "NETStandard.Library": "1.6.1",
         "Blacktau.OpenAuth.AspNet.Authorization": "0.2.*"
     },
 

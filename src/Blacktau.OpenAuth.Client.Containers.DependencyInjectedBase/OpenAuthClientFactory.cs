@@ -1,8 +1,7 @@
-﻿namespace Blacktau.OpenAuth.Client.Containers.ServiceCollection
+﻿namespace Blacktau.OpenAuth.Client
 {
     using System;
 
-    using Blacktau.OpenAuth.Client;
     using Blacktau.OpenAuth.Client.Interfaces;
 
     public class OpenAuthClientFactory : IOpenAuthClientFactory

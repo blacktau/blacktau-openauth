@@ -69,6 +69,10 @@ exec { & dotnet pack .\src\Blacktau.OpenAuth.Client -c Release -o .\artifacts --
 
 exec { & dotnet pack .\src\Blacktau.OpenAuth.Client.Containers.Basic -c Release -o .\artifacts --version-suffix=$revision }  
 
+exec { & dotnet pack .\src\Blacktau.OpenAuth.Client.Containers.DependencyInjectedBase -c Release -o .\artifacts --version-suffix=$revision }  
+
+exec { & dotnet pack .\src\Blacktau.OpenAuth.Client.Containers.SimpleInjector -c Release -o .\artifacts --version-suffix=$revision }  
+
 exec { & dotnet pack .\src\Blacktau.OpenAuth.Client.Containers.ServiceCollection -c Release -o .\artifacts --version-suffix=$revision }  
 
 exec { & dotnet pack .\src\Blacktau.OpenAuth.AspNet.SessionStateStorage -c Release -o .\artifacts --version-suffix=$revision }  
