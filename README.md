@@ -1,8 +1,6 @@
-blacktau-openauth
-=================
+# blacktau-openauth
 
 [![Build status](https://ci.appveyor.com/api/projects/status/t727ihre65yiiadw?svg=true)](https://ci.appveyor.com/project/blacktau/blacktau-openauth)
-[![MyGet](https://img.shields.io/blacktau-openauth/v/Blacktau.OpenAuth.Client.svg)](https://www.myget.org/feed/Packages/blacktau-openauth)
 [![NuGet](https://img.shields.io/nuget/v/Blacktau.OpenAuth.Client.svg)](https://www.nuget.org/packages/Blacktau.OpenAuth.Client/)
 
 An IOC/DI friendly OpenAuth client library for creating consumer applications written in dotnet core.
@@ -23,66 +21,63 @@ On the To Do list in no particular order:
 It is not intended for this library to include support for creating a server (service provider/resource) implementation of OAuth. There are plenty of those. 
 This project strives to be a simple to use lightweight wrapper aroung HttpClient providing access to OpenAuth protected resources. 
 
-Projects
---------
+## Projects
 
-Minimal 
-=======
+### Minimal 
 
-### Blacktau.OpenAuth.Client
+#### Blacktau.OpenAuth.Client
 
 The main library. This can be used directly but it is recommended that one of the IOC container integration libraries is used as they ensure everything is wired correctly. 
 
-### Blacktau.OpenAuth.Containers.Basic 
+#### Blacktau.OpenAuth.Containers.Basic 
 
 A library to use when an IOC container is not available or needed. This is a hard wired library with an implementation of OpenAuthClientFactory that creates its own dependencies. 
 
-ASP.net Core Middleware
-=======================
+### ASP.net Core Middleware
 
-### Blacktau.OpenAuth.AspNet.Authorization
+
+#### Blacktau.OpenAuth.AspNet.Authorization
 
 The core Middleware implementation. This can be used directly by itself but all details for a specific resource provider will need to be supplied to the Options when calling UseOAuthAuthorization in IAppBuilder.
 
-### Blacktau.OpenAuth.AspNet.Authorization.Twitter 
+#### Blacktau.OpenAuth.AspNet.Authorization.Twitter 
 
 An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Twitter (oAuth 1.0a).  
 
-### Blacktau.OpenAuth.AspNet.Authorization.Facebook 
+#### Blacktau.OpenAuth.AspNet.Authorization.Facebook 
 
 An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Facebook (OAuth 2.0).
 
-### Blacktau.OpenAuth.AspNet.Authorization.Tumblr 
+#### Blacktau.OpenAuth.AspNet.Authorization.Tumblr 
 
 An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Tumblr (oAuth 1.0a).  
 
-### Blacktau.OpenAuth.AspNet.Authorization.Flickr 
+#### Blacktau.OpenAuth.AspNet.Authorization.Flickr 
 
 An implementaion of a Middleware extension of `Blacktau.OpenAuth.AspNet.Authorization` to allow authorization with Flickr (oAuth 1.0a).  
 
-### Blacktau.OpenAuth.AspNet.SessionStateStorage 
+#### Blacktau.OpenAuth.AspNet.SessionStateStorage 
 
 An implementation of the IStateStorageManager (required for the normal functioning of `Blacktau.OpenAuth.AspNet.Authorization`) that makes use of Asp.Net Core Sessions. 
 
-Dependency Injection Containers
-===============================
+### Dependency Injection Containers
 
-### Blacktau.OpenAuth.Client.Containers.DependencyInjectedBase
+#### Blacktau.OpenAuth.Client.Containers.DependencyInjectedBase
 
 The base library that all other DI implementations derive from.
 
-### Blacktau.OpenAuth.Client.Containers.ServiceCollection 
+#### Blacktau.OpenAuth.Client.Containers.ServiceCollection 
 
 A library making use of the ServiceCollection default IOC/DI implementation in asp.net core.  
 
-### Blacktau.OpenAuth.Client.Containers.SimpleInjector
+#### Blacktau.OpenAuth.Client.Containers.SimpleInjector
 
 A library making use of the [SimpleInjector](https://simpleinjector.org/) IOC/DI container  implementation in asp.net core.  
 
-Example Solution
----------------- 
+### Example Solution
 
-### Blacktau.OpenAuth.Client.TestHarness 
+
+#### Blacktau.OpenAuth.Client.TestHarness 
 
 A sample command line application using `Blacktau.OpenAuth.Containers.Basic` in order to make simple calls to the following APIs:
 
@@ -94,13 +89,12 @@ A sample command line application using `Blacktau.OpenAuth.Containers.Basic` in 
 You will need to supply your own Consumer Keys, Consumer Secrets, Access Tokens and Access Token Secrets. 
 The first two you will need to obtain from the respective resources by registering your application and the second two by obtaining Authorization from those APIs. In the case of OAuth2 (Facebook/Google) you will need only an AccessToken as there is no access token secret in OAuth 2.
 
-### Blacktau.OpenAuth.AspNet.WebTest
+#### Blacktau.OpenAuth.AspNet.WebTest
 
 A simple Asp.Net core web application making use of `Blacktau.OpenAuth.AspNet.Authorization` and `Blacktau.OpenAuth.AspNet.Authorization.Twitter` in order to demonstrate the Asp.Net core Middleware integration and usage for obtaining authorization from twitter for accessing a users feed.
 As with the TestHarness above, you will need to supply your own Consumer Keys and Consumer Secrets, but Access Tokens and Access Token Secrets are obtained by the middelware.
 
-Usage of Client
----------------
+## Usage of Client
 
 ### Inversion of Control Container Free Usage
 
