@@ -1,0 +1,14 @@
+﻿{
+    "version": "0.2.4",
+
+    "dependencies": {
+        "NETStandard.Library": "1.6.0",
+        "Blacktau.OpenAuth.Client.Containers.DependencyInjectedBase": "0.2.*",
+        "SimpleInjector": "3.3.*"
+    },
+
+    "frameworks": {
+        "netstandard1.6": {},
+        "net46": {}
+    }
+}

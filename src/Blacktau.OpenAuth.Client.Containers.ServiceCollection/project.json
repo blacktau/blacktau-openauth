@@ -1,10 +1,10 @@
 ﻿{
-  "version": "0.2.3",
+  "version": "0.2.4",
 
     "dependencies": {
-        "NETStandard.Library": "1.6.0",
-        "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-        "Blacktau.OpenAuth.Client": "0.2.*"
+        "Microsoft.Extensions.DependencyInjection.Abstractions": "1.1.0",
+        "Blacktau.OpenAuth.Client.Containers.DependencyInjectedBase": "0.2.*",
+        "NETStandard.Library": "1.6.1"
     },
 
   "frameworks": {
