@@ -26,24 +26,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.Co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{9BDE043E-8E81-4C67-ACFC-7707CCB35608}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.WebTest", "src\Blacktau.OpenAuth.AspNet.WebTest\Blacktau.OpenAuth.AspNet.WebTest.xproj", "{41646CD2-7C29-40ED-A0C1-61512D816447}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.Authorization", "src\Blacktau.OpenAuth.AspNet.Authorization\Blacktau.OpenAuth.AspNet.Authorization.xproj", "{C2120322-D935-48B2-9ED6-3BAF2FD76D0D}"
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.Containers.ServiceCollection", "src\Blacktau.OpenAuth.Client.Containers.ServiceCollection\Blacktau.OpenAuth.Client.Containers.ServiceCollection.xproj", "{00011F92-3605-41B7-B7A0-3FC1FDC97F13}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2D0072FC-FB01-4E06-920B-B3C4B2F2B0AA} = {2D0072FC-FB01-4E06-920B-B3C4B2F2B0AA}
 	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.Authorization.Twitter", "src\Blacktau.OpenAuth.AspNet.Authorization.Twitter\Blacktau.OpenAuth.AspNet.Authorization.Twitter.xproj", "{192346FE-A0A3-4BA5-BB12-0B1DCE76F5CF}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.SessionStateStorage", "src\Blacktau.OpenAuth.AspNet.SessionStateStorage\Blacktau.OpenAuth.AspNet.SessionStateStorage.xproj", "{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.Authorization.Facebook", "src\Blacktau.OpenAuth.AspNet.Authorization.Facebook\Blacktau.OpenAuth.AspNet.Authorization.Facebook.xproj", "{A84AFBA7-2174-412C-834F-18D6AC5B3D61}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.Authorization.Tumblr", "src\Blacktau.OpenAuth.AspNet.Authorization.Tumblr\Blacktau.OpenAuth.AspNet.Authorization.Tumblr.xproj", "{17703EA0-FCFF-4A99-AC56-52D796702455}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.AspNet.Authorization.Flickr", "src\Blacktau.OpenAuth.AspNet.Authorization.Flickr\Blacktau.OpenAuth.AspNet.Authorization.Flickr.xproj", "{E2FAF597-AE7E-4488-BFBB-E4A1970401F0}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Blacktau.OpenAuth.Client.Containers.SimpleInjector", "src\Blacktau.OpenAuth.Client.Containers.SimpleInjector\Blacktau.OpenAuth.Client.Containers.SimpleInjector.xproj", "{D8FA9E1E-B9A7-4351-B00E-944A43A2F7DD}"
 EndProject
@@ -71,38 +57,10 @@ Global
 		{C0F6EBEA-F5C5-4749-BF91-168D45C5ABE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0F6EBEA-F5C5-4749-BF91-168D45C5ABE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0F6EBEA-F5C5-4749-BF91-168D45C5ABE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41646CD2-7C29-40ED-A0C1-61512D816447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41646CD2-7C29-40ED-A0C1-61512D816447}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41646CD2-7C29-40ED-A0C1-61512D816447}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41646CD2-7C29-40ED-A0C1-61512D816447}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2120322-D935-48B2-9ED6-3BAF2FD76D0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2120322-D935-48B2-9ED6-3BAF2FD76D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2120322-D935-48B2-9ED6-3BAF2FD76D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2120322-D935-48B2-9ED6-3BAF2FD76D0D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00011F92-3605-41B7-B7A0-3FC1FDC97F13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00011F92-3605-41B7-B7A0-3FC1FDC97F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00011F92-3605-41B7-B7A0-3FC1FDC97F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00011F92-3605-41B7-B7A0-3FC1FDC97F13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{192346FE-A0A3-4BA5-BB12-0B1DCE76F5CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{192346FE-A0A3-4BA5-BB12-0B1DCE76F5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{192346FE-A0A3-4BA5-BB12-0B1DCE76F5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{192346FE-A0A3-4BA5-BB12-0B1DCE76F5CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A84AFBA7-2174-412C-834F-18D6AC5B3D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A84AFBA7-2174-412C-834F-18D6AC5B3D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A84AFBA7-2174-412C-834F-18D6AC5B3D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A84AFBA7-2174-412C-834F-18D6AC5B3D61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{17703EA0-FCFF-4A99-AC56-52D796702455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{17703EA0-FCFF-4A99-AC56-52D796702455}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{17703EA0-FCFF-4A99-AC56-52D796702455}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{17703EA0-FCFF-4A99-AC56-52D796702455}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2FAF597-AE7E-4488-BFBB-E4A1970401F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2FAF597-AE7E-4488-BFBB-E4A1970401F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2FAF597-AE7E-4488-BFBB-E4A1970401F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2FAF597-AE7E-4488-BFBB-E4A1970401F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8FA9E1E-B9A7-4351-B00E-944A43A2F7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8FA9E1E-B9A7-4351-B00E-944A43A2F7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8FA9E1E-B9A7-4351-B00E-944A43A2F7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -120,15 +78,11 @@ Global
 		{8C10889A-6773-48F0-9BA1-8AAC24B31E06} = {63AE6637-0AA3-4AF7-A27D-CD814089C559}
 		{CDE35322-1950-465B-A653-386B92619EF9} = {9BDE043E-8E81-4C67-ACFC-7707CCB35608}
 		{C0F6EBEA-F5C5-4749-BF91-168D45C5ABE5} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
-		{41646CD2-7C29-40ED-A0C1-61512D816447} = {9BDE043E-8E81-4C67-ACFC-7707CCB35608}
-		{C2120322-D935-48B2-9ED6-3BAF2FD76D0D} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
 		{00011F92-3605-41B7-B7A0-3FC1FDC97F13} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
-		{192346FE-A0A3-4BA5-BB12-0B1DCE76F5CF} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
-		{E3E7E90E-CF67-47E7-9FBF-AB140C0EC53B} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
-		{A84AFBA7-2174-412C-834F-18D6AC5B3D61} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
-		{17703EA0-FCFF-4A99-AC56-52D796702455} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
-		{E2FAF597-AE7E-4488-BFBB-E4A1970401F0} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
 		{D8FA9E1E-B9A7-4351-B00E-944A43A2F7DD} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
 		{CDD7BEF8-DC54-4CA8-A18D-63462E67B7F6} = {72FE4BC2-D76C-43C9-9BBD-6FAA10D915E4}
+	EndGlobalSection
+	GlobalSection(CodealikeProperties) = postSolution
+		SolutionGuid = 9991f8f1-bb23-4d30-a6cc-20f9a206649a
 	EndGlobalSection
 EndGlobal

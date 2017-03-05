@@ -1,7 +1,7 @@
 {
     "userSecretsId": "netcoreapp-Blacktau-OpenAuth-Client-TestHarness-e6633cb2-9066-4f8f-9ca1-ee021bf627fc",
 
-    "version": "0.2.4",
+    "version": "0.2.5",
     "buildOptions": {
         "emitEntryPoint": true
     },
